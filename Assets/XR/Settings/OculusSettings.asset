@@ -19,7 +19,7 @@ MonoBehaviour:
   DashSupport: 1
   LowOverheadMode: 0
   OptimizeBufferDiscards: 1
-  PhaseSync: 1
+  PhaseSync: 0
   SymmetricProjection: 1
   SubsampledLayout: 0
   FoveatedRenderingMethod: 0
@@ -31,4 +31,3 @@ MonoBehaviour:
   TargetQuestPro: 0
   TargetQuest3: 0
   SystemSplashScreen: {fileID: 0}
-  UseStickControlThumbsticks: 0
