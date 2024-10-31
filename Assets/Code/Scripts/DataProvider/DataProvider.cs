@@ -1,14 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class DataProvider : MonoBehaviour
 {
-    public DataSourceType ObtainFromApi = DataSourceType.Api;
-    public string ApiUrl = "https://greenhouse-data-api-ddefcwbncabfftbv.canadacentral-01.azurewebsites.net/";
 
     void Start()
     {
-        IDataSource dataSource = DataSourceFactory.GetDataSource(ObtainFromApi, ApiUrl);
+        IDataSource dataSource = DataSourceFactory.GetDataSource();
         // dataSource.GetControlsByDays(50,
         //     (controls) =>
         //     {
