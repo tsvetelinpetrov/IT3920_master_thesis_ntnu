@@ -521,8 +521,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b819aa4aab425384db6aaf231508a154, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ObtainFromApi: 0
-  ApiUrl: https://greenhouse-data-api-ddefcwbncabfftbv.canadacentral-01.azurewebsites.net/
 --- !u!1 &336426667
 GameObject:
   m_ObjectHideFlags: 0
@@ -3070,6 +3068,52 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1743632699}
   m_CullTransparentMesh: 0
+--- !u!1 &1765754971
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1765754973}
+  - component: {fileID: 1765754972}
+  m_Layer: 0
+  m_Name: GlobalSettings
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1765754972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1765754971}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42ae39cea158b2144a0f05b3776cb30b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ApiUrl: https://greenhouse-data-api-ddefcwbncabfftbv.canadacentral-01.azurewebsites.net/
+  DataSourceType: 1
+--- !u!4 &1765754973
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1765754971}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.203352, y: 0.13043186, z: 0.48726872}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1807497889
 GameObject:
   m_ObjectHideFlags: 0
@@ -5587,3 +5631,4 @@ SceneRoots:
   - {fileID: 1355770340}
   - {fileID: 245889093}
   - {fileID: 757032764}
+  - {fileID: 1765754973}

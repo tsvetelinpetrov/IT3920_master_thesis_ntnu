@@ -14,13 +14,10 @@ public struct ApiEndpoints
 
 public class ApiSource : IDataSource
 {
-    private readonly string _apiUrl;
+    private readonly string _apiUrl = GlobalSettings.Instance.ApiUrl;
     HttpClient client = new HttpClient();
 
-    public ApiSource(string apiUrl)
-    {
-        _apiUrl = apiUrl;
-    }
+    public ApiSource() {}
 
     public void GetPlantObjModel(System.Action<string> callback, bool highPoly)
     {

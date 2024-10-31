@@ -8,12 +8,7 @@ public struct FilesLocations
 
 public class FileSource : IDataSource
 {
-    private readonly string _filePath;
-
-    public FileSource(string filePath)
-    {
-        _filePath = filePath;
-    }
+    public FileSource() {}
 
     public void GetPlantObjModel(System.Action<string> callback, bool highPoly)
     {
