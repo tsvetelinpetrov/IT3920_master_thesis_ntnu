@@ -488,6 +488,9 @@ namespace CI.HttpClient
         /// <param name="response">The HTTP response to check</param>
         /// <param name="errorCallback">Callback raised if an error occurs</param>
         /// <exception cref="System.Net.Http.HttpRequestException">Thrown when the HTTP response is not successful</exception>
+        /// <remarks>
+        /// This method is used to check if the HTTP response was successful. If the response was not successful, an exception is thrown. The error callback is also raised.
+        /// </remarks>
         public void EnsureSuccess(HttpResponseMessage response, System.Action<string> errorCallback)
         {
             if (!response.IsSuccessStatusCode)

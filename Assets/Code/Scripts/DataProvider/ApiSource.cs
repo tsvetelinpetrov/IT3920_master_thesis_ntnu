@@ -3,6 +3,12 @@ using System.Diagnostics;
 using CI.HttpClient;
 using UnityEngine;
 
+/// <summary>
+/// Structure for storing API endpoints.
+/// </summary>
+/// <remarks>
+/// This structure is used to store the endpoints of the API that the ApiSource class reads data from.
+/// </remarks>
 public struct ApiEndpoints
 {
     public const string ControlsByDays = "controls/days?num_days=";
@@ -10,6 +16,12 @@ public struct ApiEndpoints
     public const string PlantHighResObjModel = "mesh/high_res";
 }
 
+/// <summary>
+/// Data source for reading data from the API.
+/// </summary>
+/// <remarks>
+/// This class implements the IDataSource interface and provides methods for reading data from the API.
+/// </remarks>
 public class ApiSource : IDataSource
 {
     private readonly string _apiUrl = GlobalSettings.Instance.ApiUrl;
@@ -18,7 +30,7 @@ public class ApiSource : IDataSource
     public ApiSource() { }
 
     public void GetPlantObjModel(
-        System.Action<string> callback,
+        System.Action<string> successCallback,
         bool highPoly,
         System.Action<string> errorCallback
     )
@@ -32,14 +44,14 @@ public class ApiSource : IDataSource
             (response) =>
             {
                 client.EnsureSuccess(response, errorCallback);
-                callback(response.ReadAsString());
+                successCallback(response.ReadAsString());
             }
         );
     }
 
     public void GetControlsByDays(
         int days,
-        System.Action<List<Controls>> callback,
+        System.Action<List<Controls>> successCallback,
         System.Action<string> errorCallback
     )
     {
@@ -49,7 +61,7 @@ public class ApiSource : IDataSource
             (response) =>
             {
                 client.EnsureSuccess(response, errorCallback);
-                callback(response.ReadAsJson<List<Controls>>());
+                successCallback(response.ReadAsJson<List<Controls>>());
             }
         );
     }
