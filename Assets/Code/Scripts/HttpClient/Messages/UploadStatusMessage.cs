@@ -1,5 +1,4 @@
-﻿
-namespace CI.HttpClient
+﻿namespace CI.HttpClient
 {
     /// <summary>
     /// Represents the status of an upload
@@ -9,26 +8,17 @@ namespace CI.HttpClient
         /// <summary>
         /// Length of the content being uploaded
         /// </summary>
-        public long ContentLength
-        {
-            get; set;
-        }
+        public long ContentLength { get; set; }
 
         /// <summary>
         /// How much content as been uploaded so far
         /// </summary>
-        public long TotalContentUploaded
-        {
-            get; set;
-        }
+        public long TotalContentUploaded { get; set; }
 
         /// <summary>
         /// How much content has been uploaded since the last upload status message was raised
         /// </summary>
-        public long ContentUploadedThisRound
-        {
-            get; set;
-        }
+        public long ContentUploadedThisRound { get; set; }
 
         /// <summary>
         /// Percentage completion of the upload

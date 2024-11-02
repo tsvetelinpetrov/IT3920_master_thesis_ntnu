@@ -1,5 +1,4 @@
-﻿
-namespace CI.HttpClient
+﻿namespace CI.HttpClient
 {
     public enum HttpAction
     {
@@ -7,6 +6,6 @@ namespace CI.HttpClient
         Get,
         Patch,
         Post,
-        Put
+        Put,
     }
 }

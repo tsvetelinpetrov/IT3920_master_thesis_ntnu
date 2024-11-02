@@ -26,10 +26,7 @@ namespace CI.HttpClient
         {
             _content = content;
 
-            Headers = new Dictionary<string, string>()
-            {
-                { "Content-Type", mediaType }
-            };
+            Headers = new Dictionary<string, string>() { { "Content-Type", mediaType } };
         }
 
         public long GetContentLength()

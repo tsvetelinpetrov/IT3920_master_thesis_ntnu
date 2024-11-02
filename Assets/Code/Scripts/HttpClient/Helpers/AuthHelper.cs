@@ -1,5 +1,4 @@
-﻿
-namespace CI.HttpClient.Helpers
+﻿namespace CI.HttpClient.Helpers
 {
     public static class AuthHelper
     {
@@ -11,7 +10,12 @@ namespace CI.HttpClient.Helpers
         /// <returns>A basic auth header</returns>
         public static string CreateBasicAuthHeader(string username, string password)
         {
-            return "Basic " + System.Convert.ToBase64String(System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes(username + ":" + password));
+            return "Basic "
+                + System.Convert.ToBase64String(
+                    System
+                        .Text.Encoding.GetEncoding("ISO-8859-1")
+                        .GetBytes(username + ":" + password)
+                );
         }
 
         /// <summary>

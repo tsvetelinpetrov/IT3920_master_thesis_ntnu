@@ -120,13 +120,17 @@ namespace CI.HttpClient
         /// <param name="uri">The Uri the request is sent to</param>
         /// <param name="completionOption">Determines how the response should be read</param>
         /// <param name="responseCallback">Callback raised once the request completes</param>
-        public void Delete(Uri uri, HttpCompletionOption completionOption, Action<HttpResponseMessage> responseCallback)
+        public void Delete(
+            Uri uri,
+            HttpCompletionOption completionOption,
+            Action<HttpResponseMessage> responseCallback
+        )
         {
             QueueRequest(uri, HttpAction.Delete, completionOption, responseCallback);
         }
 
         /// <summary>
-        /// Sends a Delete request to the specified Uri and returns the response. An uploadStatusCallback can be specified to report upload progress 
+        /// Sends a Delete request to the specified Uri and returns the response. An uploadStatusCallback can be specified to report upload progress
         /// and a completion option specifies if download progress should be reported
         /// </summary>
         /// <param name="uri">The Uri the request is sent to</param>
@@ -134,10 +138,23 @@ namespace CI.HttpClient
         /// <param name="completionOption">Determines how the response should be read</param>
         /// <param name="responseCallback">Callback raised once the request completes</param>
         /// <param name="uploadStatusCallback">Callback that reports upload progress</param>
-        public void Delete(Uri uri, IHttpContent content, HttpCompletionOption completionOption, Action<HttpResponseMessage> responseCallback,
-            Action<UploadStatusMessage> uploadStatusCallback = null)
+        public void Delete(
+            Uri uri,
+            IHttpContent content,
+            HttpCompletionOption completionOption,
+            Action<HttpResponseMessage> responseCallback,
+            Action<UploadStatusMessage> uploadStatusCallback = null
+        )
         {
-            QueueRequest(uri, HttpAction.Delete, completionOption, content, responseCallback, uploadStatusCallback, null);
+            QueueRequest(
+                uri,
+                HttpAction.Delete,
+                completionOption,
+                content,
+                responseCallback,
+                uploadStatusCallback,
+                null
+            );
         }
 
         /// <summary>
@@ -149,10 +166,14 @@ namespace CI.HttpClient
         {
             var task = new TaskCompletionSource<HttpResponseMessage>();
 
-            Delete(uri, HttpCompletionOption.AllResponseContent, r =>
-            {
-                task.SetResult(r);
-            });
+            Delete(
+                uri,
+                HttpCompletionOption.AllResponseContent,
+                r =>
+                {
+                    task.SetResult(r);
+                }
+            );
 
             return task.Task;
         }
@@ -167,10 +188,15 @@ namespace CI.HttpClient
         {
             var task = new TaskCompletionSource<HttpResponseMessage>();
 
-            Delete(uri, content, HttpCompletionOption.AllResponseContent, r =>
-            {
-                task.SetResult(r);
-            });
+            Delete(
+                uri,
+                content,
+                HttpCompletionOption.AllResponseContent,
+                r =>
+                {
+                    task.SetResult(r);
+                }
+            );
 
             return task.Task;
         }
@@ -181,7 +207,11 @@ namespace CI.HttpClient
         /// <param name="uri">The Uri the request is sent to</param>
         /// <param name="completionOption">Determines how the response should be read</param>
         /// <param name="responseCallback">Callback raised once the request completes</param>
-        public void Get(Uri uri, HttpCompletionOption completionOption, Action<HttpResponseMessage> responseCallback)
+        public void Get(
+            Uri uri,
+            HttpCompletionOption completionOption,
+            Action<HttpResponseMessage> responseCallback
+        )
         {
             QueueRequest(uri, HttpAction.Get, completionOption, responseCallback);
         }
@@ -195,16 +225,20 @@ namespace CI.HttpClient
         {
             var task = new TaskCompletionSource<HttpResponseMessage>();
 
-            Get(uri, HttpCompletionOption.AllResponseContent, r =>
-            {
-                task.SetResult(r);
-            });
+            Get(
+                uri,
+                HttpCompletionOption.AllResponseContent,
+                r =>
+                {
+                    task.SetResult(r);
+                }
+            );
 
             return task.Task;
         }
 
         /// <summary>
-        /// Sends a PATCH request to the specified Uri and returns the response. An uploadStatusCallback can be specified to report upload progress 
+        /// Sends a PATCH request to the specified Uri and returns the response. An uploadStatusCallback can be specified to report upload progress
         /// and a completion option specifies if download progress should be reported
         /// </summary>
         /// <param name="uri">The Uri the request is sent to</param>
@@ -212,10 +246,23 @@ namespace CI.HttpClient
         /// <param name="completionOption">Determines how the response should be read</param>
         /// <param name="responseCallback">Callback raised once the request completes</param>
         /// <param name="uploadStatusCallback">Callback that reports upload progress</param>
-        public void Patch(Uri uri, IHttpContent content, HttpCompletionOption completionOption, Action<HttpResponseMessage> responseCallback,
-            Action<UploadStatusMessage> uploadStatusCallback = null)
+        public void Patch(
+            Uri uri,
+            IHttpContent content,
+            HttpCompletionOption completionOption,
+            Action<HttpResponseMessage> responseCallback,
+            Action<UploadStatusMessage> uploadStatusCallback = null
+        )
         {
-            QueueRequest(uri, HttpAction.Patch, completionOption, content, responseCallback, uploadStatusCallback, null);
+            QueueRequest(
+                uri,
+                HttpAction.Patch,
+                completionOption,
+                content,
+                responseCallback,
+                uploadStatusCallback,
+                null
+            );
         }
 
         /// <summary>
@@ -224,7 +271,11 @@ namespace CI.HttpClient
         /// <param name="uri">The Uri the request is sent to</param>
         /// <param name="completionOption">Determines how the response should be read</param>
         /// <param name="responseCallback">Callback raised once the request completes</param>
-        public void Patch(Uri uri, HttpCompletionOption completionOption, Action<HttpResponseMessage> responseCallback)
+        public void Patch(
+            Uri uri,
+            HttpCompletionOption completionOption,
+            Action<HttpResponseMessage> responseCallback
+        )
         {
             QueueRequest(uri, HttpAction.Patch, completionOption, responseCallback);
         }
@@ -239,16 +290,21 @@ namespace CI.HttpClient
         {
             var task = new TaskCompletionSource<HttpResponseMessage>();
 
-            Patch(uri, content, HttpCompletionOption.AllResponseContent, r =>
-            {
-                task.SetResult(r);
-            });
+            Patch(
+                uri,
+                content,
+                HttpCompletionOption.AllResponseContent,
+                r =>
+                {
+                    task.SetResult(r);
+                }
+            );
 
             return task.Task;
         }
 
         /// <summary>
-        /// Sends a POST request to the specified Uri and returns the response. An uploadStatusCallback can be specified to report upload progress 
+        /// Sends a POST request to the specified Uri and returns the response. An uploadStatusCallback can be specified to report upload progress
         /// and a completion option specifies if download progress should be reported
         /// </summary>
         /// <param name="uri">The Uri the request is sent to</param>
@@ -256,10 +312,23 @@ namespace CI.HttpClient
         /// <param name="completionOption">Determines how the response should be read</param>
         /// <param name="responseCallback">Callback raised once the request completes</param>
         /// <param name="uploadStatusCallback">Callback that reports upload progress</param>
-        public void Post(Uri uri, IHttpContent content, HttpCompletionOption completionOption, Action<HttpResponseMessage> responseCallback,
-            Action<UploadStatusMessage> uploadStatusCallback = null)
+        public void Post(
+            Uri uri,
+            IHttpContent content,
+            HttpCompletionOption completionOption,
+            Action<HttpResponseMessage> responseCallback,
+            Action<UploadStatusMessage> uploadStatusCallback = null
+        )
         {
-            QueueRequest(uri, HttpAction.Post, completionOption, content, responseCallback, uploadStatusCallback, null);
+            QueueRequest(
+                uri,
+                HttpAction.Post,
+                completionOption,
+                content,
+                responseCallback,
+                uploadStatusCallback,
+                null
+            );
         }
 
         /// <summary>
@@ -268,7 +337,11 @@ namespace CI.HttpClient
         /// <param name="uri">The Uri the request is sent to</param>
         /// <param name="completionOption">Determines how the response should be read</param>
         /// <param name="responseCallback">Callback raised once the request completes</param>
-        public void Post(Uri uri, HttpCompletionOption completionOption, Action<HttpResponseMessage> responseCallback)
+        public void Post(
+            Uri uri,
+            HttpCompletionOption completionOption,
+            Action<HttpResponseMessage> responseCallback
+        )
         {
             QueueRequest(uri, HttpAction.Post, completionOption, responseCallback);
         }
@@ -283,16 +356,21 @@ namespace CI.HttpClient
         {
             var task = new TaskCompletionSource<HttpResponseMessage>();
 
-            Post(uri, content, HttpCompletionOption.AllResponseContent, r =>
-            {
-                task.SetResult(r);
-            });
+            Post(
+                uri,
+                content,
+                HttpCompletionOption.AllResponseContent,
+                r =>
+                {
+                    task.SetResult(r);
+                }
+            );
 
             return task.Task;
         }
 
         /// <summary>
-        /// Sends a PUT request to the specified Uri and returns the response. An uploadStatusCallback can be specified to report upload progress 
+        /// Sends a PUT request to the specified Uri and returns the response. An uploadStatusCallback can be specified to report upload progress
         /// and a completion option specifies if download progress should be reported
         /// </summary>
         /// <param name="uri">The Uri the request is sent to</param>
@@ -300,10 +378,23 @@ namespace CI.HttpClient
         /// <param name="completionOption">Determines how the response should be read</param>
         /// <param name="responseCallback">Callback raised once the request completes</param>
         /// <param name="uploadStatusCallback">Callback that reports upload progress</param>
-        public void Put(Uri uri, IHttpContent content, HttpCompletionOption completionOption, Action<HttpResponseMessage> responseCallback,
-            Action<UploadStatusMessage> uploadStatusCallback = null)
+        public void Put(
+            Uri uri,
+            IHttpContent content,
+            HttpCompletionOption completionOption,
+            Action<HttpResponseMessage> responseCallback,
+            Action<UploadStatusMessage> uploadStatusCallback = null
+        )
         {
-            QueueRequest(uri, HttpAction.Put, completionOption, content, responseCallback, uploadStatusCallback, null);
+            QueueRequest(
+                uri,
+                HttpAction.Put,
+                completionOption,
+                content,
+                responseCallback,
+                uploadStatusCallback,
+                null
+            );
         }
 
         /// <summary>
@@ -312,7 +403,11 @@ namespace CI.HttpClient
         /// <param name="uri">The Uri the request is sent to</param>
         /// <param name="completionOption">Determines how the response should be read</param>
         /// <param name="responseCallback">Callback raised once the request completes</param>
-        public void Put(Uri uri, HttpCompletionOption completionOption, Action<HttpResponseMessage> responseCallback)
+        public void Put(
+            Uri uri,
+            HttpCompletionOption completionOption,
+            Action<HttpResponseMessage> responseCallback
+        )
         {
             QueueRequest(uri, HttpAction.Put, completionOption, responseCallback);
         }
@@ -327,26 +422,43 @@ namespace CI.HttpClient
         {
             var task = new TaskCompletionSource<HttpResponseMessage>();
 
-            Put(uri, content, HttpCompletionOption.AllResponseContent, r =>
-            {
-                task.SetResult(r);
-            });
+            Put(
+                uri,
+                content,
+                HttpCompletionOption.AllResponseContent,
+                r =>
+                {
+                    task.SetResult(r);
+                }
+            );
 
             return task.Task;
         }
 
         /// <summary>
-        /// Sends the specified HTTP request and returns the response. An uploadStatusCallback can be specified to report upload progress 
+        /// Sends the specified HTTP request and returns the response. An uploadStatusCallback can be specified to report upload progress
         /// and a completion option specifies if download progress should be reported
         /// </summary>
         /// <param name="request">The HTTP request message to send</param>
         /// <param name="completionOption">Determines how the response should be read</param>
         /// <param name="responseCallback">Callback raised once the request completes</param>
         /// <param name="uploadStatusCallback">Callback that reports upload progress</param>
-        public void Send(HttpRequestMessage request, HttpCompletionOption completionOption, Action<HttpResponseMessage> responseCallback,
-            Action<UploadStatusMessage> uploadStatusCallback = null)
+        public void Send(
+            HttpRequestMessage request,
+            HttpCompletionOption completionOption,
+            Action<HttpResponseMessage> responseCallback,
+            Action<UploadStatusMessage> uploadStatusCallback = null
+        )
         {
-            QueueRequest(request.Uri, request.Method, completionOption, request.Content, responseCallback, uploadStatusCallback, request.Headers);
+            QueueRequest(
+                request.Uri,
+                request.Method,
+                completionOption,
+                request.Content,
+                responseCallback,
+                uploadStatusCallback,
+                request.Headers
+            );
         }
 
         /// <summary>
@@ -358,10 +470,14 @@ namespace CI.HttpClient
         {
             var task = new TaskCompletionSource<HttpResponseMessage>();
 
-            Send(request, HttpCompletionOption.AllResponseContent, r =>
-            {
-                task.SetResult(r);
-            });
+            Send(
+                request,
+                HttpCompletionOption.AllResponseContent,
+                r =>
+                {
+                    task.SetResult(r);
+                }
+            );
 
             return task.Task;
         }
@@ -372,49 +488,81 @@ namespace CI.HttpClient
         /// <param name="response">The HTTP response to check</param>
         /// <param name="errorCallback">Callback raised if an error occurs</param>
         /// <exception cref="System.Net.Http.HttpRequestException">Thrown when the HTTP response is not successful</exception>
+        /// <remarks>
+        /// This method is used to check if the HTTP response was successful. If the response was not successful, an exception is thrown. The error callback is also raised.
+        /// </remarks>
         public void EnsureSuccess(HttpResponseMessage response, System.Action<string> errorCallback)
-    {
-        if (!response.IsSuccessStatusCode)
         {
-            if (errorCallback != null)
-                errorCallback($"HTTP Error: {response.StatusCode} - {response.ReasonPhrase}");
-            throw new System.Net.Http.HttpRequestException($"HTTP Error: {response.StatusCode} - {response.ReasonPhrase}");
-        }
-    }
-
-        private void QueueRequest(Uri uri, HttpAction httpAction, HttpCompletionOption httpCompletionOption, Action<HttpResponseMessage> responseCallback)
-        {
-            QueueWorkItem((t) =>
+            if (!response.IsSuccessStatusCode)
             {
-                try
-                {
-                    HttpWebRequest request = CreateRequest(uri, null);
-                    new HttpRequest(httpAction, request, _dispatcher).Execute(httpCompletionOption, responseCallback, DownloadBlockSize);
-                    RemoveRequest(request);
-                }
-                catch (Exception e)
-                {
-                    RaiseErrorResponse(responseCallback, e);
-                }
-            });
+                if (errorCallback != null)
+                    errorCallback($"HTTP Error: {response.StatusCode} - {response.ReasonPhrase}");
+                throw new System.Net.Http.HttpRequestException(
+                    $"HTTP Error: {response.StatusCode} - {response.ReasonPhrase}"
+                );
+            }
         }
 
-        private void QueueRequest(Uri uri, HttpAction httpAction, HttpCompletionOption httpCompletionOption, IHttpContent httpContent, 
-            Action<HttpResponseMessage> responseCallback, Action<UploadStatusMessage> uploadStatusCallback, IDictionary<string, string> headers)
+        private void QueueRequest(
+            Uri uri,
+            HttpAction httpAction,
+            HttpCompletionOption httpCompletionOption,
+            Action<HttpResponseMessage> responseCallback
+        )
         {
-            QueueWorkItem((t) =>
-            {
-                try
+            QueueWorkItem(
+                (t) =>
                 {
-                    HttpWebRequest request = CreateRequest(uri, headers);
-                    new HttpRequest(httpAction, request, _dispatcher).Execute(httpContent, httpCompletionOption, responseCallback, uploadStatusCallback, DownloadBlockSize, UploadBlockSize);
-                    RemoveRequest(request);
+                    try
+                    {
+                        HttpWebRequest request = CreateRequest(uri, null);
+                        new HttpRequest(httpAction, request, _dispatcher).Execute(
+                            httpCompletionOption,
+                            responseCallback,
+                            DownloadBlockSize
+                        );
+                        RemoveRequest(request);
+                    }
+                    catch (Exception e)
+                    {
+                        RaiseErrorResponse(responseCallback, e);
+                    }
                 }
-                catch (Exception e)
+            );
+        }
+
+        private void QueueRequest(
+            Uri uri,
+            HttpAction httpAction,
+            HttpCompletionOption httpCompletionOption,
+            IHttpContent httpContent,
+            Action<HttpResponseMessage> responseCallback,
+            Action<UploadStatusMessage> uploadStatusCallback,
+            IDictionary<string, string> headers
+        )
+        {
+            QueueWorkItem(
+                (t) =>
                 {
-                    RaiseErrorResponse(responseCallback, e);
+                    try
+                    {
+                        HttpWebRequest request = CreateRequest(uri, headers);
+                        new HttpRequest(httpAction, request, _dispatcher).Execute(
+                            httpContent,
+                            httpCompletionOption,
+                            responseCallback,
+                            uploadStatusCallback,
+                            DownloadBlockSize,
+                            UploadBlockSize
+                        );
+                        RemoveRequest(request);
+                    }
+                    catch (Exception e)
+                    {
+                        RaiseErrorResponse(responseCallback, e);
+                    }
                 }
-            });
+            );
         }
 
         private void QueueWorkItem(WaitCallback action)
@@ -440,7 +588,7 @@ namespace CI.HttpClient
         }
 
         private void DisableWriteStreamBuffering(HttpWebRequest request)
-        {        
+        {
             request.AllowWriteStreamBuffering = false;
         }
 
@@ -518,9 +666,13 @@ namespace CI.HttpClient
                     request.Expect = header.Value;
                     break;
                 case "date":
-                    throw new NotSupportedException("Date is automatically set by the system to the current date");
+                    throw new NotSupportedException(
+                        "Date is automatically set by the system to the current date"
+                    );
                 case "host":
-                    throw new NotSupportedException("Host is automatically set by the system to current host information");
+                    throw new NotSupportedException(
+                        "Host is automatically set by the system to current host information"
+                    );
                 case "if-modified-since":
                     request.IfModifiedSince = DateTime.Parse(header.Value);
                     break;
@@ -578,10 +730,7 @@ namespace CI.HttpClient
             {
                 _dispatcher.Enqueue(() =>
                 {
-                    action(new HttpResponseMessage()
-                    {
-                        Exception = exception,
-                    });
+                    action(new HttpResponseMessage() { Exception = exception });
                 });
             }
         }
