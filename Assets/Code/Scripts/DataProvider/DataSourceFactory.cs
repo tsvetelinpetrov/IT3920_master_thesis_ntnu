@@ -6,7 +6,7 @@ public class DataSourceFactory
         {
             DataSourceType.Api => new ApiSource(),
             DataSourceType.File => new FileSource(),
-            _ => throw new System.Exception("Invalid data source type")
+            _ => throw new System.Exception("Invalid data source type"),
         };
     }
 }

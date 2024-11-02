@@ -366,6 +366,22 @@ namespace CI.HttpClient
             return task.Task;
         }
 
+        /// <summary>
+        /// Ensures the response is successful, otherwise throws an exception
+        /// </summary>
+        /// <param name="response">The HTTP response to check</param>
+        /// <param name="errorCallback">Callback raised if an error occurs</param>
+        /// <exception cref="System.Net.Http.HttpRequestException">Thrown when the HTTP response is not successful</exception>
+        public void EnsureSuccess(HttpResponseMessage response, System.Action<string> errorCallback)
+    {
+        if (!response.IsSuccessStatusCode)
+        {
+            if (errorCallback != null)
+                errorCallback($"HTTP Error: {response.StatusCode} - {response.ReasonPhrase}");
+            throw new System.Net.Http.HttpRequestException($"HTTP Error: {response.StatusCode} - {response.ReasonPhrase}");
+        }
+    }
+
         private void QueueRequest(Uri uri, HttpAction httpAction, HttpCompletionOption httpCompletionOption, Action<HttpResponseMessage> responseCallback)
         {
             QueueWorkItem((t) =>

@@ -14,42 +14,27 @@ namespace CI.HttpClient
         /// <summary>
         /// The original request
         /// </summary>
-        public HttpWebRequest OriginalRequest
-        {
-            get; set;
-        }
+        public HttpWebRequest OriginalRequest { get; set; }
 
         /// <summary>
         /// The original response
         /// </summary>
-        public HttpWebResponse OriginalResponse
-        {
-            get; set;
-        }
+        public HttpWebResponse OriginalResponse { get; set; }
 
         /// <summary>
         /// Length of the content being downloaded
         /// </summary>
-        public long ContentLength
-        {
-            get; set;
-        }
+        public long ContentLength { get; set; }
 
         /// <summary>
         /// How much content as been downloaded so far
         /// </summary>
-        public long TotalContentRead
-        {
-            get; set;
-        }
+        public long TotalContentRead { get; set; }
 
         /// <summary>
         /// How much content has been downloaded since the last http response message was raised
         /// </summary>
-        public long ContentReadThisRound
-        {
-            get; set;
-        }
+        public long ContentReadThisRound { get; set; }
 
         /// <summary>
         /// Percentage completion of the download
@@ -72,18 +57,12 @@ namespace CI.HttpClient
         /// <summary>
         /// The http status code
         /// </summary>
-        public HttpStatusCode StatusCode
-        {
-            get; set;
-        }
+        public HttpStatusCode StatusCode { get; set; }
 
         /// <summary>
         /// The reason for the http status code
         /// </summary>
-        public string ReasonPhrase
-        {
-            get; set;
-        }
+        public string ReasonPhrase { get; set; }
 
         /// <summary>
         /// Can the status code be considered a success code
@@ -96,10 +75,7 @@ namespace CI.HttpClient
         /// <summary>
         /// The exception raised (if there was one)
         /// </summary>
-        public Exception Exception
-        {
-            get; set;
-        }
+        public Exception Exception { get; set; }
 
         /// <summary>
         /// Did the server return any content
@@ -111,9 +87,7 @@ namespace CI.HttpClient
 
         private readonly byte[] _responseData;
 
-        public HttpResponseMessage()
-        {
-        }
+        public HttpResponseMessage() { }
 
         public HttpResponseMessage(byte[] responseData)
         {
