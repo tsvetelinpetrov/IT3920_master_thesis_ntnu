@@ -25,7 +25,7 @@ public class PlantRenderer
         List<int> triangles = new List<int>();
 
         string[] lines = objData.Split('\n');
-        
+
         foreach (string line in lines)
         {
             string[] parts = line.Split(' ');
@@ -35,26 +35,32 @@ public class PlantRenderer
             switch (parts[0])
             {
                 case "v": // Vertex
-                    vertices.Add(new Vector3(
-                        float.Parse(parts[1], CultureInfo.InvariantCulture),
-                        float.Parse(parts[2], CultureInfo.InvariantCulture),
-                        float.Parse(parts[3], CultureInfo.InvariantCulture)
-                    ));
+                    vertices.Add(
+                        new Vector3(
+                            float.Parse(parts[1], CultureInfo.InvariantCulture),
+                            float.Parse(parts[2], CultureInfo.InvariantCulture),
+                            float.Parse(parts[3], CultureInfo.InvariantCulture)
+                        )
+                    );
                     break;
 
                 case "vn": // Normal
-                    normals.Add(new Vector3(
-                        float.Parse(parts[1], CultureInfo.InvariantCulture),
-                        float.Parse(parts[2], CultureInfo.InvariantCulture),
-                        float.Parse(parts[3], CultureInfo.InvariantCulture)
-                    ));
+                    normals.Add(
+                        new Vector3(
+                            float.Parse(parts[1], CultureInfo.InvariantCulture),
+                            float.Parse(parts[2], CultureInfo.InvariantCulture),
+                            float.Parse(parts[3], CultureInfo.InvariantCulture)
+                        )
+                    );
                     break;
 
                 case "vt": // Texture Coordinate
-                    uvs.Add(new Vector2(
-                        float.Parse(parts[1], CultureInfo.InvariantCulture),
-                        float.Parse(parts[2], CultureInfo.InvariantCulture)
-                    ));
+                    uvs.Add(
+                        new Vector2(
+                            float.Parse(parts[1], CultureInfo.InvariantCulture),
+                            float.Parse(parts[2], CultureInfo.InvariantCulture)
+                        )
+                    );
                     break;
 
                 case "f": // Face

@@ -1,5 +1,4 @@
-﻿
-namespace CI.HttpClient
+﻿namespace CI.HttpClient
 {
     public enum HttpCompletionOption
     {
@@ -7,9 +6,10 @@ namespace CI.HttpClient
         /// Read all response content without raising progress updates
         /// </summary>
         AllResponseContent,
+
         /// <summary>
         /// Read response content in blocks and raise progress updates
         /// </summary>
-        StreamResponseContent
+        StreamResponseContent,
     }
 }

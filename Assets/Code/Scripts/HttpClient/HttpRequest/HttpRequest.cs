@@ -13,7 +13,11 @@ namespace CI.HttpClient.Core
             SetMethod(httpAction);
         }
 
-        public void Execute(HttpCompletionOption completionOption, Action<HttpResponseMessage> responseCallback, int downloadBlockSize)
+        public void Execute(
+            HttpCompletionOption completionOption,
+            Action<HttpResponseMessage> responseCallback,
+            int downloadBlockSize
+        )
         {
             try
             {
@@ -25,8 +29,14 @@ namespace CI.HttpClient.Core
             }
         }
 
-        public void Execute(IHttpContent content, HttpCompletionOption completionOption, Action<HttpResponseMessage> responseCallback, Action<UploadStatusMessage> uploadStatusCallback,
-            int downloadBlockSize, int uploadBlockSize)
+        public void Execute(
+            IHttpContent content,
+            HttpCompletionOption completionOption,
+            Action<HttpResponseMessage> responseCallback,
+            Action<UploadStatusMessage> uploadStatusCallback,
+            int downloadBlockSize,
+            int uploadBlockSize
+        )
         {
             try
             {

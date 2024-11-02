@@ -1,5 +1,4 @@
-﻿
-namespace CI.HttpClient
+﻿namespace CI.HttpClient
 {
     public class MultipartFormDataContent : MultipartContent
     {
@@ -7,18 +6,14 @@ namespace CI.HttpClient
         /// Send a combination of different HttpContents with a default boundary and the Content Type as multipart/form-data
         /// </summary>
         public MultipartFormDataContent()
-            : base()
-        {
-        }
+            : base() { }
 
         /// <summary>
         /// Send a combination of different HttpContents with the specified boundary and the Content Type as multipart/form-data
         /// </summary>
         /// <param name="boundary"></param>
         public MultipartFormDataContent(string boundary)
-            : base(boundary)
-        {
-        }
+            : base(boundary) { }
 
         /// <summary>
         /// Adds an IHttpContent to this multipart content - do not add other MultipartContents
@@ -38,7 +33,10 @@ namespace CI.HttpClient
         /// <param name="name">The name of the IHttpContent</param>
         public void Add(IHttpContent content, string name)
         {
-            content.Headers.Add("Content-Disposition", string.Format("{0}; name=\"{1}\"", DEFAULT_SUBTYPE, name));
+            content.Headers.Add(
+                "Content-Disposition",
+                string.Format("{0}; name=\"{1}\"", DEFAULT_SUBTYPE, name)
+            );
 
             base.Add(content);
         }
@@ -51,7 +49,15 @@ namespace CI.HttpClient
         /// <param name="filename">The filename for the IHttpContent</param>
         public void Add(IHttpContent content, string name, string filename)
         {
-            content.Headers.Add("Content-Disposition", string.Format("{0}; name=\"{1}\"; filename=\"{2}\"", DEFAULT_SUBTYPE, name, filename));
+            content.Headers.Add(
+                "Content-Disposition",
+                string.Format(
+                    "{0}; name=\"{1}\"; filename=\"{2}\"",
+                    DEFAULT_SUBTYPE,
+                    name,
+                    filename
+                )
+            );
 
             base.Add(content);
         }

@@ -26,9 +26,7 @@ namespace CI.HttpClient
         /// </summary>
         /// <param name="content">The string to send</param>
         public StringContent(string content)
-            : this(content, Encoding.UTF8, DEFAULT_MEDIA_TYPE)
-        {
-        }
+            : this(content, Encoding.UTF8, DEFAULT_MEDIA_TYPE) { }
 
         /// <summary>
         /// Send content encoded as a string with the specified encoding, the media type will default to text/plain
@@ -36,9 +34,7 @@ namespace CI.HttpClient
         /// <param name="content">The string to send</param>
         /// <param name="encoding">The encoding of the string</param>
         public StringContent(string content, Encoding encoding)
-            : this(content, encoding, DEFAULT_MEDIA_TYPE)
-        {
-        }
+            : this(content, encoding, DEFAULT_MEDIA_TYPE) { }
 
         /// <summary>
         /// Send content encoded as a string with the specified encoding, the specified mediaType sets the Content Type header
@@ -52,7 +48,7 @@ namespace CI.HttpClient
 
             Headers = new Dictionary<string, string>()
             {
-                { "Content-Type", mediaType + "; charset=" + encoding.WebName }
+                { "Content-Type", mediaType + "; charset=" + encoding.WebName },
             };
         }
 

@@ -29,7 +29,7 @@ namespace CI.HttpClient
 
             Headers = new Dictionary<string, string>()
             {
-                { "Content-Type", "application/x-www-form-urlencoded" }
+                { "Content-Type", "application/x-www-form-urlencoded" },
             };
         }
 
@@ -53,7 +53,9 @@ namespace CI.HttpClient
             return new MemoryStream(_content);
         }
 
-        private byte[] SerialiseContent(IEnumerable<KeyValuePair<string, string>> nameValueCollection)
+        private byte[] SerialiseContent(
+            IEnumerable<KeyValuePair<string, string>> nameValueCollection
+        )
         {
             StringBuilder stringBuilder = new StringBuilder();
 

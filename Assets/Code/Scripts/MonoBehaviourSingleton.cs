@@ -1,14 +1,19 @@
 ﻿using UnityEngine;
 
-public class MonoBehaviourSingleton<T> : MonoBehaviour where T : MonoBehaviourSingleton<T> {
-	public static T Instance {
-		get {
-			if (instance == null) {
-				instance = FindAnyObjectByType<T>()
-				           ?? new GameObject().AddComponent<T>();
-			}
+public class MonoBehaviourSingleton<T> : MonoBehaviour
+    where T : MonoBehaviourSingleton<T>
+{
+    public static T Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = FindAnyObjectByType<T>() ?? new GameObject().AddComponent<T>();
+            }
 
-			return instance;
-		}
-	} private static T instance;
+            return instance;
+        }
+    }
+    private static T instance;
 }

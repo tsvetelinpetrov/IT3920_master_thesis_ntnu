@@ -21,13 +21,17 @@ public class ExampleSceneManagerController : MonoBehaviour
 
         ProgressSlider.value = 0;
 
-        client.Post(new System.Uri(Url), content, HttpCompletionOption.AllResponseContent, (r) =>
-        {           
-        }, (u) =>
-        {
-            LeftText.text = "Upload: " +  u.PercentageComplete.ToString() + "%";
-            ProgressSlider.value = u.PercentageComplete;
-        });
+        client.Post(
+            new System.Uri(Url),
+            content,
+            HttpCompletionOption.AllResponseContent,
+            (r) => { },
+            (u) =>
+            {
+                LeftText.text = "Upload: " + u.PercentageComplete.ToString() + "%";
+                ProgressSlider.value = u.PercentageComplete;
+            }
+        );
     }
 
     public void Download()
@@ -38,27 +42,32 @@ public class ExampleSceneManagerController : MonoBehaviour
 
         MemoryStream memoryStream = new MemoryStream();
 
-        client.Get(new System.Uri(Url), HttpCompletionOption.StreamResponseContent, (r) =>
-        {
-            RightText.text = "Download: " + r.PercentageComplete.ToString() + "%";
-            ProgressSlider.value = 100 - r.PercentageComplete;
-
-            // When a chunk of data is received
-            if (r.HasContent)
+        client.Get(
+            new System.Uri(Url),
+            HttpCompletionOption.StreamResponseContent,
+            (r) =>
             {
-                memoryStream.Write(r.ReadAsByteArray(), 0, r.ReadAsByteArray().Length);
-                Debug.Log("Downloaded " + memoryStream.Length + " bytesss");
-            }
+                RightText.text = "Download: " + r.PercentageComplete.ToString() + "%";
+                ProgressSlider.value = 100 - r.PercentageComplete;
 
-            // When the download is complete
-            if (r.IsSuccessStatusCode && r.PercentageComplete == 100)
-            {
-                // Get the full downloaded content as a byte array
-                byte[] downloadedData = memoryStream.ToArray();
-                // Process the data or display it as needed
-                RightText.text = "Download Complete. Downloaded KB : " + downloadedData.Length / 1024;
+                // When a chunk of data is received
+                if (r.HasContent)
+                {
+                    memoryStream.Write(r.ReadAsByteArray(), 0, r.ReadAsByteArray().Length);
+                    Debug.Log("Downloaded " + memoryStream.Length + " bytesss");
+                }
+
+                // When the download is complete
+                if (r.IsSuccessStatusCode && r.PercentageComplete == 100)
+                {
+                    // Get the full downloaded content as a byte array
+                    byte[] downloadedData = memoryStream.ToArray();
+                    // Process the data or display it as needed
+                    RightText.text =
+                        "Download Complete. Downloaded KB : " + downloadedData.Length / 1024;
+                }
             }
-        });
+        );
     }
 
     public void UploadDownload()
@@ -72,37 +81,51 @@ public class ExampleSceneManagerController : MonoBehaviour
 
         ProgressSlider.value = 0;
 
-        client.Post(new System.Uri(Url), content, HttpCompletionOption.StreamResponseContent, (r) =>
-        {
-            RightText.text = "Download: " + r.PercentageComplete.ToString() + "%";
-            ProgressSlider.value = 100 - r.PercentageComplete;
-        }, (u) =>
-        {
-            LeftText.text = "Upload: " + u.PercentageComplete.ToString() + "%";
-            ProgressSlider.value = u.PercentageComplete;
-        });
+        client.Post(
+            new System.Uri(Url),
+            content,
+            HttpCompletionOption.StreamResponseContent,
+            (r) =>
+            {
+                RightText.text = "Download: " + r.PercentageComplete.ToString() + "%";
+                ProgressSlider.value = 100 - r.PercentageComplete;
+            },
+            (u) =>
+            {
+                LeftText.text = "Upload: " + u.PercentageComplete.ToString() + "%";
+                ProgressSlider.value = u.PercentageComplete;
+            }
+        );
     }
 
     public void Delete()
     {
         HttpClient client = new HttpClient();
-        client.Delete(new System.Uri(Url), HttpCompletionOption.AllResponseContent, (r) =>
-        {
+        client.Delete(
+            new System.Uri(Url),
+            HttpCompletionOption.AllResponseContent,
+            (r) =>
+            {
 #pragma warning disable 0219
-            string responseData = r.ReadAsString();
+                string responseData = r.ReadAsString();
 #pragma warning restore 0219
-        });
+            }
+        );
     }
 
     public void Get()
     {
         HttpClient client = new HttpClient();
-        client.Get(new System.Uri(Url), HttpCompletionOption.AllResponseContent, (r) =>
-        {
+        client.Get(
+            new System.Uri(Url),
+            HttpCompletionOption.AllResponseContent,
+            (r) =>
+            {
 #pragma warning disable 0219
-            byte[] responseData = r.ReadAsByteArray();
+                byte[] responseData = r.ReadAsByteArray();
 #pragma warning restore 0219
-        });
+            }
+        );
     }
 
     public void Patch()
@@ -111,12 +134,17 @@ public class ExampleSceneManagerController : MonoBehaviour
 
         StringContent content = new StringContent("Hello World");
 
-        client.Patch(new System.Uri(Url), content, HttpCompletionOption.AllResponseContent, (r) =>
-        {
+        client.Patch(
+            new System.Uri(Url),
+            content,
+            HttpCompletionOption.AllResponseContent,
+            (r) =>
+            {
 #pragma warning disable 0219
-            Stream responseData = r.ReadAsStream();
+                Stream responseData = r.ReadAsStream();
 #pragma warning restore 0219
-        });
+            }
+        );
     }
 
     public void Post()
@@ -125,12 +153,17 @@ public class ExampleSceneManagerController : MonoBehaviour
 
         StringContent content = new StringContent("Hello World");
 
-        client.Post(new System.Uri(Url), content, HttpCompletionOption.AllResponseContent, (r) =>
-        {
+        client.Post(
+            new System.Uri(Url),
+            content,
+            HttpCompletionOption.AllResponseContent,
+            (r) =>
+            {
 #pragma warning disable 0219
-            string responseData = r.ReadAsString();
+                string responseData = r.ReadAsString();
 #pragma warning restore 0219
-        });
+            }
+        );
     }
 
     public void Put()
@@ -139,11 +172,16 @@ public class ExampleSceneManagerController : MonoBehaviour
 
         StringContent content = new StringContent("Hello World");
 
-        client.Put(new System.Uri(Url), content, HttpCompletionOption.AllResponseContent, (r) =>
-        {
+        client.Put(
+            new System.Uri(Url),
+            content,
+            HttpCompletionOption.AllResponseContent,
+            (r) =>
+            {
 #pragma warning disable 0219
-            string responseData = r.ReadAsString();
+                string responseData = r.ReadAsString();
 #pragma warning restore 0219
-        });
+            }
+        );
     }
 }

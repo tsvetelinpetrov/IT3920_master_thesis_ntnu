@@ -33,18 +33,14 @@ namespace CI.HttpClient
         /// Send a combination of different HttpContents with a default boundary and the Content Type as multipart/form-data
         /// </summary>
         public MultipartContent()
-            : this(Guid.NewGuid().ToString(), DEFAULT_SUBTYPE)
-        {
-        }
+            : this(Guid.NewGuid().ToString(), DEFAULT_SUBTYPE) { }
 
         /// <summary>
         /// Send a combination of different HttpContents with the specified boundary and the Content Type as multipart/form-data
         /// </summary>
         /// <param name="boundary">A string to separate the contents</param>
         public MultipartContent(string boundary)
-            : this(boundary, DEFAULT_SUBTYPE)
-        {
-        }
+            : this(boundary, DEFAULT_SUBTYPE) { }
 
         /// <summary>
         /// Send a combination of different HttpContents with the specified boundary and the Content Type as multipart/subtype
@@ -58,7 +54,7 @@ namespace CI.HttpClient
 
             Headers = new Dictionary<string, string>()
             {
-                { "Content-Type", "multipart/" + subtype + "; boundary=" + boundary }
+                { "Content-Type", "multipart/" + subtype + "; boundary=" + boundary },
             };
 
             CreateDelimiters();
@@ -94,7 +90,7 @@ namespace CI.HttpClient
                 foreach (IHttpContent content in _content)
                 {
                     length += BoundaryStartBytes.Length;
-					foreach (var header in content.Headers)
+                    foreach (var header in content.Headers)
                     {
                         length += Encoding.UTF8.GetBytes(header.Key + ": " + header.Value).Length;
                         length += CRLFBytes.Length;
