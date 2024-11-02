@@ -1,48 +1,57 @@
 using Newtonsoft.Json;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class DataProvider : MonoBehaviour
 {
-
     // Text object to display the data
     public TMP_Text DebugText;
 
-    void Start()
-    {
+    void Start() { }
 
-    }
-
-    // Get plant model from data source
     public void GetPlantModel()
     {
         IDataSource dataSource = DataSourceFactory.GetDataSource();
+
+        System.Action<string> callback = (model) =>
+        {
+            DebugText.text = model.Substring(0, 1000);
+        };
+
         dataSource.GetPlantObjModel(
             (model) =>
             {
-                // Put first 1000 characters of the model into the debug text
+                Debug.Log(model);
                 DebugText.text = model.Substring(0, 1000);
-                //PlantRenderer plantRenderer = new PlantRenderer();
-                //plantRenderer.renderPlant(model);
+            },
+            false,
+            (error) =>
+            {
+                // This will be called if the API request fails or if the file reading fails.
+                // Can be used to display an error message to the user and/or to enable/disable UI elements.
+                Debug.Log(error);
             }
         );
     }
 
-    // Get controls by days from data source
     public void GetControlsByDays()
     {
         IDataSource dataSource = DataSourceFactory.GetDataSource();
-        dataSource.GetControlsByDays(30,
+        dataSource.GetControlsByDays(
+            30,
             (controls) =>
             {
-                // Get controls as json string
-                string jsonString = JsonConvert.SerializeObject(controls, Formatting.Indented);
+                string jsonString = JsonConvert.SerializeObject(controls, Formatting.None);
 
                 Debug.Log(jsonString);
                 DebugText.text = jsonString;
+            },
+            (error) =>
+            {
+                // This will be called if the API request fails or if the file reading fails.
+                // Can be used to display an error message to the user and/or to enable/disable UI elements.
+                Debug.Log(error);
             }
         );
     }
-
 }

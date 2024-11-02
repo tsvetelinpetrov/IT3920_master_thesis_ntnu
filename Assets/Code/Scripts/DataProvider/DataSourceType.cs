@@ -1,5 +1,5 @@
 public enum DataSourceType
 {
     Api,
-    File
+    File,
 }

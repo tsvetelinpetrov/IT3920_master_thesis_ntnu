@@ -8,15 +8,23 @@ public struct FilesLocations
 
 public class FileSource : IDataSource
 {
-    public FileSource() {}
+    public FileSource() { }
 
-    public void GetPlantObjModel(System.Action<string> callback, bool highPoly)
+    public void GetPlantObjModel(
+        System.Action<string> callback,
+        bool highPoly,
+        System.Action<string> errorCallback
+    )
     {
         // TODO: Implement this method
         throw new System.NotImplementedException();
     }
 
-    public void GetControlsByDays(int days, System.Action<List<Controls>> callback)
+    public void GetControlsByDays(
+        int days,
+        System.Action<List<Controls>> callback,
+        System.Action<string> errorCallback
+    )
     {
         // TODO: Implement this method
         throw new System.NotImplementedException();
