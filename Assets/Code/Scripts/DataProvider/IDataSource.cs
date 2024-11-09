@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 /// <summary>
@@ -35,6 +36,42 @@ public interface IDataSource
     void GetControlsByDays(
         int days,
         System.Action<List<Controls>> successCallback,
+        System.Action<string> errorCallback = null
+    );
+    void GetControlsByInterval(
+        DateTime startTime,
+        DateTime endTime,
+        System.Action<List<Controls>> successCallback,
+        System.Action<string> errorCallback = null
+    );
+    void GetCurrentControls(
+        System.Action<List<Controls>> successCallback,
+        System.Action<string> errorCallback = null
+    );
+    void GetMeasurementsByDays(
+        int days,
+        System.Action<List<Measurement>> successCallback,
+        System.Action<string> errorCallback = null
+    );
+    void GetMeasurementsByInterval(
+        DateTime startTime,
+        DateTime endTime,
+        System.Action<List<Measurement>> successCallback,
+        System.Action<string> errorCallback = null
+    );
+    void GetCurrentMeasurements(
+        System.Action<List<Measurement>> successCallback,
+        System.Action<string> errorCallback = null
+    );
+    void GetDisruptiveByDays(
+        int days,
+        System.Action<List<Disruptive>> successCallback,
+        System.Action<string> errorCallback = null
+    );
+    void GetDisruptiveByInterval(
+        DateTime startTime,
+        DateTime endTime,
+        System.Action<List<Disruptive>> successCallback,
         System.Action<string> errorCallback = null
     );
 }
