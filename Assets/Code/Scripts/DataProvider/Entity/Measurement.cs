@@ -9,4 +9,4 @@ public class Measurement
     public float CO2 { get; set; }
     public float Humidity { get; set; }
     public float TankLevel { get; set; }
-}   
+}

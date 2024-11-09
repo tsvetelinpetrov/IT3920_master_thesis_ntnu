@@ -16,9 +16,10 @@ public struct ApiEndpoints
     public const string PlantLowResObjModel = "mesh/low_res";
     public const string PlantHighResObjModel = "mesh/high_res";
     public const string ControlsByInterval = "controls/interval?start_time={0}&end_time={1}";
-    public const string CurrentControls = "controls/current" ;
+    public const string CurrentControls = "controls/current";
     public const string MeasurementsByDays = "measurements/days?num_days=";
-    public const string MeasurementsByInterval = "measurements/interval?start_time={0}&end_time={1}";
+    public const string MeasurementsByInterval =
+        "measurements/interval?start_time={0}&end_time={1}";
     public const string CurrentMeasurements = "measurements/current";
     public const string DisruptiveByDays = "disruptive/days?num_days=";
     public const string DisruptiveByInterval = "disruptive/interval?start_time={0}&end_time={1}";
@@ -96,10 +97,11 @@ public class ApiSource : IDataSource
             }
         );
     }
+
     public void GetCurrentControls(
-           System.Action<List<Controls>> successCallback,
-           System.Action<string> errorCallback
-       )
+        System.Action<List<Controls>> successCallback,
+        System.Action<string> errorCallback
+    )
     {
         string endpoint = ApiEndpoints.CurrentControls;
 
@@ -114,12 +116,11 @@ public class ApiSource : IDataSource
         );
     }
 
-
     public void GetMeasurementsByDays(
-       int days,
-       System.Action<List<Measurement>> successCallback,
-       System.Action<string> errorCallback
-   )
+        int days,
+        System.Action<List<Measurement>> successCallback,
+        System.Action<string> errorCallback
+    )
     {
         string endpoint = ApiEndpoints.MeasurementsByDays + days.ToString();
 
@@ -135,11 +136,11 @@ public class ApiSource : IDataSource
     }
 
     public void GetMeasurementsByInterval(
-    DateTime startTime,
-    DateTime endTime,
-    System.Action<List<Measurement>> successCallback,
-    System.Action<string> errorCallback
-)
+        DateTime startTime,
+        DateTime endTime,
+        System.Action<List<Measurement>> successCallback,
+        System.Action<string> errorCallback
+    )
     {
         long startEpoch = new DateTimeOffset(startTime).ToUnixTimeSeconds();
         long endEpoch = new DateTimeOffset(endTime).ToUnixTimeSeconds();
@@ -158,9 +159,9 @@ public class ApiSource : IDataSource
     }
 
     public void GetCurrentMeasurements(
-           System.Action<List<Measurement>> successCallback,
-           System.Action<string> errorCallback
-       )
+        System.Action<List<Measurement>> successCallback,
+        System.Action<string> errorCallback
+    )
     {
         string endpoint = ApiEndpoints.CurrentMeasurements;
 
@@ -176,10 +177,10 @@ public class ApiSource : IDataSource
     }
 
     public void GetDisruptiveByDays(
-       int days,
-       System.Action<List<Disruptive>> successCallback,
-       System.Action<string> errorCallback
-   )
+        int days,
+        System.Action<List<Disruptive>> successCallback,
+        System.Action<string> errorCallback
+    )
     {
         string endpoint = ApiEndpoints.DisruptiveByDays + days.ToString();
 
@@ -195,10 +196,10 @@ public class ApiSource : IDataSource
     }
 
     public void GetDisruptiveByInterval(
-    DateTime startTime,
-    DateTime endTime,
-    System.Action<List<Disruptive>> successCallback,
-    System.Action<string> errorCallback
+        DateTime startTime,
+        DateTime endTime,
+        System.Action<List<Disruptive>> successCallback,
+        System.Action<string> errorCallback
     )
     {
         long startEpoch = new DateTimeOffset(startTime).ToUnixTimeSeconds();
@@ -216,6 +217,4 @@ public class ApiSource : IDataSource
             }
         );
     }
-
-
 }

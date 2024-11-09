@@ -7,6 +7,4 @@ public class Disruptive
     public string SensorID { get; set; }
     public float Temperature { get; set; }
     public float Humidity { get; set; }
-
 }
-
