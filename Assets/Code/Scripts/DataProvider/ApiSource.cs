@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using CI.HttpClient;
@@ -14,6 +15,14 @@ public struct ApiEndpoints
     public const string ControlsByDays = "controls/days?num_days=";
     public const string PlantLowResObjModel = "mesh/low_res";
     public const string PlantHighResObjModel = "mesh/high_res";
+    public const string ControlsByInterval = "controls/interval?start_time={0}&end_time={1}";
+    public const string CurrentControls = "controls/current";
+    public const string MeasurementsByDays = "measurements/days?num_days=";
+    public const string MeasurementsByInterval =
+        "measurements/interval?start_time={0}&end_time={1}";
+    public const string CurrentMeasurements = "measurements/current";
+    public const string DisruptiveByDays = "disruptive/days?num_days=";
+    public const string DisruptiveByInterval = "disruptive/interval?start_time={0}&end_time={1}";
 }
 
 /// <summary>
@@ -62,6 +71,149 @@ public class ApiSource : IDataSource
             {
                 client.EnsureSuccess(response, errorCallback);
                 successCallback(response.ReadAsJson<List<Controls>>());
+            }
+        );
+    }
+
+    public void GetControlsByInterval(
+        DateTime startTime,
+        DateTime endTime,
+        System.Action<List<Controls>> successCallback,
+        System.Action<string> errorCallback
+    )
+    {
+        long startEpoch = new DateTimeOffset(startTime).ToUnixTimeSeconds();
+        long endEpoch = new DateTimeOffset(endTime).ToUnixTimeSeconds();
+
+        string endpoint = string.Format(ApiEndpoints.ControlsByInterval, startEpoch, endEpoch);
+
+        client.Get(
+            new System.Uri(_apiUrl + endpoint),
+            HttpCompletionOption.AllResponseContent,
+            (response) =>
+            {
+                client.EnsureSuccess(response, errorCallback);
+                successCallback(response.ReadAsJson<List<Controls>>());
+            }
+        );
+    }
+
+    public void GetCurrentControls(
+        System.Action<List<Controls>> successCallback,
+        System.Action<string> errorCallback
+    )
+    {
+        string endpoint = ApiEndpoints.CurrentControls;
+
+        client.Get(
+            new System.Uri(_apiUrl + endpoint),
+            HttpCompletionOption.AllResponseContent,
+            (response) =>
+            {
+                client.EnsureSuccess(response, errorCallback);
+                successCallback(response.ReadAsJson<List<Controls>>());
+            }
+        );
+    }
+
+    public void GetMeasurementsByDays(
+        int days,
+        System.Action<List<Measurement>> successCallback,
+        System.Action<string> errorCallback
+    )
+    {
+        string endpoint = ApiEndpoints.MeasurementsByDays + days.ToString();
+
+        client.Get(
+            new System.Uri(_apiUrl + endpoint),
+            HttpCompletionOption.AllResponseContent,
+            (response) =>
+            {
+                client.EnsureSuccess(response, errorCallback);
+                successCallback(response.ReadAsJson<List<Measurement>>());
+            }
+        );
+    }
+
+    public void GetMeasurementsByInterval(
+        DateTime startTime,
+        DateTime endTime,
+        System.Action<List<Measurement>> successCallback,
+        System.Action<string> errorCallback
+    )
+    {
+        long startEpoch = new DateTimeOffset(startTime).ToUnixTimeSeconds();
+        long endEpoch = new DateTimeOffset(endTime).ToUnixTimeSeconds();
+
+        string endpoint = string.Format(ApiEndpoints.MeasurementsByInterval, startEpoch, endEpoch);
+
+        client.Get(
+            new System.Uri(_apiUrl + endpoint),
+            HttpCompletionOption.AllResponseContent,
+            (response) =>
+            {
+                client.EnsureSuccess(response, errorCallback);
+                successCallback(response.ReadAsJson<List<Measurement>>());
+            }
+        );
+    }
+
+    public void GetCurrentMeasurements(
+        System.Action<List<Measurement>> successCallback,
+        System.Action<string> errorCallback
+    )
+    {
+        string endpoint = ApiEndpoints.CurrentMeasurements;
+
+        client.Get(
+            new System.Uri(_apiUrl + endpoint),
+            HttpCompletionOption.AllResponseContent,
+            (response) =>
+            {
+                client.EnsureSuccess(response, errorCallback);
+                successCallback(response.ReadAsJson<List<Measurement>>());
+            }
+        );
+    }
+
+    public void GetDisruptiveByDays(
+        int days,
+        System.Action<List<Disruptive>> successCallback,
+        System.Action<string> errorCallback
+    )
+    {
+        string endpoint = ApiEndpoints.DisruptiveByDays + days.ToString();
+
+        client.Get(
+            new System.Uri(_apiUrl + endpoint),
+            HttpCompletionOption.AllResponseContent,
+            (response) =>
+            {
+                client.EnsureSuccess(response, errorCallback);
+                successCallback(response.ReadAsJson<List<Disruptive>>());
+            }
+        );
+    }
+
+    public void GetDisruptiveByInterval(
+        DateTime startTime,
+        DateTime endTime,
+        System.Action<List<Disruptive>> successCallback,
+        System.Action<string> errorCallback
+    )
+    {
+        long startEpoch = new DateTimeOffset(startTime).ToUnixTimeSeconds();
+        long endEpoch = new DateTimeOffset(endTime).ToUnixTimeSeconds();
+
+        string endpoint = string.Format(ApiEndpoints.DisruptiveByInterval, startEpoch, endEpoch);
+
+        client.Get(
+            new System.Uri(_apiUrl + endpoint),
+            HttpCompletionOption.AllResponseContent,
+            (response) =>
+            {
+                client.EnsureSuccess(response, errorCallback);
+                successCallback(response.ReadAsJson<List<Disruptive>>());
             }
         );
     }
