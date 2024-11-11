@@ -23,6 +23,7 @@ public struct ApiEndpoints
     public const string CurrentMeasurements = "measurements/current";
     public const string DisruptiveByDays = "disruptive/days?num_days=";
     public const string DisruptiveByInterval = "disruptive/interval?start_time={0}&end_time={1}";
+    public const string CurrentDisruptive = "disruptive/current";
 }
 
 /// <summary>
@@ -82,8 +83,8 @@ public class ApiSource : IDataSource
         System.Action<string> errorCallback
     )
     {
-        long startEpoch = new DateTimeOffset(startTime).ToUnixTimeSeconds();
-        long endEpoch = new DateTimeOffset(endTime).ToUnixTimeSeconds();
+        string startEpoch = new DateTimeOffset(startTime).ToUnixTimeMilliseconds().ToString();
+        string endEpoch = new DateTimeOffset(endTime).ToUnixTimeMilliseconds().ToString();
 
         string endpoint = string.Format(ApiEndpoints.ControlsByInterval, startEpoch, endEpoch);
 
@@ -99,7 +100,7 @@ public class ApiSource : IDataSource
     }
 
     public void GetCurrentControls(
-        System.Action<List<Controls>> successCallback,
+        System.Action<Controls> successCallback,
         System.Action<string> errorCallback
     )
     {
@@ -111,7 +112,7 @@ public class ApiSource : IDataSource
             (response) =>
             {
                 client.EnsureSuccess(response, errorCallback);
-                successCallback(response.ReadAsJson<List<Controls>>());
+                successCallback(response.ReadAsJson<Controls>());
             }
         );
     }
@@ -142,8 +143,8 @@ public class ApiSource : IDataSource
         System.Action<string> errorCallback
     )
     {
-        long startEpoch = new DateTimeOffset(startTime).ToUnixTimeSeconds();
-        long endEpoch = new DateTimeOffset(endTime).ToUnixTimeSeconds();
+        string startEpoch = new DateTimeOffset(startTime).ToUnixTimeMilliseconds().ToString();
+        string endEpoch = new DateTimeOffset(endTime).ToUnixTimeMilliseconds().ToString();
 
         string endpoint = string.Format(ApiEndpoints.MeasurementsByInterval, startEpoch, endEpoch);
 
@@ -159,7 +160,7 @@ public class ApiSource : IDataSource
     }
 
     public void GetCurrentMeasurements(
-        System.Action<List<Measurement>> successCallback,
+        System.Action<Measurement> successCallback,
         System.Action<string> errorCallback
     )
     {
@@ -171,7 +172,7 @@ public class ApiSource : IDataSource
             (response) =>
             {
                 client.EnsureSuccess(response, errorCallback);
-                successCallback(response.ReadAsJson<List<Measurement>>());
+                successCallback(response.ReadAsJson<Measurement>());
             }
         );
     }
@@ -202,8 +203,8 @@ public class ApiSource : IDataSource
         System.Action<string> errorCallback
     )
     {
-        long startEpoch = new DateTimeOffset(startTime).ToUnixTimeSeconds();
-        long endEpoch = new DateTimeOffset(endTime).ToUnixTimeSeconds();
+        string startEpoch = new DateTimeOffset(startTime).ToUnixTimeMilliseconds().ToString();
+        string endEpoch = new DateTimeOffset(endTime).ToUnixTimeMilliseconds().ToString();
 
         string endpoint = string.Format(ApiEndpoints.DisruptiveByInterval, startEpoch, endEpoch);
 
@@ -214,6 +215,24 @@ public class ApiSource : IDataSource
             {
                 client.EnsureSuccess(response, errorCallback);
                 successCallback(response.ReadAsJson<List<Disruptive>>());
+            }
+        );
+    }
+
+    public void GetCurrentDisruptive(
+        Action<Disruptive> successCallback,
+        Action<string> errorCallback = null
+    )
+    {
+        string endpoint = ApiEndpoints.CurrentDisruptive;
+
+        client.Get(
+            new System.Uri(_apiUrl + endpoint),
+            HttpCompletionOption.AllResponseContent,
+            (response) =>
+            {
+                client.EnsureSuccess(response, errorCallback);
+                successCallback(response.ReadAsJson<Disruptive>());
             }
         );
     }

@@ -1,3 +1,4 @@
+using System;
 using Newtonsoft.Json;
 using TMPro;
 using UnityEngine;
@@ -34,6 +35,37 @@ public class DataProvider : MonoBehaviour
         );
     }
 
+    public void GetControlsByInterval()
+    {
+        IDataSource dataSource = DataSourceFactory.GetDataSource();
+
+        DateTime startTime = new DateTime(2024, 11, 11, 10, 0, 0, DateTimeKind.Utc);
+        DateTime endTime = new DateTime(2024, 11, 11, 11, 0, 0, DateTimeKind.Utc);
+
+        dataSource.GetControlsByInterval(
+            startTime,
+            endTime,
+            (controls) =>
+            {
+                string jsonString = JsonConvert.SerializeObject(controls, Formatting.None);
+
+                Debug.Log(jsonString);
+                DebugText.text = jsonString;
+
+                foreach (Controls control in controls)
+                {
+                    Debug.Log(control.MeasurementTime);
+                }
+            },
+            (error) =>
+            {
+                // This will be called if the API request fails or if the file reading fails.
+                // Can be used to display an error message to the user and/or to enable/disable UI elements.
+                Debug.Log(error);
+            }
+        );
+    }
+
     public void GetControlsByDays()
     {
         IDataSource dataSource = DataSourceFactory.GetDataSource();
@@ -45,6 +77,33 @@ public class DataProvider : MonoBehaviour
 
                 Debug.Log(jsonString);
                 DebugText.text = jsonString;
+
+                foreach (Controls control in controls)
+                {
+                    Debug.Log(control.MeasurementTime);
+                }
+            },
+            (error) =>
+            {
+                // This will be called if the API request fails or if the file reading fails.
+                // Can be used to display an error message to the user and/or to enable/disable UI elements.
+                Debug.Log(error);
+            }
+        );
+    }
+
+    public void GetCurrentControls()
+    {
+        IDataSource dataSource = DataSourceFactory.GetDataSource();
+        dataSource.GetCurrentControls(
+            (controls) =>
+            {
+                string jsonString = JsonConvert.SerializeObject(controls, Formatting.None);
+
+                Debug.Log(jsonString);
+                DebugText.text = jsonString;
+
+                Debug.Log(controls.MeasurementTime);
             },
             (error) =>
             {
