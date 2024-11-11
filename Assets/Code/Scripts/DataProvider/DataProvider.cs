@@ -113,4 +113,29 @@ public class DataProvider : MonoBehaviour
             }
         );
     }
+
+    public void GetCurrentDistruptive()
+    {
+        IDataSource dataSource = DataSourceFactory.GetDataSource();
+        dataSource.GetCurrentDisruptive(
+            (disruptive) =>
+            {
+                string jsonString = JsonConvert.SerializeObject(disruptive, Formatting.None);
+
+                Debug.Log(jsonString);
+                DebugText.text = jsonString;
+
+                foreach (Disruptive disrupt in disruptive)
+                {
+                    Debug.Log(disrupt.MeasurementTime);
+                }
+            },
+            (error) =>
+            {
+                // This will be called if the API request fails or if the file reading fails.
+                // Can be used to display an error message to the user and/or to enable/disable UI elements.
+                Debug.Log(error);
+            }
+        );
+    }
 }

@@ -220,7 +220,7 @@ public class ApiSource : IDataSource
     }
 
     public void GetCurrentDisruptive(
-        Action<Disruptive> successCallback,
+        Action<List<Disruptive>> successCallback,
         Action<string> errorCallback = null
     )
     {
@@ -232,7 +232,7 @@ public class ApiSource : IDataSource
             (response) =>
             {
                 client.EnsureSuccess(response, errorCallback);
-                successCallback(response.ReadAsJson<Disruptive>());
+                successCallback(response.ReadAsJson<List<Disruptive>>());
             }
         );
     }

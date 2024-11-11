@@ -155,7 +155,7 @@ public interface IDataSource
     /// The successCallback function should take a Disruptive parameter.
     /// </remarks>
     void GetCurrentDisruptive(
-        System.Action<Disruptive> successCallback,
+        System.Action<List<Disruptive>> successCallback,
         System.Action<string> errorCallback = null
     );
 }
