@@ -1,9 +1,11 @@
 using System;
+using Newtonsoft.Json;
 
 [System.Serializable]
 public class Measurement
 {
-    public long MeasurementTime { get; set; }
+    [JsonConverter(typeof(UnixEpochMillisecondsConverter))]
+    public DateTime MeasurementTime { get; set; }
     public float Temperature { get; set; }
     public float Moisture { get; set; }
     public float CO2 { get; set; }

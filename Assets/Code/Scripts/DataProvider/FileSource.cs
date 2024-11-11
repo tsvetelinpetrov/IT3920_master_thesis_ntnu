@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -40,5 +41,84 @@ public class FileSource : IDataSource
     {
         // TODO: Implement this method
         throw new System.NotImplementedException();
+    }
+
+    public void GetControlsByInterval(
+        DateTime startTime,
+        DateTime endTime,
+        Action<List<Controls>> successCallback,
+        Action<string> errorCallback = null
+    )
+    {
+        // TODO: Implement this method
+        throw new NotImplementedException();
+    }
+
+    public void GetCurrentControls(
+        Action<Controls> successCallback,
+        Action<string> errorCallback = null
+    )
+    {
+        // TODO: Implement this method
+        throw new NotImplementedException();
+    }
+
+    public void GetMeasurementsByDays(
+        int days,
+        Action<List<Measurement>> successCallback,
+        Action<string> errorCallback = null
+    )
+    {
+        // TODO: Implement this method
+        throw new NotImplementedException();
+    }
+
+    public void GetMeasurementsByInterval(
+        DateTime startTime,
+        DateTime endTime,
+        Action<List<Measurement>> successCallback,
+        Action<string> errorCallback = null
+    )
+    {
+        // TODO: Implement this method
+        throw new NotImplementedException();
+    }
+
+    public void GetCurrentMeasurements(
+        Action<Measurement> successCallback,
+        Action<string> errorCallback = null
+    )
+    {
+        // TODO: Implement this method
+        throw new NotImplementedException();
+    }
+
+    public void GetDisruptiveByDays(
+        int days,
+        Action<List<Disruptive>> successCallback,
+        Action<string> errorCallback = null
+    )
+    {
+        // TODO: Implement this method
+        throw new NotImplementedException();
+    }
+
+    public void GetDisruptiveByInterval(
+        DateTime startTime,
+        DateTime endTime,
+        Action<List<Disruptive>> successCallback,
+        Action<string> errorCallback = null
+    )
+    {
+        // TODO: Implement this method
+        throw new NotImplementedException();
+    }
+
+    public void GetCurrentDisruptive(
+        Action<Disruptive> successCallback,
+        Action<string> errorCallback = null
+    )
+    {
+        throw new NotImplementedException();
     }
 }

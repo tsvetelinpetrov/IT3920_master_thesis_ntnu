@@ -38,40 +38,124 @@ public interface IDataSource
         System.Action<List<Controls>> successCallback,
         System.Action<string> errorCallback = null
     );
+
+    /// <summary>
+    /// Get controls by interval from the API
+    /// </summary>
+    /// <param name="startTime">Start time of the interval</param>
+    /// <param name="endTime">End time of the interval</param>
+    /// <param name="successCallback">Callback function to handle the response</param>
+    /// <param name="errorCallback">Callback function to handle the error response</param>
+    /// <remarks>
+    /// The successCallback function should take a List of Controls parameter.
+    /// </remarks>
     void GetControlsByInterval(
         DateTime startTime,
         DateTime endTime,
         System.Action<List<Controls>> successCallback,
         System.Action<string> errorCallback = null
     );
+
+    /// <summary>
+    /// Get current controls from the API
+    /// </summary>
+    /// <param name="successCallback">Callback function to handle the response</param>
+    /// <param name="errorCallback">Callback function to handle the error response</param>
+    /// <remarks>
+    /// The successCallback function should take a Controls parameter.
+    /// </remarks>
     void GetCurrentControls(
-        System.Action<List<Controls>> successCallback,
+        System.Action<Controls> successCallback,
         System.Action<string> errorCallback = null
     );
+
+    /// <summary>
+    /// Get measurements by days from the API
+    /// </summary>
+    /// <param name="days">Number of days to get measurements for</param>
+    /// <param name="successCallback">Callback function to handle the response</param>
+    /// <param name="errorCallback">Callback function to handle the error response</param>
+    /// <remarks>
+    /// The successCallback function should take a List of Measurement parameter.
+    /// </remarks>
     void GetMeasurementsByDays(
         int days,
         System.Action<List<Measurement>> successCallback,
         System.Action<string> errorCallback = null
     );
+
+    /// <summary>
+    /// Get measurements by interval from the API
+    /// </summary>
+    /// <param name="startTime">Start time of the interval</param>
+    /// <param name="endTime">End time of the interval</param>
+    /// <param name="successCallback">Callback function to handle the response</param>
+    /// <param name="errorCallback">Callback function to handle the error response</param>
+    /// <remarks>
+    /// The successCallback function should take a List of Measurement parameter.
+    /// </remarks>
     void GetMeasurementsByInterval(
         DateTime startTime,
         DateTime endTime,
         System.Action<List<Measurement>> successCallback,
         System.Action<string> errorCallback = null
     );
+
+    /// <summary>
+    /// Get current measurements from the API
+    /// </summary>
+    /// <param name="successCallback">Callback function to handle the response</param>
+    /// <param name="errorCallback">Callback function to handle the error response</param>
+    /// <remarks>
+    /// The successCallback function should take a Measurement parameter.
+    /// </remarks>
     void GetCurrentMeasurements(
-        System.Action<List<Measurement>> successCallback,
+        System.Action<Measurement> successCallback,
         System.Action<string> errorCallback = null
     );
+
+    /// <summary>
+    /// Get disruptive by days from the API
+    /// </summary>
+    /// <param name="days">Number of days to get disruptive for</param>
+    /// <param name="successCallback">Callback function to handle the response</param>
+    /// <param name="errorCallback">Callback function to handle the error response</param>
+    /// <remarks>
+    /// The successCallback function should take a List of Disruptive parameter.
+    /// </remarks>
     void GetDisruptiveByDays(
         int days,
         System.Action<List<Disruptive>> successCallback,
         System.Action<string> errorCallback = null
     );
+
+    /// <summary>
+    /// Get disruptive by interval from the API
+    /// </summary>
+    /// <param name="startTime">Start time of the interval</param>
+    /// <param name="endTime">End time of the interval</param>
+    /// <param name="successCallback">Callback function to handle the response</param>
+    /// <param name="errorCallback">Callback function to handle the error response</param>
+    /// <remarks>
+    /// The successCallback function should take a List of Disruptive parameter.
+    /// </remarks>
     void GetDisruptiveByInterval(
         DateTime startTime,
         DateTime endTime,
         System.Action<List<Disruptive>> successCallback,
+        System.Action<string> errorCallback = null
+    );
+
+    /// <summary>
+    /// Get current disruptive from the API
+    /// </summary>
+    /// <param name="successCallback">Callback function to handle the response</param>
+    /// <param name="errorCallback">Callback function to handle the error response</param>
+    /// <remarks>
+    /// The successCallback function should take a Disruptive parameter.
+    /// </remarks>
+    void GetCurrentDisruptive(
+        System.Action<Disruptive> successCallback,
         System.Action<string> errorCallback = null
     );
 }
