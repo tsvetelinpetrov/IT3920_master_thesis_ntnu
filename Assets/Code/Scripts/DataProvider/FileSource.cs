@@ -115,10 +115,11 @@ public class FileSource : IDataSource
     }
 
     public void GetCurrentDisruptive(
-        Action<Disruptive> successCallback,
+        Action<List<Disruptive>> successCallback,
         Action<string> errorCallback = null
     )
     {
+        // TODO: Implement this method
         throw new NotImplementedException();
     }
 }
