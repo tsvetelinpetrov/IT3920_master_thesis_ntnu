@@ -4,7 +4,10 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Level/Scenes/GreenhouseScene.unity
+    guid: ed5aba4840df518409ca16c82b83e8b1
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 6a03c554a11162b4fb3556cd990931ab,
       type: 2}
