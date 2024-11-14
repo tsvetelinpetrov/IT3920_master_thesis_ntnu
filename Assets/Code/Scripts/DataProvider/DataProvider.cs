@@ -76,12 +76,7 @@ public class DataProvider : MonoBehaviour
                 string jsonString = JsonConvert.SerializeObject(controls, Formatting.None);
 
                 Debug.Log(jsonString);
-                DebugText.text = jsonString;
-
-                foreach (Controls control in controls)
-                {
-                    Debug.Log(control.MeasurementTime);
-                }
+                //DebugText.text = jsonString;
             },
             (error) =>
             {
@@ -96,14 +91,8 @@ public class DataProvider : MonoBehaviour
     {
         IDataSource dataSource = DataSourceFactory.GetDataSource();
         dataSource.GetCurrentControls(
-            (controls) =>
-            {
-                string jsonString = JsonConvert.SerializeObject(controls, Formatting.None);
-
-                Debug.Log(jsonString);
-                DebugText.text = jsonString;
-
-                Debug.Log(controls.MeasurementTime);
+            (controls) => {
+                // TODO: do something with the data
             },
             (error) =>
             {
@@ -123,11 +112,11 @@ public class DataProvider : MonoBehaviour
                 string jsonString = JsonConvert.SerializeObject(disruptive, Formatting.None);
 
                 Debug.Log(jsonString);
-                DebugText.text = jsonString;
+                //DebugText.text = jsonString;
 
                 foreach (Disruptive disrupt in disruptive)
                 {
-                    Debug.Log(disrupt.MeasurementTime);
+                    //Debug.Log(disrupt.MeasurementTime);
                 }
             },
             (error) =>
