@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class LampStatusController : MonoBehaviour
 {
-    public GameObject[] lights;
-
+    public GameObject[] Emissions;
+    public Light[] lampLights;
     private IDataSource dataSource;
 
     void Start()
@@ -11,8 +11,22 @@ public class LampStatusController : MonoBehaviour
         // Initialize the data source
         dataSource = DataSourceFactory.GetDataSource();
 
-        // get objects with the Tag LightGroup
-        lights = GameObject.FindGameObjectsWithTag("LightGroup");
+        // get objects with the Tag LightGroup for emissions
+        Emissions = GameObject.FindGameObjectsWithTag("LightGroup");
+
+        GameObject lightingsGroup = GameObject.Find("Lightings");
+        if (lightingsGroup != null)
+        {
+            lampLights = new Light[4];
+            for (int i = 1; i <= 4; i++)
+            {
+                Transform spotLight = lightingsGroup.transform.Find($"Spot Light {i}");
+                if (spotLight != null)
+                {
+                    lampLights[i - 1] = spotLight.GetComponent<Light>();
+                }
+            }
+        }
 
         UpdateLampStatus();
     }
@@ -24,7 +38,7 @@ public class LampStatusController : MonoBehaviour
             (controls) =>
             {
                 controls.LightOn = false; // for test because the api always sends true
-                foreach (GameObject light in lights)
+                foreach (GameObject light in Emissions)
                 {
                     Material lightMaterial = light.GetComponent<Renderer>().material;
 
@@ -35,6 +49,14 @@ public class LampStatusController : MonoBehaviour
                     else
                     {
                         lightMaterial.DisableKeyword("_EMISSION");
+                    }
+                }
+
+                foreach (Light spotlight in lampLights)
+                {
+                    if (spotlight != null)
+                    {
+                        spotlight.enabled = controls.LightOn;
                     }
                 }
             },
