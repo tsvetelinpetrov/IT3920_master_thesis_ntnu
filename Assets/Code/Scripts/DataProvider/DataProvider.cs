@@ -3,6 +3,8 @@ using Newtonsoft.Json;
 using TMPro;
 using UnityEngine;
 
+// TODO: Remove this class from the project as it is not used
+
 public class DataProvider : MonoBehaviour
 {
     // Text object to display the data

@@ -325,7 +325,7 @@ GameObject:
   - component: {fileID: 245889093}
   - component: {fileID: 245889094}
   m_Layer: 0
-  m_Name: DataProvider
+  m_Name: GreenhouseManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -355,10 +355,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 245889091}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b819aa4aab425384db6aaf231508a154, type: 3}
+  m_Script: {fileID: 11500000, guid: d9756ebfa05ab33449467d9f1ea85579, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DebugText: {fileID: 1765406987}
 --- !u!1 &365034547
 GameObject:
   m_ObjectHideFlags: 0
@@ -1569,7 +1568,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 245889094}
+      objectReference: {fileID: 0}
     - target: {fileID: 3352765378411564999, guid: fd28f23af44f73f4a95e33435872ad15,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -2479,7 +2478,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42ae39cea158b2144a0f05b3776cb30b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ApiUrl: https://greenhouse-data-api-ddefcwbncabfftbv.canadacentral-01.azurewebsites.net/
+  OperatingMode: 1
+  ApiUrl: http://192.168.5.2/greenhouse/api/
   DataSourceType: 0
 --- !u!4 &1765754973
 Transform:
@@ -2643,7 +2643,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 245889094}
+      objectReference: {fileID: 0}
     - target: {fileID: 5289182684458692542, guid: e5db301629853dd4a99835fa70099d79,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -3191,7 +3191,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 245889094}
+      objectReference: {fileID: 0}
     - target: {fileID: 5289182684458692542, guid: e5db301629853dd4a99835fa70099d79,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
