@@ -27,14 +27,34 @@ public class GreenhouseManager : MonoBehaviour
         dataSource.GetCurrentControls(
             (controls) =>
             {
-                Debug.Log($"Received control data: {controls.LightOn}");
-                if (controls.LightOn)
+                if (controls.LightOn && !GlobalSettings.Instance.LightsStatus)
                 {
                     EventCenter.Controls.TurnOnLights();
                 }
-                else
+                else if (!controls.LightOn && GlobalSettings.Instance.LightsStatus)
                 {
                     EventCenter.Controls.TurnOffLights();
+                }
+
+                if (
+                    controls.FanOn
+                    && !GlobalSettings.Instance.UpperFanStatus
+                    && !GlobalSettings.Instance.LowerFanStatus
+                )
+                {
+                    EventCenter.Controls.TurnOnUpperFan();
+                    EventCenter.Controls.TurnOnLowerFan();
+                }
+                else if (
+                    !controls.FanOn
+                    && (
+                        GlobalSettings.Instance.UpperFanStatus
+                        || GlobalSettings.Instance.LowerFanStatus
+                    )
+                )
+                {
+                    EventCenter.Controls.TurnOffUpperFan();
+                    EventCenter.Controls.TurnOffLowerFan();
                 }
             },
             (error) => Debug.LogError($"Failed to get control data: {error}")
