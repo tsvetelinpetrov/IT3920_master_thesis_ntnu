@@ -230,6 +230,51 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 160413656}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &169467152
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 169467154}
+  - component: {fileID: 169467153}
+  m_Layer: 0
+  m_Name: LampStatusController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &169467153
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 169467152}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4165982f40578614783e5bd9a446efc2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lights: []
+--- !u!4 &169467154
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 169467152}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.408, y: 1, z: -1.061}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &178451147 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7025746274526070204, guid: fd28f23af44f73f4a95e33435872ad15,
@@ -476,6 +521,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2140061747}
     m_Modifications:
+    - target: {fileID: -8731474520278274585, guid: 18be97557dc784ab5b1e839e32056bb3,
+        type: 3}
+      propertyPath: m_TagString
+      value: LightGroup
+      objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 18be97557dc784ab5b1e839e32056bb3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -536,6 +586,11 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
+    - target: {fileID: -3367981102847010791, guid: 18be97557dc784ab5b1e839e32056bb3,
+        type: 3}
+      propertyPath: m_TagString
+      value: LightGroup
+      objectReference: {fileID: 0}
     - target: {fileID: -2616271921835181923, guid: 18be97557dc784ab5b1e839e32056bb3,
         type: 3}
       propertyPath: m_StaticEditorFlags
@@ -566,6 +621,11 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
+    - target: {fileID: 2234587022422124353, guid: 18be97557dc784ab5b1e839e32056bb3,
+        type: 3}
+      propertyPath: m_TagString
+      value: LightGroup
+      objectReference: {fileID: 0}
     - target: {fileID: 2470367573315296355, guid: 18be97557dc784ab5b1e839e32056bb3,
         type: 3}
       propertyPath: m_StaticEditorFlags
@@ -575,6 +635,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 2701025724914729962, guid: 18be97557dc784ab5b1e839e32056bb3,
+        type: 3}
+      propertyPath: m_TagString
+      value: LightGroup
       objectReference: {fileID: 0}
     - target: {fileID: 4152915386480504155, guid: 18be97557dc784ab5b1e839e32056bb3,
         type: 3}
@@ -4112,3 +4177,4 @@ SceneRoots:
   - {fileID: 245889093}
   - {fileID: 2140061747}
   - {fileID: 1540025955}
+  - {fileID: 169467154}
