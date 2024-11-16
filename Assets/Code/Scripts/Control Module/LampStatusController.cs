@@ -78,18 +78,4 @@ public class LampStatusController : MonoBehaviour
             }
         }
     }
-
-    void UpdateLampStatus()
-    {
-        // Call GetCurrentControls
-        dataSource.GetCurrentControls(
-            (controls) =>
-            {
-                Debug.Log($"Received control data: {controls.LightOn}");
-                controls.LightOn = false; // for test because the api always sends true
-                EventCenter.Controls.TurnOnLights();
-            },
-            (error) => Debug.LogError($"Failed to get control data: {error}")
-        );
-    }
 }
