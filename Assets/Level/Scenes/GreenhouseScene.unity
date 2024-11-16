@@ -259,7 +259,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4165982f40578614783e5bd9a446efc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lights: []
+  Emissions: []
+  lampLights: []
 --- !u!4 &169467154
 Transform:
   m_ObjectHideFlags: 0
@@ -1081,7 +1082,7 @@ PrefabInstance:
     - target: {fileID: 6598815579406187037, guid: 18ddb545287c546e19cc77dc9fbb2189,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

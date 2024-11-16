@@ -27,8 +27,56 @@ public class LampStatusController : MonoBehaviour
                 }
             }
         }
+    }
 
-        UpdateLampStatus();
+    void OnEnable()
+    {
+        // Register to the event
+        EventCenter.Controls.OnTurnOnLights += TurnOnLights;
+        EventCenter.Controls.OnTurnOffLights += TurnOffLights;
+    }
+
+    void OnDisable()
+    {
+        // Unregister from the event
+        EventCenter.Controls.OnTurnOnLights -= TurnOnLights;
+        EventCenter.Controls.OnTurnOffLights -= TurnOffLights;
+    }
+
+    void TurnOnLights()
+    {
+        foreach (GameObject light in Emissions)
+        {
+            Material lightMaterial = light.GetComponent<Renderer>().material;
+
+            lightMaterial.EnableKeyword("_EMISSION");
+        }
+
+        foreach (Light spotlight in lampLights)
+        {
+            if (spotlight != null)
+            {
+                spotlight.enabled = true;
+            }
+        }
+    }
+
+    void TurnOffLights()
+    {
+        foreach (GameObject light in Emissions)
+        {
+            Material lightMaterial = light.GetComponent<Renderer>().material;
+
+            lightMaterial.DisableKeyword("_EMISSION");
+        }
+
+        foreach (Light spotlight in lampLights)
+        {
+            if (spotlight != null)
+            {
+                spotlight.enabled = false;
+            }
+        }
     }
 
     void UpdateLampStatus()
@@ -37,28 +85,9 @@ public class LampStatusController : MonoBehaviour
         dataSource.GetCurrentControls(
             (controls) =>
             {
+                Debug.Log($"Received control data: {controls.LightOn}");
                 controls.LightOn = false; // for test because the api always sends true
-                foreach (GameObject light in Emissions)
-                {
-                    Material lightMaterial = light.GetComponent<Renderer>().material;
-
-                    if (controls.LightOn)
-                    {
-                        lightMaterial.EnableKeyword("_EMISSION");
-                    }
-                    else
-                    {
-                        lightMaterial.DisableKeyword("_EMISSION");
-                    }
-                }
-
-                foreach (Light spotlight in lampLights)
-                {
-                    if (spotlight != null)
-                    {
-                        spotlight.enabled = controls.LightOn;
-                    }
-                }
+                EventCenter.Controls.TurnOnLights();
             },
             (error) => Debug.LogError($"Failed to get control data: {error}")
         );
