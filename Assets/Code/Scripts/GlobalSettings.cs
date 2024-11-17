@@ -21,6 +21,7 @@ public class GlobalSettings : MonoBehaviour
     private bool _lightsStatus = false;
     private bool _upperFanStatus = false;
     private bool _lowerFanStatus = false;
+    private bool _valveStatus = false;
 
     public bool LightsStatus
     {
@@ -37,6 +38,11 @@ public class GlobalSettings : MonoBehaviour
         get => _lowerFanStatus;
     }
 
+    public bool ValveStatus
+    {
+        get => _valveStatus;
+    }
+
     void OnEnable()
     {
         EventCenter.Controls.OnTurnOnLights += SetLightingOn;
@@ -45,6 +51,8 @@ public class GlobalSettings : MonoBehaviour
         EventCenter.Controls.OnTurnOffUpperFan += SetUpperFanOff;
         EventCenter.Controls.OnTurnOnLowerFan += SetLowerFanOn;
         EventCenter.Controls.OnTurnOffLowerFan += SetLowerFanOff;
+        EventCenter.Controls.OnValveOpen += SetValveOpen;
+        EventCenter.Controls.OnValveClose += SetValveClose;
     }
 
     void OnDisable()
@@ -55,6 +63,8 @@ public class GlobalSettings : MonoBehaviour
         EventCenter.Controls.OnTurnOffUpperFan -= SetUpperFanOff;
         EventCenter.Controls.OnTurnOnLowerFan -= SetLowerFanOn;
         EventCenter.Controls.OnTurnOffLowerFan -= SetLowerFanOff;
+        EventCenter.Controls.OnValveOpen -= SetValveOpen;
+        EventCenter.Controls.OnValveClose -= SetValveClose;
     }
 
     private void SetLightingOn()
@@ -85,6 +95,16 @@ public class GlobalSettings : MonoBehaviour
     private void SetLowerFanOff()
     {
         _lowerFanStatus = false;
+    }
+
+    private void SetValveOpen()
+    {
+        _valveStatus = true;
+    }
+
+    private void SetValveClose()
+    {
+        _valveStatus = false;
     }
 
     private void Awake()

@@ -56,6 +56,15 @@ public class GreenhouseManager : MonoBehaviour
                     EventCenter.Controls.TurnOffUpperFan();
                     EventCenter.Controls.TurnOffLowerFan();
                 }
+
+                if (controls.ValveOpen && !GlobalSettings.Instance.ValveStatus)
+                {
+                    EventCenter.Controls.OpenValve();
+                }
+                else if (!controls.ValveOpen && GlobalSettings.Instance.ValveStatus)
+                {
+                    EventCenter.Controls.CloseValve();
+                }
             },
             (error) => Debug.LogError($"Failed to get control data: {error}")
         );
