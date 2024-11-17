@@ -1,15 +1,17 @@
 public class ControlsEventsModule
 {
     // Defining the delegates for the events
-    public delegate void ControlsEvent();
+    public delegate void GenericControlsEvent();
 
     // Defining the events
-    public event ControlsEvent OnTurnOnLights;
-    public event ControlsEvent OnTurnOffLights;
-    public event ControlsEvent OnTurnOnUpperFan;
-    public event ControlsEvent OnTurnOffUpperFan;
-    public event ControlsEvent OnTurnOnLowerFan;
-    public event ControlsEvent OnTurnOffLowerFan;
+    public event GenericControlsEvent OnTurnOnLights;
+    public event GenericControlsEvent OnTurnOffLights;
+    public event GenericControlsEvent OnTurnOnUpperFan;
+    public event GenericControlsEvent OnTurnOffUpperFan;
+    public event GenericControlsEvent OnTurnOnLowerFan;
+    public event GenericControlsEvent OnTurnOffLowerFan;
+    public event GenericControlsEvent OnValveOpen;
+    public event GenericControlsEvent OnValveClose;
 
     /// <summary>
     /// Invoking this event will turn on the lights in the scene. It will also change the lights status in GlobalSettings to true.
@@ -45,5 +47,15 @@ public class ControlsEventsModule
     public void TurnOffLowerFan()
     {
         OnTurnOffLowerFan?.Invoke();
+    }
+
+    public void OpenValve()
+    {
+        OnValveOpen?.Invoke();
+    }
+
+    public void CloseValve()
+    {
+        OnValveClose?.Invoke();
     }
 }
