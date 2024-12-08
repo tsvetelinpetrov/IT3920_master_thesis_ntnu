@@ -11,6 +11,10 @@ public class GreenhouseManager : MonoBehaviour
             // Each 3 seconds, get the current controls
             // TODO: Change the initialize method to get all current data (InitializeAllCurrentData)
             InvokeRepeating("InitializeCurrentControls", 0, 3);
+
+            // Each 3 seconds, get the current measurements
+            // TODO: Remove this line and call the InitializeAllCurrentData method instead
+            InvokeRepeating("InitializeMeasurements", 0, 3);
         }
         else
         {
@@ -25,13 +29,40 @@ public class GreenhouseManager : MonoBehaviour
     {
         IDataSource dataSource = DataSourceFactory.GetDataSource();
 
+        EventCenter.Controls.ChangeRefreshingStatus(true);
+
         // Call GetCurrentControls
         dataSource.GetCurrentControls(
             (controls) =>
             {
                 ProcessControlsData(controls);
+                EventCenter.Controls.ChangeRefreshingStatus(false);
             },
-            (error) => Debug.LogError($"Failed to get control data: {error}")
+            (error) =>
+            {
+                Debug.LogError($"Failed to get control data: {error}");
+                EventCenter.Controls.ChangeRefreshingStatus(false);
+            }
+        );
+    }
+
+    private void InitializeMeasurements()
+    {
+        IDataSource dataSource = DataSourceFactory.GetDataSource();
+
+        EventCenter.Measurements.ChangeRefreshingStatus(true);
+        // Call GetCurrentMeasurements
+        dataSource.GetCurrentMeasurements(
+            (measurements) =>
+            {
+                ProcessMeasurementsData(measurements);
+                EventCenter.Measurements.ChangeRefreshingStatus(false);
+            },
+            (error) =>
+            {
+                Debug.LogError($"Failed to get measurements data: {error}");
+                EventCenter.Measurements.ChangeRefreshingStatus(false);
+            }
         );
     }
 
@@ -53,6 +84,7 @@ public class GreenhouseManager : MonoBehaviour
 
     private void ProcessControlsData(Controls controls)
     {
+        EventCenter.Controls.ChangeControls(controls);
         if (controls.LightOn && !GlobalSettings.Instance.LightsStatus)
         {
             EventCenter.Controls.TurnOnLights();
@@ -92,7 +124,7 @@ public class GreenhouseManager : MonoBehaviour
 
     private void ProcessMeasurementsData(Measurement measurements)
     {
-        // TODO: Implement the logic to process the measurements data
+        EventCenter.Measurements.ChangeMeasurements(measurements);
     }
 
     private void ProcessDisruptiveData(List<Disruptive> disruptive)
