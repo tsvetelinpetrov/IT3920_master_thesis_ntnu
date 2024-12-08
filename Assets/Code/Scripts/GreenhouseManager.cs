@@ -8,23 +8,12 @@ public class GreenhouseManager : MonoBehaviour
     {
         if (GlobalSettings.Instance.OperatingMode == OperatingMode.Realtime)
         {
-            // Each 3 seconds, get the current controls
-            // TODO: Change the initialize method to get all current data (InitializeAllCurrentData)
+            // Each x seconds, get the current data
             InvokeRepeating(
-                "InitializeCurrentControls",
+                "InitializeAllCurrentData",
                 0,
                 GlobalSettings.Instance.CurrentDataRefreshRate
             );
-
-            // Each 3 seconds, get the current measurements
-            // TODO: Remove this line and call the InitializeAllCurrentData method instead
-            InvokeRepeating(
-                "InitializeMeasurements",
-                0,
-                GlobalSettings.Instance.CurrentDataRefreshRate
-            );
-
-            InitializeAllCurrentData();
         }
         else
         {
@@ -35,50 +24,12 @@ public class GreenhouseManager : MonoBehaviour
     // Update is called once per frame
     void Update() { }
 
-    private void InitializeCurrentControls()
+    private void InitializeAllCurrentData()
     {
         IDataSource dataSource = DataSourceFactory.GetDataSource();
 
         EventCenter.Controls.ChangeRefreshingStatus(true);
-
-        // Call GetCurrentControls
-        dataSource.GetCurrentControls(
-            (controls) =>
-            {
-                ProcessControlsData(controls);
-                EventCenter.Controls.ChangeRefreshingStatus(false);
-            },
-            (error) =>
-            {
-                Debug.LogError($"Failed to get control data: {error}");
-                EventCenter.Controls.ChangeRefreshingStatus(false);
-            }
-        );
-    }
-
-    private void InitializeMeasurements()
-    {
-        IDataSource dataSource = DataSourceFactory.GetDataSource();
-
         EventCenter.Measurements.ChangeRefreshingStatus(true);
-        // Call GetCurrentMeasurements
-        dataSource.GetCurrentMeasurements(
-            (measurements) =>
-            {
-                ProcessMeasurementsData(measurements);
-                EventCenter.Measurements.ChangeRefreshingStatus(false);
-            },
-            (error) =>
-            {
-                Debug.LogError($"Failed to get measurements data: {error}");
-                EventCenter.Measurements.ChangeRefreshingStatus(false);
-            }
-        );
-    }
-
-    private void InitializeAllCurrentData()
-    {
-        IDataSource dataSource = DataSourceFactory.GetDataSource();
 
         // Call GetAllCurrent
         dataSource.GetAllCurrent(
@@ -87,8 +38,15 @@ public class GreenhouseManager : MonoBehaviour
                 ProcessControlsData(current.Controls);
                 ProcessMeasurementsData(current.Measurements);
                 ProcessDisruptiveData(current.Disruptive);
+                EventCenter.Controls.ChangeRefreshingStatus(false);
+                EventCenter.Measurements.ChangeRefreshingStatus(false);
             },
-            (error) => Debug.LogError($"Failed to get current data: {error}")
+            (error) =>
+            {
+                Debug.LogError($"Failed to get current data: {error}");
+                EventCenter.Controls.ChangeRefreshingStatus(false);
+                EventCenter.Measurements.ChangeRefreshingStatus(false);
+            }
         );
     }
 
