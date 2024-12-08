@@ -11,10 +11,10 @@ public class PlantRenderer
         plant.transform.position = new Vector3(0, 0.61f, 0);
         plant.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
 
-        Material PlantMaterial = new Material(Shader.Find("Standard"));
-        PlantMaterial.color = Color.green;
-        PlantMaterial.SetFloat("_Glossiness", 0.5f);
-        plant.GetComponent<MeshRenderer>().material = PlantMaterial;
+        // Material PlantMaterial = new Material(Shader.Find("Standard"));
+        // PlantMaterial.color = Color.green;
+        // PlantMaterial.SetFloat("_Glossiness", 0.5f);
+        // plant.GetComponent<MeshRenderer>().material = PlantMaterial;
     }
 
     private GameObject ParseObjString(string objData)
