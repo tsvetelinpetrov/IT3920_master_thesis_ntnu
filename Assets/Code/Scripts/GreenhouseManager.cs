@@ -10,11 +10,21 @@ public class GreenhouseManager : MonoBehaviour
         {
             // Each 3 seconds, get the current controls
             // TODO: Change the initialize method to get all current data (InitializeAllCurrentData)
-            InvokeRepeating("InitializeCurrentControls", 0, 3);
+            InvokeRepeating(
+                "InitializeCurrentControls",
+                0,
+                GlobalSettings.Instance.CurrentDataRefreshRate
+            );
 
             // Each 3 seconds, get the current measurements
             // TODO: Remove this line and call the InitializeAllCurrentData method instead
-            InvokeRepeating("InitializeMeasurements", 0, 3);
+            InvokeRepeating(
+                "InitializeMeasurements",
+                0,
+                GlobalSettings.Instance.CurrentDataRefreshRate
+            );
+
+            InitializeAllCurrentData();
         }
         else
         {
