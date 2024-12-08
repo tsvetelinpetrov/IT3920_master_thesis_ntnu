@@ -2,6 +2,8 @@ public class ControlsEventsModule
 {
     // Defining the delegates for the events
     public delegate void GenericControlsEvent();
+    public delegate void ControlsChangedEvent(Controls controls);
+    public delegate void ControlsRefreshingStatusChangedEvent(bool refreshing);
 
     // Defining the events
     public event GenericControlsEvent OnTurnOnLights;
@@ -12,6 +14,8 @@ public class ControlsEventsModule
     public event GenericControlsEvent OnTurnOffLowerFan;
     public event GenericControlsEvent OnValveOpen;
     public event GenericControlsEvent OnValveClose;
+    public event ControlsChangedEvent OnControlsChanged;
+    public event ControlsRefreshingStatusChangedEvent OnControlsRefreshingStatusChange;
 
     /// <summary>
     /// Invoking this event will turn on the lights in the scene. It will also change the lights status in GlobalSettings to true.
@@ -57,5 +61,15 @@ public class ControlsEventsModule
     public void CloseValve()
     {
         OnValveClose?.Invoke();
+    }
+
+    public void ChangeControls(Controls controls)
+    {
+        OnControlsChanged?.Invoke(controls);
+    }
+
+    public void ChangeRefreshingStatus(bool refreshing)
+    {
+        OnControlsRefreshingStatusChange?.Invoke(refreshing);
     }
 }
