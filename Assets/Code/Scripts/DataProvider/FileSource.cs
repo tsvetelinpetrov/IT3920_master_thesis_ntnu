@@ -33,6 +33,15 @@ public class FileSource : IDataSource
         throw new System.NotImplementedException();
     }
 
+    public void GetAllCurrent(
+        System.Action<Current> successCallback,
+        System.Action<string> errorCallback
+    )
+    {
+        // TODO: Implement this method
+        throw new System.NotImplementedException();
+    }
+
     public void GetControlsByDays(
         int days,
         System.Action<List<Controls>> successCallback,

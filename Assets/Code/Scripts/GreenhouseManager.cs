@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GreenhouseManager : MonoBehaviour
@@ -7,7 +8,8 @@ public class GreenhouseManager : MonoBehaviour
     {
         if (GlobalSettings.Instance.OperatingMode == OperatingMode.Realtime)
         {
-            // Each 10 seconds, get the current controls
+            // Each 3 seconds, get the current controls
+            // TODO: Change the initialize method to get all current data (InitializeAllCurrentData)
             InvokeRepeating("InitializeCurrentControls", 0, 3);
         }
         else
@@ -27,46 +29,74 @@ public class GreenhouseManager : MonoBehaviour
         dataSource.GetCurrentControls(
             (controls) =>
             {
-                if (controls.LightOn && !GlobalSettings.Instance.LightsStatus)
-                {
-                    EventCenter.Controls.TurnOnLights();
-                }
-                else if (!controls.LightOn && GlobalSettings.Instance.LightsStatus)
-                {
-                    EventCenter.Controls.TurnOffLights();
-                }
-
-                if (
-                    controls.FanOn
-                    && !GlobalSettings.Instance.UpperFanStatus
-                    && !GlobalSettings.Instance.LowerFanStatus
-                )
-                {
-                    EventCenter.Controls.TurnOnUpperFan();
-                    EventCenter.Controls.TurnOnLowerFan();
-                }
-                else if (
-                    !controls.FanOn
-                    && (
-                        GlobalSettings.Instance.UpperFanStatus
-                        || GlobalSettings.Instance.LowerFanStatus
-                    )
-                )
-                {
-                    EventCenter.Controls.TurnOffUpperFan();
-                    EventCenter.Controls.TurnOffLowerFan();
-                }
-
-                if (controls.ValveOpen && !GlobalSettings.Instance.ValveStatus)
-                {
-                    EventCenter.Controls.OpenValve();
-                }
-                else if (!controls.ValveOpen && GlobalSettings.Instance.ValveStatus)
-                {
-                    EventCenter.Controls.CloseValve();
-                }
+                ProcessControlsData(controls);
             },
             (error) => Debug.LogError($"Failed to get control data: {error}")
         );
+    }
+
+    private void InitializeAllCurrentData()
+    {
+        IDataSource dataSource = DataSourceFactory.GetDataSource();
+
+        // Call GetAllCurrent
+        dataSource.GetAllCurrent(
+            (current) =>
+            {
+                ProcessControlsData(current.Controls);
+                ProcessMeasurementsData(current.Measurements);
+                ProcessDisruptiveData(current.Disruptive);
+            },
+            (error) => Debug.LogError($"Failed to get current data: {error}")
+        );
+    }
+
+    private void ProcessControlsData(Controls controls)
+    {
+        if (controls.LightOn && !GlobalSettings.Instance.LightsStatus)
+        {
+            EventCenter.Controls.TurnOnLights();
+        }
+        else if (!controls.LightOn && GlobalSettings.Instance.LightsStatus)
+        {
+            EventCenter.Controls.TurnOffLights();
+        }
+
+        if (
+            controls.FanOn
+            && !GlobalSettings.Instance.UpperFanStatus
+            && !GlobalSettings.Instance.LowerFanStatus
+        )
+        {
+            EventCenter.Controls.TurnOnUpperFan();
+            EventCenter.Controls.TurnOnLowerFan();
+        }
+        else if (
+            !controls.FanOn
+            && (GlobalSettings.Instance.UpperFanStatus || GlobalSettings.Instance.LowerFanStatus)
+        )
+        {
+            EventCenter.Controls.TurnOffUpperFan();
+            EventCenter.Controls.TurnOffLowerFan();
+        }
+
+        if (controls.ValveOpen && !GlobalSettings.Instance.ValveStatus)
+        {
+            EventCenter.Controls.OpenValve();
+        }
+        else if (!controls.ValveOpen && GlobalSettings.Instance.ValveStatus)
+        {
+            EventCenter.Controls.CloseValve();
+        }
+    }
+
+    private void ProcessMeasurementsData(Measurement measurements)
+    {
+        // TODO: Implement the logic to process the measurements data
+    }
+
+    private void ProcessDisruptiveData(List<Disruptive> disruptive)
+    {
+        // TODO: Implement the logic to process the disruptive data
     }
 }
