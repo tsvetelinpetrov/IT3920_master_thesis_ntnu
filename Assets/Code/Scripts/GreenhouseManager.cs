@@ -1,8 +1,15 @@
 using System.Collections.Generic;
+using System.IO;
+using System.Text;
+using Dummiesman;
 using UnityEngine;
 
 public class GreenhouseManager : MonoBehaviour
 {
+    public Material plantMaterial;
+    public GameObject plantHolder;
+    public GameObject dummyPlant;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -14,6 +21,16 @@ public class GreenhouseManager : MonoBehaviour
                 0,
                 GlobalSettings.Instance.CurrentDataRefreshRate
             );
+
+            // Get the plant model
+            if (GlobalSettings.Instance.ObtainPlantModelFromApi)
+            {
+                GetPlantModel();
+            }
+            else
+            {
+                dummyPlant.SetActive(true);
+            }
         }
         else
         {
@@ -98,5 +115,41 @@ public class GreenhouseManager : MonoBehaviour
     private void ProcessDisruptiveData(List<Disruptive> disruptive)
     {
         // TODO: Implement the logic to process the disruptive data
+    }
+
+    private void GetPlantModel()
+    {
+        IDataSource dataSource = DataSourceFactory.GetDataSource();
+        dataSource.GetPlantObjModel(
+            (model) =>
+            {
+                var textStream = new MemoryStream(Encoding.UTF8.GetBytes(model));
+                var loadedObj = new OBJLoader().Load(textStream);
+
+                // Apply the material to the plant
+                foreach (var meshRenderer in loadedObj.GetComponentsInChildren<MeshRenderer>())
+                {
+                    meshRenderer.material = plantMaterial;
+                }
+
+                // Set the plant position in plantHolder
+                loadedObj.transform.SetParent(plantHolder.transform);
+                loadedObj.transform.localPosition = Vector3.zero;
+                loadedObj.transform.localScale = new Vector3(0.7f, 0.7f, 0.7f);
+            },
+            false,
+            (error) =>
+            {
+                Debug.LogError($"Failed to get plant model: {error}");
+            }
+        );
+
+        // TODO: Experiment and see which way is faster
+        // string url = GlobalSettings.Instance.ApiUrl + "mesh/low_res";
+        // var www = new WWW(url);
+        // while (!www.isDone)
+        //     System.Threading.Thread.Sleep(1);
+        // var textStream = new MemoryStream(Encoding.UTF8.GetBytes(www.text));
+        // var loadedObj = new OBJLoader().Load(textStream);
     }
 }

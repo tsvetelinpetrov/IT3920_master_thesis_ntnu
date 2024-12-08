@@ -17,6 +17,7 @@ public class GlobalSettings : MonoBehaviour
         "https://greenhouse-data-api-ddefcwbncabfftbv.canadacentral-01.azurewebsites.net/";
     public DataSourceType DataSourceType = DataSourceType.Api;
     public int CurrentDataRefreshRate = 3; // In seconds
+    public bool ObtainPlantModelFromApi = true;
 
     // Private vals
     private bool _lightsStatus = false;
