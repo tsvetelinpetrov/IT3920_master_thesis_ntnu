@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using CI.HttpClient;
-using UnityEngine;
 
 /// <summary>
 /// Structure for storing API endpoints.
@@ -12,6 +10,7 @@ using UnityEngine;
 /// </remarks>
 public struct ApiEndpoints
 {
+    public const string Current = "current";
     public const string ControlsByDays = "controls/days?num_days=";
     public const string PlantLowResObjModel = "mesh/low_res";
     public const string PlantHighResObjModel = "mesh/high_res";
@@ -55,6 +54,24 @@ public class ApiSource : IDataSource
             {
                 client.EnsureSuccess(response, errorCallback);
                 successCallback(response.ReadAsString());
+            }
+        );
+    }
+
+    public void GetAllCurrent(
+        System.Action<Current> successCallback,
+        System.Action<string> errorCallback
+    )
+    {
+        string endpoint = ApiEndpoints.Current;
+
+        client.Get(
+            new System.Uri(_apiUrl + endpoint),
+            HttpCompletionOption.AllResponseContent,
+            (response) =>
+            {
+                client.EnsureSuccess(response, errorCallback);
+                successCallback(response.ReadAsJson<Current>());
             }
         );
     }
