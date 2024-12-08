@@ -2757,6 +2757,94 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1001 &659672932
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: aab8754351a9c1f48a6f699de1f1c901,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.12672417
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aab8754351a9c1f48a6f699de1f1c901,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.12672417
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aab8754351a9c1f48a6f699de1f1c901,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.12672417
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aab8754351a9c1f48a6f699de1f1c901,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.0087734
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aab8754351a9c1f48a6f699de1f1c901,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.392
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aab8754351a9c1f48a6f699de1f1c901,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1.0481
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aab8754351a9c1f48a6f699de1f1c901,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aab8754351a9c1f48a6f699de1f1c901,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aab8754351a9c1f48a6f699de1f1c901,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aab8754351a9c1f48a6f699de1f1c901,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aab8754351a9c1f48a6f699de1f1c901,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aab8754351a9c1f48a6f699de1f1c901,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aab8754351a9c1f48a6f699de1f1c901,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: aab8754351a9c1f48a6f699de1f1c901,
+        type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: d09b48786e8d1ed4d96c04e0c85c3c24, type: 2}
+    - target: {fileID: 919132149155446097, guid: aab8754351a9c1f48a6f699de1f1c901,
+        type: 3}
+      propertyPath: m_Name
+      value: low_res
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: aab8754351a9c1f48a6f699de1f1c901, type: 3}
 --- !u!1 &732736666
 GameObject:
   m_ObjectHideFlags: 0
@@ -4857,12 +4945,12 @@ MonoBehaviour:
   humidityText: {fileID: 493716277}
   tankLevelText: {fileID: 472960285}
   measurementsRefreshingText: {fileID: 47483576}
-  heaterDutyCycleText: {fileID: 0}
-  lightsStatusText: {fileID: 0}
-  upperFanStatusText: {fileID: 0}
-  lowerFanStatusText: {fileID: 0}
-  valveStatusText: {fileID: 0}
-  controlsRefreshingText: {fileID: 0}
+  heaterDutyCycleText: {fileID: 1411043592}
+  lightsStatusText: {fileID: 2026088967}
+  upperFanStatusText: {fileID: 1771705182}
+  lowerFanStatusText: {fileID: 1331682602}
+  valveStatusText: {fileID: 1189944576}
+  controlsRefreshingText: {fileID: 871254519}
 --- !u!4 &1087037793
 Transform:
   m_ObjectHideFlags: 0
@@ -12377,7 +12465,7 @@ PrefabInstance:
     - target: {fileID: 4015128326712939851, guid: fd28f23af44f73f4a95e33435872ad15,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 1.5
+      value: 1.382
       objectReference: {fileID: 0}
     - target: {fileID: 4015128326712939851, guid: fd28f23af44f73f4a95e33435872ad15,
         type: 3}
@@ -14228,6 +14316,7 @@ MonoBehaviour:
   OperatingMode: 1
   ApiUrl: https://greenhouse-data-api-ddefcwbncabfftbv.canadacentral-01.azurewebsites.net/
   DataSourceType: 0
+  CurrentDataRefreshRate: 10
 --- !u!4 &1765754973
 Transform:
   m_ObjectHideFlags: 0
@@ -16982,3 +17071,4 @@ SceneRoots:
   - {fileID: 2140061747}
   - {fileID: 1540025955}
   - {fileID: 169467154}
+  - {fileID: 659672932}

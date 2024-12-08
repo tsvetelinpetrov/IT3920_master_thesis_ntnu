@@ -16,8 +16,17 @@ public class UnixEpochMillisecondsConverter : JsonConverter<DateTime>
             long milliseconds = (long)reader.Value;
             return DateTimeOffset.FromUnixTimeMilliseconds(milliseconds).DateTime;
         }
-
-        return DateTime.MinValue;
+        else if (reader.TokenType == JsonToken.Float)
+        {
+            double milliseconds = (double)reader.Value;
+            return DateTimeOffset.FromUnixTimeMilliseconds((long)milliseconds).DateTime;
+        }
+        else
+        {
+            throw new JsonSerializationException(
+                $"Unexpected token parsing date. Expected Integer or Float, got {reader.TokenType}."
+            );
+        }
     }
 
     public override void WriteJson(JsonWriter writer, DateTime value, JsonSerializer serializer)
