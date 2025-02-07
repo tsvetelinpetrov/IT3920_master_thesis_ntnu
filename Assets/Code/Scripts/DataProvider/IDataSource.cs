@@ -25,6 +25,19 @@ public interface IDataSource
     );
 
     /// <summary>
+    /// Get current data from the API
+    /// </summary>
+    /// <param name="successCallback">Callback function to handle the response</param>
+    /// <param name="errorCallback">Callback function to handle the error response</param>
+    /// <remarks>
+    /// The successCallback function should take a Current parameter.
+    /// </remarks>
+    void GetAllCurrent(
+        System.Action<Current> successCallback,
+        System.Action<string> errorCallback = null
+    );
+
+    /// <summary>
     /// Get controls by days from the API
     /// </summary>
     /// <param name="days">Number of days to get controls for</param>
