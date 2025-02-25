@@ -15,9 +15,6 @@ public class TemperatureChartManager : ChartManagerBase<List<Measurement>>
         }
         temperatureChart.ClearData();
 
-        // Sort measurements by time (just in case)
-        data = data.OrderBy(m => m.MeasurementTime).ToList();
-
         Dictionary<string, List<int>> dayIndices = new Dictionary<string, List<int>>();
 
         for (int i = 0; i < data.Count; i++)
@@ -35,11 +32,10 @@ public class TemperatureChartManager : ChartManagerBase<List<Measurement>>
             temperatureChart.AddData(0, data[i].Temperature);
         }
 
-        // Add day labels at the middle of each day's data
-        foreach (var dayEntry in dayIndices)
-        {
-            int middleIndex = dayEntry.Value[dayEntry.Value.Count / 2]; // Middle index
-            temperatureChart.AddXAxisData(dayEntry.Key, middleIndex);
-        }
+        // Get the YAxis component
+        YAxis yAxis = temperatureChart.EnsureChartComponent<YAxis>();
+
+        // Set to auto min/max which calculates appropriate values
+        yAxis.minMaxType = Axis.AxisMinMaxType.MinMaxAuto;
     }
 }

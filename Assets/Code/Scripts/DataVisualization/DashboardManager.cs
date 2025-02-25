@@ -16,6 +16,7 @@ public class DashboardManager : MonoBehaviour
     void Start()
     {
         FetchAndDisplayMeasurements();
+        FetchAndDisplayControls();
     }
 
     private void FetchAndDisplayMeasurements()
@@ -26,10 +27,29 @@ public class DashboardManager : MonoBehaviour
             1,
             (measurement) =>
             {
-                print(measurement);
                 foreach (var chartManager in measurementCharts)
                 {
                     chartManager.UpdateChart(measurement);
+                }
+            },
+            (error) =>
+            {
+                Debug.LogError($"Failed to get current data: {error}");
+            }
+        );
+    }
+
+    private void FetchAndDisplayControls()
+    {
+        IDataSource dataSource = DataSourceFactory.GetDataSource();
+
+        dataSource.GetControlsByDays(
+            1,
+            (Controls) =>
+            {
+                foreach (var chartManager in controlCharts)
+                {
+                    chartManager.UpdateChart(Controls);
                 }
             },
             (error) =>

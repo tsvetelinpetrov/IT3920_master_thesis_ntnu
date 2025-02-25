@@ -15,9 +15,6 @@ public class CO2ChartManager : ChartManagerBase<List<Measurement>>
         }
         co2Chart.ClearData();
 
-        // Sort measurements by time (just in case)
-        data = data.OrderBy(m => m.MeasurementTime).ToList();
-
         Dictionary<string, List<int>> dayIndices = new Dictionary<string, List<int>>();
 
         for (int i = 0; i < data.Count; i++)
@@ -34,7 +31,11 @@ public class CO2ChartManager : ChartManagerBase<List<Measurement>>
             // Y-Axis: CO2
             co2Chart.AddData(0, data[i].CO2);
         }
+        // Get the YAxis component
+        YAxis yAxis = co2Chart.EnsureChartComponent<YAxis>();
 
+        // Set to auto min/max which calculates appropriate values
+        yAxis.minMaxType = Axis.AxisMinMaxType.MinMaxAuto;
         // Add day labels at the middle of each day's data
         foreach (var dayEntry in dayIndices)
         {

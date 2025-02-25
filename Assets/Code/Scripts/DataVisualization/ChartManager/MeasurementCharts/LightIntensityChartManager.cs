@@ -3,20 +3,17 @@ using System.Linq;
 using UnityEngine;
 using XCharts.Runtime;
 
-public class MoistureChartManager : ChartManagerBase<List<Measurement>>
+public class LightIntensityChartManager : ChartManagerBase<List<Measurement>>
 {
     public override void UpdateChart(List<Measurement> data)
     {
-        var moistureChart = gameObject.GetComponent<LineChart>();
-        if (moistureChart == null)
+        var lightChart = gameObject.GetComponent<LineChart>();
+        if (lightChart == null)
         {
-            moistureChart = gameObject.AddComponent<LineChart>();
-            moistureChart.Init();
+            lightChart = gameObject.AddComponent<LineChart>();
+            lightChart.Init();
         }
-        moistureChart.ClearData();
-
-        // Sort measurements by time (just in case)
-        data = data.OrderBy(m => m.MeasurementTime).ToList();
+        lightChart.ClearData();
 
         Dictionary<string, List<int>> dayIndices = new Dictionary<string, List<int>>();
 
@@ -29,17 +26,21 @@ public class MoistureChartManager : ChartManagerBase<List<Measurement>>
 
             // X-Axis: Time in hours and minutes
             string timeLabel = data[i].MeasurementTime.ToString("HH:mm");
-            moistureChart.AddXAxisData(timeLabel);
+            lightChart.AddXAxisData(timeLabel);
 
-            // Y-Axis: Moisture
-            moistureChart.AddData(0, data[i].Moisture);
+            // Y-Axis: Light Intensity
+            lightChart.AddData(0, data[i].LightIntensity);
         }
+        // Get the YAxis component
+        YAxis yAxis = lightChart.EnsureChartComponent<YAxis>();
 
+        // Set to auto min/max which calculates appropriate values
+        yAxis.minMaxType = Axis.AxisMinMaxType.MinMaxAuto;
         // Add day labels at the middle of each day's data
         foreach (var dayEntry in dayIndices)
         {
             int middleIndex = dayEntry.Value[dayEntry.Value.Count / 2]; // Middle index
-            moistureChart.AddXAxisData(dayEntry.Key, middleIndex);
+            lightChart.AddXAxisData(dayEntry.Key, middleIndex);
         }
     }
 }

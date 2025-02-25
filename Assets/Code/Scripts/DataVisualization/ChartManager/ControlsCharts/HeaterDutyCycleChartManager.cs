@@ -3,20 +3,17 @@ using System.Linq;
 using UnityEngine;
 using XCharts.Runtime;
 
-public class LightIntensityChartManager : ChartManagerBase<List<Measurement>>
+public class HeaterDutyCycleChartManager : ChartManagerBase<List<Controls>>
 {
-    public override void UpdateChart(List<Measurement> data)
+    public override void UpdateChart(List<Controls> data)
     {
-        var lightChart = gameObject.GetComponent<LineChart>();
-        if (lightChart == null)
+        var heaterChart = gameObject.GetComponent<LineChart>();
+        if (heaterChart == null)
         {
-            lightChart = gameObject.AddComponent<LineChart>();
-            lightChart.Init();
+            heaterChart = gameObject.AddComponent<LineChart>();
+            heaterChart.Init();
         }
-        lightChart.ClearData();
-
-        // Sort measurements by time (just in case)
-        data = data.OrderBy(m => m.MeasurementTime).ToList();
+        heaterChart.ClearData();
 
         Dictionary<string, List<int>> dayIndices = new Dictionary<string, List<int>>();
 
@@ -29,17 +26,17 @@ public class LightIntensityChartManager : ChartManagerBase<List<Measurement>>
 
             // X-Axis: Time in hours and minutes
             string timeLabel = data[i].MeasurementTime.ToString("HH:mm");
-            lightChart.AddXAxisData(timeLabel);
+            heaterChart.AddXAxisData(timeLabel);
 
-            // Y-Axis: Light Intensity
-            lightChart.AddData(0, data[i].LightIntensity);
+            // Y-Axis: HeaterDutyCycle value
+            heaterChart.AddData(0, data[i].HeaterDutyCycle);
         }
 
         // Add day labels at the middle of each day's data
         foreach (var dayEntry in dayIndices)
         {
             int middleIndex = dayEntry.Value[dayEntry.Value.Count / 2]; // Middle index
-            lightChart.AddXAxisData(dayEntry.Key, middleIndex);
+            heaterChart.AddXAxisData(dayEntry.Key, middleIndex);
         }
     }
 }

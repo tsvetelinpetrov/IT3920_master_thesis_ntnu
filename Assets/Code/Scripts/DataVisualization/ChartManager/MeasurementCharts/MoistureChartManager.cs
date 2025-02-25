@@ -3,20 +3,17 @@ using System.Linq;
 using UnityEngine;
 using XCharts.Runtime;
 
-public class TankLevelChartManager : ChartManagerBase<List<Measurement>>
+public class MoistureChartManager : ChartManagerBase<List<Measurement>>
 {
     public override void UpdateChart(List<Measurement> data)
     {
-        var tankLevelChart = gameObject.GetComponent<LineChart>();
-        if (tankLevelChart == null)
+        var moistureChart = gameObject.GetComponent<LineChart>();
+        if (moistureChart == null)
         {
-            tankLevelChart = gameObject.AddComponent<LineChart>();
-            tankLevelChart.Init();
+            moistureChart = gameObject.AddComponent<LineChart>();
+            moistureChart.Init();
         }
-        tankLevelChart.ClearData();
-
-        // Sort measurements by time (just in case)
-        data = data.OrderBy(m => m.MeasurementTime).ToList();
+        moistureChart.ClearData();
 
         Dictionary<string, List<int>> dayIndices = new Dictionary<string, List<int>>();
 
@@ -29,17 +26,22 @@ public class TankLevelChartManager : ChartManagerBase<List<Measurement>>
 
             // X-Axis: Time in hours and minutes
             string timeLabel = data[i].MeasurementTime.ToString("HH:mm");
-            tankLevelChart.AddXAxisData(timeLabel);
+            moistureChart.AddXAxisData(timeLabel);
 
-            // Y-Axis: Tank Level
-            tankLevelChart.AddData(0, data[i].TankLevel);
+            // Y-Axis: Moisture
+            moistureChart.AddData(0, data[i].Moisture);
         }
 
+        // Get the YAxis component
+        YAxis yAxis = moistureChart.EnsureChartComponent<YAxis>();
+
+        // Set to auto min/max which calculates appropriate values
+        yAxis.minMaxType = Axis.AxisMinMaxType.MinMaxAuto;
         // Add day labels at the middle of each day's data
         foreach (var dayEntry in dayIndices)
         {
             int middleIndex = dayEntry.Value[dayEntry.Value.Count / 2]; // Middle index
-            tankLevelChart.AddXAxisData(dayEntry.Key, middleIndex);
+            moistureChart.AddXAxisData(dayEntry.Key, middleIndex);
         }
     }
 }

@@ -3,20 +3,17 @@ using System.Linq;
 using UnityEngine;
 using XCharts.Runtime;
 
-public class HumidityChartManager : ChartManagerBase<List<Measurement>>
+public class TankLevelChartManager : ChartManagerBase<List<Measurement>>
 {
     public override void UpdateChart(List<Measurement> data)
     {
-        var humidityChart = gameObject.GetComponent<LineChart>();
-        if (humidityChart == null)
+        var tankLevelChart = gameObject.GetComponent<LineChart>();
+        if (tankLevelChart == null)
         {
-            humidityChart = gameObject.AddComponent<LineChart>();
-            humidityChart.Init();
+            tankLevelChart = gameObject.AddComponent<LineChart>();
+            tankLevelChart.Init();
         }
-        humidityChart.ClearData();
-
-        // Sort measurements by time (just in case)
-        data = data.OrderBy(m => m.MeasurementTime).ToList();
+        tankLevelChart.ClearData();
 
         Dictionary<string, List<int>> dayIndices = new Dictionary<string, List<int>>();
 
@@ -29,17 +26,23 @@ public class HumidityChartManager : ChartManagerBase<List<Measurement>>
 
             // X-Axis: Time in hours and minutes
             string timeLabel = data[i].MeasurementTime.ToString("HH:mm");
-            humidityChart.AddXAxisData(timeLabel);
+            tankLevelChart.AddXAxisData(timeLabel);
 
-            // Y-Axis: Humidity
-            humidityChart.AddData(0, data[i].Humidity);
+            // Y-Axis: Tank Level
+            tankLevelChart.AddData(0, data[i].TankLevel);
         }
+
+        // Get the YAxis component
+        YAxis yAxis = tankLevelChart.EnsureChartComponent<YAxis>();
+
+        // Set to auto min/max which calculates appropriate values
+        yAxis.minMaxType = Axis.AxisMinMaxType.MinMaxAuto;
 
         // Add day labels at the middle of each day's data
         foreach (var dayEntry in dayIndices)
         {
             int middleIndex = dayEntry.Value[dayEntry.Value.Count / 2]; // Middle index
-            humidityChart.AddXAxisData(dayEntry.Key, middleIndex);
+            tankLevelChart.AddXAxisData(dayEntry.Key, middleIndex);
         }
     }
 }
