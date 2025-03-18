@@ -23,6 +23,7 @@ public struct ApiEndpoints
     public const string DisruptiveByDays = "disruptive/days?num_days=";
     public const string DisruptiveByInterval = "disruptive/interval?start_time={0}&end_time={1}";
     public const string CurrentDisruptive = "disruptive/current";
+    public const string ControlLight = "controls/light?state={0}";
 }
 
 /// <summary>
@@ -250,6 +251,27 @@ public class ApiSource : IDataSource
             {
                 client.EnsureSuccess(response, errorCallback);
                 successCallback(response.ReadAsJson<List<Disruptive>>());
+            }
+        );
+    }
+
+    public void ControlLight(
+        bool state,
+        System.Action<bool> successCallback,
+        System.Action<string> errorCallback = null
+    )
+    {
+        string endpoint = string.Format(ApiEndpoints.ControlLight, state.ToString().ToLower());
+
+        client.Post(
+            new System.Uri(_apiUrl + endpoint),
+            HttpCompletionOption.AllResponseContent,
+            (response) =>
+            {
+                client.EnsureSuccess(response, errorCallback);
+                // Typically for control operations, the success response might be
+                // a simple confirmation or the new state. Adjust as needed based on API.
+                successCallback(state);
             }
         );
     }

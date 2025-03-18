@@ -17,6 +17,9 @@ public class TemperatureChartManager : ChartManagerBase<List<Measurement>>
 
         Dictionary<string, List<int>> dayIndices = new Dictionary<string, List<int>>();
 
+        // Sort data by time to ensure proper ordering
+        data = data.OrderBy(m => m.MeasurementTime).ToList();
+
         for (int i = 0; i < data.Count; i++)
         {
             string day = data[i].MeasurementTime.ToString("yyyy-MM-dd"); // Extract day part

@@ -42,11 +42,10 @@ public class FanOnChartManager : ChartManagerBase<List<Controls>>
             fanChart.AddData(0, data[i].FanOn ? 1 : 0);
         }
 
-        // Add day labels at the middle of each day's data
-        foreach (var dayEntry in dayIndices)
-        {
-            int middleIndex = dayEntry.Value[dayEntry.Value.Count / 2]; // Middle index
-            fanChart.AddXAxisData(dayEntry.Key, middleIndex);
-        }
+        // Get the YAxis component
+        YAxis yAxis = fanChart.EnsureChartComponent<YAxis>();
+
+        // Set to auto min/max which calculates appropriate values
+        yAxis.minMaxType = Axis.AxisMinMaxType.MinMaxAuto;
     }
 }

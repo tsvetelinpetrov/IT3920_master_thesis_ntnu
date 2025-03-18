@@ -31,12 +31,10 @@ public class HeaterDutyCycleChartManager : ChartManagerBase<List<Controls>>
             // Y-Axis: HeaterDutyCycle value
             heaterChart.AddData(0, data[i].HeaterDutyCycle);
         }
+        // Get the YAxis component
+        YAxis yAxis = heaterChart.EnsureChartComponent<YAxis>();
 
-        // Add day labels at the middle of each day's data
-        foreach (var dayEntry in dayIndices)
-        {
-            int middleIndex = dayEntry.Value[dayEntry.Value.Count / 2]; // Middle index
-            heaterChart.AddXAxisData(dayEntry.Key, middleIndex);
-        }
+        // Set to auto min/max which calculates appropriate values
+        yAxis.minMaxType = Axis.AxisMinMaxType.MinMaxAuto;
     }
 }

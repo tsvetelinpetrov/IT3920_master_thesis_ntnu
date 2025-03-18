@@ -41,12 +41,10 @@ public class LightOnChartManager : ChartManagerBase<List<Controls>>
             // Y-Axis: LightOn boolean represented as 0 or 1
             lightChart.AddData(0, data[i].LightOn ? 1 : 0);
         }
+        // Get the YAxis component
+        YAxis yAxis = lightChart.EnsureChartComponent<YAxis>();
 
-        // Add day labels at the middle of each day's data
-        foreach (var dayEntry in dayIndices)
-        {
-            int middleIndex = dayEntry.Value[dayEntry.Value.Count / 2]; // Middle index
-            lightChart.AddXAxisData(dayEntry.Key, middleIndex);
-        }
+        // Set to auto min/max which calculates appropriate values
+        yAxis.minMaxType = Axis.AxisMinMaxType.MinMaxAuto;
     }
 }

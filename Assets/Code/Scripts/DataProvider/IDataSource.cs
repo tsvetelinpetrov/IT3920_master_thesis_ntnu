@@ -171,4 +171,10 @@ public interface IDataSource
         System.Action<List<Disruptive>> successCallback,
         System.Action<string> errorCallback = null
     );
+
+    void ControlLight(
+        bool state,
+        System.Action<bool> successCallback,
+        System.Action<string> errorCallback = null
+    );
 }
