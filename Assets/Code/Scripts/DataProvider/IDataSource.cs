@@ -171,4 +171,17 @@ public interface IDataSource
         System.Action<List<Disruptive>> successCallback,
         System.Action<string> errorCallback = null
     );
+
+    /// <summary>
+    /// Get current airflow from the API
+    /// </summary>
+    /// <param name="successCallback">Callback function to handle the response</param>
+    /// <param name="errorCallback">Callback function to handle the error response</param>
+    /// <remarks>
+    /// The successCallback function should take a List of Airflow parameter.
+    /// </remarks>
+    void GetCurrentAirflow(
+        System.Action<Airflow> successCallback,
+        System.Action<string> errorCallback = null
+    );
 }

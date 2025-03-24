@@ -23,6 +23,7 @@ public struct ApiEndpoints
     public const string DisruptiveByDays = "disruptive/days?num_days=";
     public const string DisruptiveByInterval = "disruptive/interval?start_time={0}&end_time={1}";
     public const string CurrentDisruptive = "disruptive/current";
+    public const string CurrentAirflow = "reconstruction/current";
 }
 
 /// <summary>
@@ -250,6 +251,24 @@ public class ApiSource : IDataSource
             {
                 client.EnsureSuccess(response, errorCallback);
                 successCallback(response.ReadAsJson<List<Disruptive>>());
+            }
+        );
+    }
+
+    public void GetCurrentAirflow(
+        Action<Airflow> successCallback,
+        Action<string> errorCallback = null
+    )
+    {
+        string endpoint = ApiEndpoints.CurrentAirflow;
+
+        client.Get(
+            new System.Uri(_apiUrl + endpoint),
+            HttpCompletionOption.AllResponseContent,
+            (response) =>
+            {
+                client.EnsureSuccess(response, errorCallback);
+                successCallback(response.ReadAsJson<Airflow>());
             }
         );
     }

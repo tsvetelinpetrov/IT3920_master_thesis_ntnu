@@ -131,4 +131,13 @@ public class FileSource : IDataSource
         // TODO: Implement this method
         throw new NotImplementedException();
     }
+
+    public void GetCurrentAirflow(
+        Action<Airflow> successCallback,
+        Action<string> errorCallback = null
+    )
+    {
+        // TODO: Implement this method
+        throw new NotImplementedException();
+    }
 }
