@@ -9,6 +9,7 @@ public class GreenhouseManager : MonoBehaviour
     public Material plantMaterial;
     public GameObject plantHolder;
     public GameObject dummyPlant;
+    private LightToggleButton lightButton;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -70,15 +71,14 @@ public class GreenhouseManager : MonoBehaviour
     private void ProcessControlsData(Controls controls)
     {
         EventCenter.Controls.ChangeControls(controls);
-        if (controls.LightOn && !GlobalSettings.Instance.LightsStatus)
+        if (controls.LightOn)
         {
             EventCenter.Controls.TurnOnLights();
         }
-        else if (!controls.LightOn && GlobalSettings.Instance.LightsStatus)
+        else
         {
             EventCenter.Controls.TurnOffLights();
         }
-
         if (
             controls.FanOn
             && !GlobalSettings.Instance.UpperFanStatus
@@ -105,6 +105,9 @@ public class GreenhouseManager : MonoBehaviour
         {
             EventCenter.Controls.CloseValve();
         }
+        // initialize light button value
+        lightButton = FindFirstObjectByType<LightToggleButton>();
+        lightButton.UpdateLightState(controls.LightOn);
     }
 
     private void ProcessMeasurementsData(Measurement measurements)
