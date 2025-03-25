@@ -31,11 +31,10 @@ public class LightToggleButton : MonoBehaviour
 
         button.onClick.AddListener(ToggleLight);
 
-        // Initialize button state (you'll call this with actual data)
+        // Initialize button state
         UpdateButtonVisuals();
     }
 
-    // Call this method with data from your initial API call
     public void SetInitialState(bool lightIsOn)
     {
         currentLightState = lightIsOn;
@@ -95,7 +94,6 @@ public class LightToggleButton : MonoBehaviour
             buttonText.text = currentLightState ? "Light: ON" : "Light: OFF";
     }
 
-    // Call this method if you get updates from elsewhere
     public void UpdateLightState(bool newState)
     {
         if (currentLightState != newState)
