@@ -23,7 +23,7 @@ public struct ApiEndpoints
     public const string DisruptiveByDays = "disruptive/days?num_days=";
     public const string DisruptiveByInterval = "disruptive/interval?start_time={0}&end_time={1}";
     public const string CurrentDisruptive = "disruptive/current";
-    public const string CurrentAirflow = "reconstruction/current";
+    public const string CurrentAirflow = "reconstruction";
 }
 
 /// <summary>

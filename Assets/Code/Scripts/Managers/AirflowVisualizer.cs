@@ -50,9 +50,9 @@ public class AirflowVisualizer : MonoBehaviour
                 for (int z = 0; z < zArrowCount; z++)
                 {
                     Vector3 dir = new Vector3(
-                        (float)airData.Data[x][y][z][0],
                         (float)airData.Data[x][y][z][1],
-                        (float)airData.Data[x][y][z][2]
+                        (float)airData.Data[x][y][z][2],
+                        (float)airData.Data[x][y][z][3]
                     );
                     float magnitude = dir.magnitude;
                     if (magnitude < minMagnitude)
@@ -105,9 +105,9 @@ public class AirflowVisualizer : MonoBehaviour
 
                     Vector3 pos = new Vector3(xCoord, yCoord, zCoord);
                     Vector3 dir = -new Vector3(
-                        (float)airData.Data[sampleX][sampleZ][sampleY][0],
                         (float)airData.Data[sampleX][sampleZ][sampleY][1],
-                        (float)airData.Data[sampleX][sampleZ][sampleY][2]
+                        (float)airData.Data[sampleX][sampleZ][sampleY][2],
+                        (float)airData.Data[sampleX][sampleZ][sampleY][3]
                     );
                     float scale = dir.magnitude;
                     DrawArrow(pos, dir, scale);
@@ -118,7 +118,9 @@ public class AirflowVisualizer : MonoBehaviour
 
     private void DrawArrow(Vector3 pos, Vector3 dir, float magnitude)
     {
-        float scale = (float)Math.Log(0.6 * Math.Min(0.99 * maxMagnitude, magnitude) + 1f);
+        float scale = (float)
+            Math.Log(1.2 * Math.Min(0.99 * maxMagnitude * 1e2, magnitude * 1e2) + 1f);
+
         if (scale < 0.01f)
         {
             // early return for tiny air flow
@@ -134,6 +136,7 @@ public class AirflowVisualizer : MonoBehaviour
         newArrow.transform.localScale = new Vector3(scale, scale, scale * 4f);
 
         float relativeMagnitude = (magnitude - minMagnitude) / maxMagnitude;
+        Debug.Log("Relative magnitude: " + relativeMagnitude);
         Color color = windColorGradient.Evaluate(relativeMagnitude);
         newArrow.GetComponent<Renderer>().material.color = color;
         newArrow.SetActive(active);

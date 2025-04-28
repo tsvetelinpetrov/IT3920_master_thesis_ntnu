@@ -1560,8 +1560,8 @@ MonoBehaviour:
     type: 3}
   windColorGradient:
     serializedVersion: 2
-    key0: {r: 1, g: 0, b: 0, a: 1}
-    key1: {r: 0, g: 0.021962643, b: 1, a: 1}
+    key0: {r: 0, g: 0.06572652, b: 1, a: 1}
+    key1: {r: 1, g: 0, b: 0.05751419, a: 1}
     key2: {r: 0, g: 0, b: 0, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
     key4: {r: 0, g: 0, b: 0, a: 0}
@@ -1588,9 +1588,9 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
-  xArrowCount: 10
-  yArrowCount: 10
-  zArrowCount: 10
+  xArrowCount: 20
+  yArrowCount: 20
+  zArrowCount: 20
   active: 1
 --- !u!1 &365034547
 GameObject:
@@ -14403,10 +14403,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OperatingMode: 1
-  ApiUrl: https://greenhouse-data-api-ddefcwbncabfftbv.canadacentral-01.azurewebsites.net/
+  ApiUrl: http://127.0.0.1/greenhouse/
   DataSourceType: 0
-  CurrentDataRefreshRate: 10
-  ObtainPlantModelFromApi: 0
+  CurrentDataRefreshRate: 1
+  ObtainPlantModelFromApi: 1
 --- !u!4 &1765754973
 Transform:
   m_ObjectHideFlags: 0
@@ -15677,7 +15677,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.073, y: 1.41, z: -1.157}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
