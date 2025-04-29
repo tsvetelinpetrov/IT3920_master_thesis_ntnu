@@ -33,6 +33,8 @@ public class GreenhouseManager : MonoBehaviour
             {
                 dummyPlant.SetActive(true);
             }
+
+            GetCurrentAirflow();
         }
         else
         {
@@ -161,5 +163,20 @@ public class GreenhouseManager : MonoBehaviour
         //     System.Threading.Thread.Sleep(1);
         // var textStream = new MemoryStream(Encoding.UTF8.GetBytes(www.text));
         // var loadedObj = new OBJLoader().Load(textStream);
+    }
+
+    private void GetCurrentAirflow()
+    {
+        IDataSource dataSource = DataSourceFactory.GetDataSource();
+        dataSource.GetCurrentAirflow(
+            (airflow) =>
+            {
+                EventCenter.Airflow.NewAirflowData(airflow);
+            },
+            (error) =>
+            {
+                Debug.LogError($"Failed to get airflow data: {error}");
+            }
+        );
     }
 }
