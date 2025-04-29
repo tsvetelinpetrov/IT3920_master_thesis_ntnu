@@ -30,11 +30,11 @@ public class AirflowVisualizer : MonoBehaviour
 
     void OnNewAirflowData(Airflow airflow)
     {
-        Debug.Log("New airflow data received: " + airflow.Data.Count);
+        // Debug.Log("New airflow data received: " + airflow.Data.Count);
 
         CalculateMagnitudeLimits(airflow);
-        Debug.Log("Min magnitude: " + minMagnitude);
-        Debug.Log("Max magnitude: " + maxMagnitude);
+        // Debug.Log("Min magnitude: " + minMagnitude);
+        // Debug.Log("Max magnitude: " + maxMagnitude);
         DrawArrows(airflow);
     }
 
@@ -136,7 +136,7 @@ public class AirflowVisualizer : MonoBehaviour
         newArrow.transform.localScale = new Vector3(scale, scale, scale * 4f);
 
         float relativeMagnitude = (magnitude - minMagnitude) / maxMagnitude;
-        Debug.Log("Relative magnitude: " + relativeMagnitude);
+        // Debug.Log("Relative magnitude: " + relativeMagnitude);
         Color color = windColorGradient.Evaluate(relativeMagnitude);
         newArrow.GetComponent<Renderer>().material.color = color;
         newArrow.SetActive(active);
