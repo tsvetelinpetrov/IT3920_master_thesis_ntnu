@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using CI.HttpClient;
+using UnityEngine;
 
 /// <summary>
 /// Structure for storing API endpoints.
@@ -24,6 +25,9 @@ public struct ApiEndpoints
     public const string DisruptiveByInterval = "disruptive/interval?start_time={0}&end_time={1}";
     public const string CurrentDisruptive = "disruptive/current";
     public const string CurrentAirflow = "reconstruction";
+    public const string ControlLight = "controls/light?state={0}";
+    public const string ControlFans = "controls/fans?state={0}";
+    public const string ControlHeater = "controls/heater?value={0}";
 }
 
 /// <summary>
@@ -269,6 +273,69 @@ public class ApiSource : IDataSource
             {
                 client.EnsureSuccess(response, errorCallback);
                 successCallback(response.ReadAsJson<Airflow>());
+            }
+        );
+    }
+
+    public void ControlLight(
+        bool state,
+        System.Action<bool> successCallback,
+        System.Action<string> errorCallback = null
+    )
+    {
+        string endpoint = string.Format(ApiEndpoints.ControlLight, state.ToString().ToLower());
+
+        client.Post(
+            new System.Uri(_apiUrl + endpoint),
+            HttpCompletionOption.AllResponseContent,
+            (response) =>
+            {
+                client.EnsureSuccess(response, errorCallback);
+                successCallback(state);
+            }
+        );
+    }
+
+    public void ControlFans(
+        bool state,
+        System.Action<bool> successCallback,
+        System.Action<string> errorCallback = null
+    )
+    {
+        string endpoint = string.Format(ApiEndpoints.ControlFans, state.ToString().ToLower());
+
+        client.Post(
+            new System.Uri(_apiUrl + endpoint),
+            HttpCompletionOption.AllResponseContent,
+            (response) =>
+            {
+                client.EnsureSuccess(response, errorCallback);
+                successCallback(state);
+            }
+        );
+    }
+
+    public void ControlHeater(
+        float dutyCycle,
+        System.Action<float> successCallback,
+        System.Action<string> errorCallback = null
+    )
+    {
+        // Clamp duty cycle value between 0 and 1
+        dutyCycle = Mathf.Clamp01(dutyCycle);
+
+        string endpoint = string.Format(
+            ApiEndpoints.ControlHeater,
+            dutyCycle.ToString("F2", System.Globalization.CultureInfo.InvariantCulture)
+        );
+
+        client.Post(
+            new System.Uri(_apiUrl + endpoint),
+            HttpCompletionOption.AllResponseContent,
+            (response) =>
+            {
+                client.EnsureSuccess(response, errorCallback);
+                successCallback(dutyCycle);
             }
         );
     }
