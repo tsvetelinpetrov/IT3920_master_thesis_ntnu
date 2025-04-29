@@ -131,4 +131,33 @@ public class FileSource : IDataSource
         // TODO: Implement this method
         throw new NotImplementedException();
     }
+
+    public void ControlLight(
+        bool state,
+        Action<bool> successCallback,
+        Action<string> errorCallback = null
+    )
+    {
+        // TODO: Implement this method
+        throw new NotImplementedException();
+    }
+
+    public void ControlFans(
+        bool state,
+        Action<bool> successCallback,
+        Action<string> errorCallback = null
+    )
+    {
+        // TODO: Implement this method
+        throw new NotImplementedException();
+    }
+
+    public void ControlHeater(
+        float dutyCycle,
+        Action<float> successCallback,
+        Action<string> errorCallback = null
+    )
+    {
+        throw new NotImplementedException();
+    }
 }
