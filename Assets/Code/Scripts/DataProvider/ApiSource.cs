@@ -26,7 +26,7 @@ public struct ApiEndpoints
     public const string CurrentDisruptive = "disruptive/current";
     public const string ControlLight = "controls/light?state={0}";
     public const string ControlFans = "controls/fans?state={0}";
-    public const string ControlHeater = "controls/heater?duty_cycle={0}";
+    public const string ControlHeater = "controls/heater?value={0}";
 }
 
 /// <summary>
