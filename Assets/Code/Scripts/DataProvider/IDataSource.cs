@@ -185,16 +185,31 @@ public interface IDataSource
         System.Action<string> errorCallback = null
     );
 
+    /// <summary>
+    /// Get current plant data from the API
+    /// </summary>
+    /// <param name="successCallback">Callback function to handle the response</param>
+    /// <param name="errorCallback">Callback function to handle the error response</param>
+    /// <remarks>
+    /// The successCallback function should take a PlantData parameter.
+    /// </remarks>
+    void GetPlantData(
+        System.Action<PlantData> successCallback,
+        System.Action<string> errorCallback = null
+    );
+
     void ControlLight(
         bool state,
         System.Action<bool> successCallback,
         System.Action<string> errorCallback = null
     );
+
     void ControlFans(
         bool state,
         System.Action<bool> successCallback,
         System.Action<string> errorCallback = null
     );
+
     void ControlHeater(
         float dutyCycle,
         System.Action<float> successCallback,
