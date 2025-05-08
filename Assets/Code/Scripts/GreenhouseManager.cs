@@ -9,6 +9,7 @@ public class GreenhouseManager : MonoBehaviour
     public Material plantMaterial;
     public GameObject plantHolder;
     public GameObject dummyPlant;
+    public GameObject airflowVisualizer;
     private LightToggleButton lightButton;
     private FanToggleButton fanButton;
 
@@ -178,5 +179,10 @@ public class GreenhouseManager : MonoBehaviour
                 Debug.LogError($"Failed to get airflow data: {error}");
             }
         );
+    }
+
+    public void ToggleAirflowVisualization()
+    {
+        airflowVisualizer.SetActive(!airflowVisualizer.activeSelf);
     }
 }

@@ -18,6 +18,7 @@ public class GlobalSettings : MonoBehaviour
     public DataSourceType DataSourceType = DataSourceType.Api;
     public int CurrentDataRefreshRate = 3; // In seconds
     public bool ObtainPlantModelFromApi = true;
+    public bool AirflowVisualization = true;
 
     // Private vals
     private bool _lightsStatus = false;
