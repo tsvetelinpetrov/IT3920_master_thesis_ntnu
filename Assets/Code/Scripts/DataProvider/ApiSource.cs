@@ -28,6 +28,8 @@ public struct ApiEndpoints
     public const string ControlLight = "controls/light?state={0}";
     public const string ControlFans = "controls/fans?state={0}";
     public const string ControlHeater = "controls/heater?value={0}";
+    public const string PlantData = "plant_data";
+    public const string NewestPlantImage = "plant_image/newest";
 }
 
 /// <summary>
@@ -336,6 +338,21 @@ public class ApiSource : IDataSource
             {
                 client.EnsureSuccess(response, errorCallback);
                 successCallback(dutyCycle);
+            }
+        );
+    }
+
+    public void GetPlantData(Action<PlantData> successCallback, Action<string> errorCallback = null)
+    {
+        string endpoint = ApiEndpoints.PlantData;
+
+        client.Get(
+            new System.Uri(_apiUrl + endpoint),
+            HttpCompletionOption.AllResponseContent,
+            (response) =>
+            {
+                client.EnsureSuccess(response, errorCallback);
+                successCallback(response.ReadAsJson<PlantData>());
             }
         );
     }
