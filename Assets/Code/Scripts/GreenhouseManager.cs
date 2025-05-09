@@ -181,8 +181,13 @@ public class GreenhouseManager : MonoBehaviour
         );
     }
 
-    public void ToggleAirflowVisualization()
+    public void ToggleOnAirflowVisualization()
     {
-        airflowVisualizer.SetActive(!airflowVisualizer.activeSelf);
+        airflowVisualizer.SetActive(true);
+    }
+
+    public void ToggleOffAirflowVisualization()
+    {
+        airflowVisualizer.SetActive(false);
     }
 }
