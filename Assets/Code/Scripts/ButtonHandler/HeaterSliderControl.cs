@@ -146,6 +146,7 @@ public class HeaterSliderControl : MonoBehaviour
                 isProcessing = false;
                 heaterSlider.interactable = true;
 
+                // TODO: Maybe show an error message to the user and revert the slider to the last confirmed value
                 // Keep the pending change in the slider
                 UpdateButtonState();
 
