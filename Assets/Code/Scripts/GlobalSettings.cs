@@ -13,8 +13,7 @@ public class GlobalSettings : MonoBehaviour
 
     // Global settings (vars that should be accessible from any script)
     public OperatingMode OperatingMode = OperatingMode.Realtime;
-    public string ApiUrl =
-        "https://greenhouse-data-api-ddefcwbncabfftbv.canadacentral-01.azurewebsites.net/";
+    public string ApiUrl = "http://10.53.8.177:8000/";
     public DataSourceType DataSourceType = DataSourceType.Api;
     public int CurrentDataRefreshRate = 3; // In seconds
     public bool ObtainPlantModelFromApi = true;

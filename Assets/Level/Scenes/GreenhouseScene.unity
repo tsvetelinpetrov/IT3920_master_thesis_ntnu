@@ -89551,10 +89551,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OperatingMode: 1
-  ApiUrl: http://127.0.0.1/greenhouse/
+  ApiUrl: http://10.53.8.177:8000/
   DataSourceType: 0
-  CurrentDataRefreshRate: 2
-  ObtainPlantModelFromApi: 1
+  CurrentDataRefreshRate: 10
+  ObtainPlantModelFromApi: 0
 --- !u!4 &1765754973
 Transform:
   m_ObjectHideFlags: 0
