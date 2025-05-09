@@ -1,47 +1,28 @@
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class FanToggleButton : MonoBehaviour
 {
-    [SerializeField]
-    private Button button;
-
-    [SerializeField]
-    private Image buttonImage;
-
-    [SerializeField]
-    private TextMeshProUGUI buttonText;
-
-    [SerializeField]
-    private Color onColor = new Color(0.5f, 0.8f, 1f); // Cool blue for ON
-
-    [SerializeField]
-    private Color offColor = new Color(0.3f, 0.3f, 0.35f); // Dark gray for OFF
-
-    private bool currentFanState;
-    private bool isProcessing = false;
+    private DualToggleSwitch lightsToggleSwitch;
 
     void Start()
     {
-        if (button == null)
-            button = GetComponent<Button>();
+        // Initialize button and its components
+        lightsToggleSwitch = GetComponent<DualToggleSwitch>();
 
-        button.onClick.AddListener(ToggleFan);
-
-        // Initialize based on global settings
-        currentFanState =
-            GlobalSettings.Instance.UpperFanStatus && GlobalSettings.Instance.LowerFanStatus;
+        // Initialize button state
         UpdateButtonVisuals();
+    }
 
-        // Subscribe to fan status change events
+    void OnEnable()
+    {
+        // Subscribe to events
         EventCenter.Controls.OnTurnOnUpperFan += HandleFansOn;
         EventCenter.Controls.OnTurnOnLowerFan += HandleFansOn;
         EventCenter.Controls.OnTurnOffUpperFan += HandleFansOff;
         EventCenter.Controls.OnTurnOffLowerFan += HandleFansOff;
     }
 
-    void OnDestroy()
+    void OnDisable()
     {
         // Unsubscribe when object is destroyed
         EventCenter.Controls.OnTurnOnUpperFan -= HandleFansOn;
@@ -50,56 +31,34 @@ public class FanToggleButton : MonoBehaviour
         EventCenter.Controls.OnTurnOffLowerFan -= HandleFansOff;
     }
 
-    private void HandleFansOn()
+    public void OnToggleOnClicked()
     {
-        // Only update if both fans are now on
-        if (GlobalSettings.Instance.UpperFanStatus && GlobalSettings.Instance.LowerFanStatus)
-        {
-            UpdateFanState(true);
-        }
+        ToggleFan(true);
     }
 
-    private void HandleFansOff()
+    public void OnToggleOffClicked()
     {
-        // Update if either fan is turned off
-        if (!GlobalSettings.Instance.UpperFanStatus || !GlobalSettings.Instance.LowerFanStatus)
-        {
-            UpdateFanState(false);
-        }
+        ToggleFan(false);
     }
 
-    private void ToggleFan()
+    private void ToggleFan(bool newState)
     {
-        if (isProcessing)
-            return;
+        // Set button to a disabled state
+        lightsToggleSwitch?.Disable();
 
-        isProcessing = true;
-        button.interactable = false;
-
-        bool newState = !currentFanState;
         IDataSource dataSource = DataSourceFactory.GetDataSource();
-
         // Call API to change fan state
         dataSource.ControlFans(
             newState,
             success =>
             {
-                currentFanState = newState;
-                isProcessing = false;
-                button.interactable = true;
-
-                UpdateButtonVisuals();
-
-                // No need to broadcast events here as the API response will trigger
-                // the appropriate events through your existing ProcessControlsData method
-
-                Debug.Log($"Fan turned {(newState ? "ON" : "OFF")} successfully");
+                lightsToggleSwitch?.Enable();
             },
             error =>
             {
-                isProcessing = false;
-                button.interactable = true;
+                lightsToggleSwitch?.Enable();
 
+                // Keep visuals the same as before
                 UpdateButtonVisuals();
 
                 Debug.LogError($"Failed to toggle fan: {error}");
@@ -109,19 +68,26 @@ public class FanToggleButton : MonoBehaviour
 
     private void UpdateButtonVisuals()
     {
-        if (buttonImage != null)
-            buttonImage.color = currentFanState ? onColor : offColor;
-
-        if (buttonText != null)
-            buttonText.text = currentFanState ? "Fan: ON" : "Fan: OFF";
+        // Update the button visuals based on the current state
+        if (GlobalSettings.Instance.UpperFanStatus || GlobalSettings.Instance.LowerFanStatus)
+        {
+            lightsToggleSwitch?.ChangeStateWithoutEventInvoke(false);
+        }
+        else
+        {
+            lightsToggleSwitch?.ChangeStateWithoutEventInvoke(true);
+        }
     }
 
-    public void UpdateFanState(bool newState)
+    private void HandleFansOn()
     {
-        if (currentFanState != newState)
-        {
-            currentFanState = newState;
-            UpdateButtonVisuals();
-        }
+        // Handle the event when fans are turned on
+        lightsToggleSwitch?.ChangeStateWithoutEventInvoke(false);
+    }
+
+    private void HandleFansOff()
+    {
+        // Handle the event when fans are turned off
+        lightsToggleSwitch?.ChangeStateWithoutEventInvoke(true);
     }
 }

@@ -75,14 +75,16 @@ public class GreenhouseManager : MonoBehaviour
     private void ProcessControlsData(Controls controls)
     {
         EventCenter.Controls.ChangeControls(controls);
-        if (controls.LightOn)
+
+        if (controls.LightOn && !GlobalSettings.Instance.LightsStatus)
         {
             EventCenter.Controls.TurnOnLights();
         }
-        else
+        else if (!controls.LightOn && GlobalSettings.Instance.LightsStatus)
         {
             EventCenter.Controls.TurnOffLights();
         }
+
         if (
             controls.FanOn
             && !GlobalSettings.Instance.UpperFanStatus
@@ -108,15 +110,6 @@ public class GreenhouseManager : MonoBehaviour
         else if (!controls.ValveOpen && GlobalSettings.Instance.ValveStatus)
         {
             EventCenter.Controls.CloseValve();
-        }
-        // initialize light button value
-        lightButton = FindFirstObjectByType<LightToggleButton>();
-        lightButton.UpdateLightState(controls.LightOn);
-        // initialize fan button value
-        fanButton = FindFirstObjectByType<FanToggleButton>();
-        if (fanButton != null)
-        {
-            fanButton.UpdateFanState(controls.FanOn);
         }
     }
 

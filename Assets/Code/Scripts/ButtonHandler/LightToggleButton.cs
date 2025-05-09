@@ -1,79 +1,58 @@
-using System;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class LightToggleButton : MonoBehaviour
 {
-    [SerializeField]
-    private Button button;
-
-    [SerializeField]
-    private Image buttonImage;
-
-    [SerializeField]
-    private TextMeshProUGUI buttonText; // Or Text component if using Unity UI Text
-
-    [SerializeField]
-    private Color onColor = new Color(1f, 0.9f, 0.5f); // Warm yellow for ON
-
-    [SerializeField]
-    private Color offColor = new Color(0.3f, 0.3f, 0.35f); // Dark gray for OFF
-
-    private bool currentLightState = true;
-    private bool isProcessing = false;
+    private DualToggleSwitch lightsToggleSwitch;
 
     void Start()
     {
-        // Set up button click listener
-        if (button == null)
-            button = GetComponent<Button>();
-
-        button.onClick.AddListener(ToggleLight);
+        // Initialize button and its components
+        lightsToggleSwitch = GetComponent<DualToggleSwitch>();
 
         // Initialize button state
         UpdateButtonVisuals();
     }
 
-    public void SetInitialState(bool lightIsOn)
+    void OnEnable()
     {
-        currentLightState = lightIsOn;
-        UpdateButtonVisuals();
+        // Subscribe to events
+        EventCenter.Controls.OnTurnOnLights += HandleLightsOnEvent;
+        EventCenter.Controls.OnTurnOffLights += HandleLightsOffEvent;
     }
 
-    private void ToggleLight()
+    void OnDisable()
     {
-        if (isProcessing)
-            return; // Prevent multiple clicks while request is processing
+        // Unsubscribe from events
+        EventCenter.Controls.OnTurnOnLights -= HandleLightsOnEvent;
+        EventCenter.Controls.OnTurnOffLights -= HandleLightsOffEvent;
+    }
 
-        isProcessing = true;
+    public void OnToggleOnClicked()
+    {
+        ToggleLight(true);
+    }
 
+    public void OnToggleOffClicked()
+    {
+        ToggleLight(false);
+    }
+
+    private void ToggleLight(bool newState)
+    {
         // Set button to a disabled state
-        button.interactable = false;
+        lightsToggleSwitch?.Disable();
 
-        // Toggle the light state (opposite of current)
-        bool newState = !currentLightState;
         IDataSource dataSource = DataSourceFactory.GetDataSource();
         // Call API to change light state
         dataSource.ControlLight(
             newState,
             success =>
             {
-                // Update internal state after successful API call
-                currentLightState = newState;
-                isProcessing = false;
-                button.interactable = true;
-
-                // Update button visuals
-                UpdateButtonVisuals();
-
-                Debug.Log($"Light turned {(newState ? "ON" : "OFF")} successfully");
+                lightsToggleSwitch?.Enable();
             },
             error =>
             {
-                // API call failed, revert to previous state
-                isProcessing = false;
-                button.interactable = true;
+                lightsToggleSwitch?.Enable();
 
                 // Keep visuals the same as before
                 UpdateButtonVisuals();
@@ -85,21 +64,21 @@ public class LightToggleButton : MonoBehaviour
 
     private void UpdateButtonVisuals()
     {
-        // Update button color
-        if (buttonImage != null)
-            buttonImage.color = currentLightState ? onColor : offColor;
-
-        // Update button text
-        if (buttonText != null)
-            buttonText.text = currentLightState ? "Light: ON" : "Light: OFF";
+        if (GlobalSettings.Instance.LightsStatus)
+            lightsToggleSwitch?.ChangeStateWithoutEventInvoke(false);
+        else
+            lightsToggleSwitch?.ChangeStateWithoutEventInvoke(true);
     }
 
-    public void UpdateLightState(bool newState)
+    private void HandleLightsOnEvent()
     {
-        if (currentLightState != newState)
-        {
-            currentLightState = newState;
-            UpdateButtonVisuals();
-        }
+        // Handle the event when lights are turned on
+        lightsToggleSwitch?.ChangeStateWithoutEventInvoke(false);
+    }
+
+    private void HandleLightsOffEvent()
+    {
+        // Handle the event when lights are turned off
+        lightsToggleSwitch?.ChangeStateWithoutEventInvoke(true);
     }
 }

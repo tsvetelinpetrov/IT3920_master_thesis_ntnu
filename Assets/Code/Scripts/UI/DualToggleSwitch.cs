@@ -4,12 +4,6 @@ using UnityEngine.UI;
 
 public class DualToggleSwitch : MonoBehaviour
 {
-    private enum ToggleInitialState
-    {
-        Left,
-        Right,
-    }
-
     public RectTransform selector;
     public HorizontalLayoutGroup selectorLaybotGroup;
     public TMPro.TMP_Text labelLeft;
@@ -21,6 +15,8 @@ public class DualToggleSwitch : MonoBehaviour
     [SerializeField]
     [Tooltip("Initial state of the toggle switch (Left or Right)")]
     private ToggleInitialState initialState = ToggleInitialState.Left; // Default to left side
+
+    public bool isDisabled = false;
 
     // Should we re-invoke the event when the toggle is already in the desired state?
     [SerializeField]
@@ -39,6 +35,10 @@ public class DualToggleSwitch : MonoBehaviour
     {
         // Initialize the toggle switch to the left side
         Toggle(initialState == ToggleInitialState.Left);
+
+        // Call Disable() if the toggle is disabled by default
+        if (isDisabled)
+            Disable();
     }
 
     private void Toggle(bool left)
@@ -61,7 +61,7 @@ public class DualToggleSwitch : MonoBehaviour
     /// </remarks>
     public void SelectLeft()
     {
-        if (isLeftSelected && !reInvokeEvent)
+        if ((isLeftSelected && !reInvokeEvent) || isDisabled)
             return; // Prevent re-invoking if already selected and reInvokeEvent is false
         Toggle(true);
         OnLeftSelected?.Invoke(); // Invoke the event for left selection
@@ -76,10 +76,24 @@ public class DualToggleSwitch : MonoBehaviour
     /// </remarks>
     public void SelectRight()
     {
-        if (!isLeftSelected && !reInvokeEvent)
+        if ((!isLeftSelected && !reInvokeEvent) || isDisabled)
             return; // Prevent re-invoking if already selected and reInvokeEvent is false
         Toggle(false);
         OnRightSelected?.Invoke(); // Invoke the event for right selection
+    }
+
+    /// <summary>
+    /// Change the state of the toggle switch without invoking events.
+    /// </summary>
+    /// <param name="left">True to select the left side, false for the right side.</param>
+    /// <remarks>
+    /// This method changes the state of the toggle switch without invoking any events.
+    /// It can be used to programmatically change the state of the toggle switch
+    /// without triggering the OnLeftSelected or OnRightSelected events.
+    /// </remarks>
+    public void ChangeStateWithoutEventInvoke(bool left)
+    {
+        Toggle(left);
     }
 
     /// <summary>
@@ -89,8 +103,47 @@ public class DualToggleSwitch : MonoBehaviour
     /// This method returns true if the left side is selected, false otherwise.
     /// It can be used to determine the current state of the toggle switch.
     /// </remarks>
-    public bool IsLeftSelected()
+    public bool IsLeftSelected() => isLeftSelected;
+
+    /// <summary>
+    /// Disable the toggle switch.
+    /// </summary>
+    /// <remarks>
+    /// This method disables the toggle switch, preventing any interaction with it.
+    /// It can be used to temporarily disable the toggle switch in the UI.
+    /// </remarks>
+    public void Disable()
     {
-        return isLeftSelected;
+        isDisabled = true;
+        selector.GetComponent<Image>().color = new Color(0.8f, 0.8f, 0.8f); // Gray color for disabled state
+
+        // Gray out the labels
+        labelLeft.color = new Color(0.5f, 0.5f, 0.5f);
+        labelRight.color = new Color(0.5f, 0.5f, 0.5f);
+    }
+
+    /// <summary>
+    /// Enable the toggle switch.
+    /// </summary>
+    /// <remarks>
+    /// This method enables the toggle switch, allowing interaction with it again.
+    /// It can be used to re-enable the toggle switch after it has been disabled.
+    /// </remarks>
+    public void Enable()
+    {
+        isDisabled = false;
+        selector.GetComponent<Image>().color = isLeftSelected
+            ? LeftBackgroundColor
+            : RightBackgroundColor;
+
+        // Reset the labels to their original colors
+        labelLeft.color = Color.black;
+        labelRight.color = Color.black;
+    }
+
+    private enum ToggleInitialState
+    {
+        Left,
+        Right,
     }
 }
