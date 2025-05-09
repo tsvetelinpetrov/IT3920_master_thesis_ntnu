@@ -139,6 +139,12 @@ public class AirflowVisualizer : MonoBehaviour
         // Debug.Log("Relative magnitude: " + relativeMagnitude);
         Color color = windColorGradient.Evaluate(relativeMagnitude);
         newArrow.GetComponent<Renderer>().material.color = color;
+
+        Renderer renderer = newArrow.GetComponent<Renderer>();
+        renderer.material.color = color;
+        renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+        renderer.receiveShadows = false;
+
         newArrow.SetActive(active);
         windArrows.Add(newArrow);
     }
