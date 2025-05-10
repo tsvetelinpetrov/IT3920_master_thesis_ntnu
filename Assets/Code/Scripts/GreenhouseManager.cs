@@ -48,6 +48,10 @@ public class GreenhouseManager : MonoBehaviour
 
     private void InitializeAllCurrentData()
     {
+        // Check if API calls are blocked to prevent data mismatch
+        if (GlobalSettings.Instance.BlockAPICalls)
+            return;
+
         IDataSource dataSource = DataSourceFactory.GetDataSource();
 
         EventCenter.Controls.ChangeRefreshingStatus(true);
@@ -57,6 +61,10 @@ public class GreenhouseManager : MonoBehaviour
         dataSource.GetAllCurrent(
             (current) =>
             {
+                // Check if API calls are blocked to prevent data mismatch
+                if (GlobalSettings.Instance.BlockAPICalls)
+                    return;
+
                 ProcessControlsData(current.Controls);
                 ProcessMeasurementsData(current.Measurements);
                 ProcessDisruptiveData(current.Disruptive);

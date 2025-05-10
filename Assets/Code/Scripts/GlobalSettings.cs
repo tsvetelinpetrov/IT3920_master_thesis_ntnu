@@ -23,6 +23,7 @@ public class GlobalSettings : MonoBehaviour
     private bool _upperFanStatus = false;
     private bool _lowerFanStatus = false;
     private bool _valveStatus = false;
+    private bool _blockAPICalls = false;
 
     public bool LightsStatus
     {
@@ -42,6 +43,12 @@ public class GlobalSettings : MonoBehaviour
     public bool ValveStatus
     {
         get => _valveStatus;
+    }
+
+    public bool BlockAPICalls
+    {
+        get => _blockAPICalls;
+        set => _blockAPICalls = value;
     }
 
     void OnEnable()

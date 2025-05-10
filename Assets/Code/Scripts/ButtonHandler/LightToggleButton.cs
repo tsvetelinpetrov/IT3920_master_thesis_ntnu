@@ -43,12 +43,17 @@ public class LightToggleButton : MonoBehaviour
         lightsToggleSwitch?.Disable();
 
         IDataSource dataSource = DataSourceFactory.GetDataSource();
+
+        // Disable API calls to prevent data mismatch
+        GlobalSettings.Instance.BlockAPICalls = true;
+
         // Call API to change light state
         dataSource.ControlLight(
             newState,
             success =>
             {
                 lightsToggleSwitch?.Enable();
+                GlobalSettings.Instance.BlockAPICalls = false;
             },
             error =>
             {
@@ -56,6 +61,9 @@ public class LightToggleButton : MonoBehaviour
 
                 // Keep visuals the same as before
                 UpdateButtonVisuals();
+
+                // Re-enable API calls
+                GlobalSettings.Instance.BlockAPICalls = false;
 
                 Debug.LogError($"Failed to toggle light: {error}");
             }
