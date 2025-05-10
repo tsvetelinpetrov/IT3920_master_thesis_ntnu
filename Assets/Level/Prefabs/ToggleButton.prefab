@@ -666,6 +666,7 @@ MonoBehaviour:
   LeftBackgroundColor: {r: 0.3, g: 0.3, b: 0.35, a: 1}
   RightBackgroundColor: {r: 0.54819083, g: 0.9245283, b: 0.37068352, a: 1}
   initialState: 0
+  isDisabled: 0
   reInvokeEvent: 0
   OnLeftSelected:
     m_PersistentCalls:
