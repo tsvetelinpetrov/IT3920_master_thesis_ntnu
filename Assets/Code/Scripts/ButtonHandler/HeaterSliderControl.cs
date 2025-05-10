@@ -121,6 +121,10 @@ public class HeaterSliderControl : MonoBehaviour
             confirmButton.interactable = false;
 
         IDataSource dataSource = DataSourceFactory.GetDataSource();
+
+        // Disable API calls to prevent data mismatch
+        GlobalSettings.Instance.BlockAPICalls = true;
+
         dataSource.ControlHeater(
             dutyCycle,
             success =>
@@ -138,6 +142,9 @@ public class HeaterSliderControl : MonoBehaviour
                 // Update visuals to reflect current state
                 UpdateVisuals(currentDutyCycle, false);
 
+                // Disable API calls to prevent data mismatch
+                GlobalSettings.Instance.BlockAPICalls = false;
+
                 Debug.Log($"Heater duty cycle set to {dutyCycle:F2} successfully");
             },
             error =>
@@ -149,6 +156,9 @@ public class HeaterSliderControl : MonoBehaviour
                 // TODO: Maybe show an error message to the user and revert the slider to the last confirmed value
                 // Keep the pending change in the slider
                 UpdateButtonState();
+
+                // Disable API calls to prevent data mismatch
+                GlobalSettings.Instance.BlockAPICalls = false;
 
                 Debug.LogError($"Failed to set heater duty cycle: {error}");
             }
