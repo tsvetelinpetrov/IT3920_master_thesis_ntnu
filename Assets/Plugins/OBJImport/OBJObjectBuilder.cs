@@ -234,7 +234,7 @@ namespace Dummiesman
                     _colors.Add(
                         (vertexIndex >= 0 && vertexIndex < _loader.VertexColors.Count)
                             ? _loader.VertexColors[vertexIndex]
-                            : Color.white
+                            : Color.green
                     );
 
                     //mark recalc flag
