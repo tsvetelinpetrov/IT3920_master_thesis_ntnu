@@ -12,6 +12,13 @@ public class HeaterDutyCycleChartManager : ChartManagerBase<List<Controls>>
         {
             heaterChart = gameObject.AddComponent<LineChart>();
             heaterChart.Init();
+            // Configure as step line for duty cycle values
+            var serie = heaterChart.GetSerie<Line>();
+            serie.lineType = LineType.Smooth;
+            if (serie != null)
+            {
+                serie.lineType = LineType.StepEnd;
+            }
         }
         heaterChart.ClearData();
 
@@ -34,7 +41,12 @@ public class HeaterDutyCycleChartManager : ChartManagerBase<List<Controls>>
         // Get the YAxis component
         YAxis yAxis = heaterChart.EnsureChartComponent<YAxis>();
 
-        // Set to auto min/max which calculates appropriate values
-        yAxis.minMaxType = Axis.AxisMinMaxType.MinMaxAuto;
+        // Set to auto min/max to 0 and 1
+        yAxis.minMaxType = Axis.AxisMinMaxType.Custom;
+        yAxis.min = 0f;
+        yAxis.max = 1f;
+        // force tool tip to show 2 decimal places
+        var tooltip = heaterChart.EnsureChartComponent<Tooltip>();
+        tooltip.numericFormatter = "F2";
     }
 }

@@ -43,8 +43,5 @@ public class LightOnChartManager : ChartManagerBase<List<Controls>>
         }
         // Get the YAxis component
         YAxis yAxis = lightChart.EnsureChartComponent<YAxis>();
-
-        // Set to auto min/max which calculates appropriate values
-        yAxis.minMaxType = Axis.AxisMinMaxType.MinMaxAuto;
     }
 }
