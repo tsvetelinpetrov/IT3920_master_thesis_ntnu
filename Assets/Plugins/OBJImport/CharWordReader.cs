@@ -1,183 +1,271 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using System.IO;
 using System.Text;
+using UnityEngine;
 
-namespace Dummiesman {
-	public class CharWordReader {
-		public char[] word;
-		public int wordSize;
-		public bool endReached;
+namespace Dummiesman
+{
+    public class CharWordReader
+    {
+        public char[] word;
+        public int wordSize;
+        public bool endReached;
 
-		private StreamReader reader;
-		private int bufferSize;
-		private char[] buffer;
-		
-		public char currentChar;
-		private int currentPosition = 0;
-		private int maxPosition = 0;
+        private StreamReader reader;
+        private int bufferSize;
+        private char[] buffer;
 
-		public CharWordReader(StreamReader reader, int bufferSize) {
-			this.reader = reader;
-			this.bufferSize = bufferSize;
+        public char currentChar;
+        private int currentPosition = 0;
+        private int maxPosition = 0;
 
-			this.buffer = new char[this.bufferSize];
-			this.word = new char[this.bufferSize];
+        public CharWordReader(StreamReader reader, int bufferSize)
+        {
+            this.reader = reader;
+            this.bufferSize = bufferSize;
 
-			this.MoveNext();
-		}
+            this.buffer = new char[this.bufferSize];
+            this.word = new char[this.bufferSize];
 
-		public void SkipWhitespaces() {
-			while (char.IsWhiteSpace(this.currentChar)) {
-				this.MoveNext();
-			}
-		}
+            this.MoveNext();
+        }
 
-		public void SkipWhitespaces(out bool newLinePassed) {
-			newLinePassed = false;
-			while (char.IsWhiteSpace(this.currentChar)) {
-				if (this.currentChar == '\r' || this.currentChar == '\n') {
-					newLinePassed = true;
-				}
-				this.MoveNext();
-			}
-		}
+        public void SkipWhitespaces()
+        {
+            while (char.IsWhiteSpace(this.currentChar))
+            {
+                this.MoveNext();
+            }
+        }
 
-		public void SkipUntilNewLine() {
-			while (this.currentChar != char.MinValue && this.currentChar != '\n' && this.currentChar != '\r') {
-				this.MoveNext();
-			}
-			this.SkipNewLineSymbols();
-		}
+        public void SkipWhitespaces(out bool newLinePassed)
+        {
+            newLinePassed = false;
+            while (char.IsWhiteSpace(this.currentChar))
+            {
+                if (this.currentChar == '\r' || this.currentChar == '\n')
+                {
+                    newLinePassed = true;
+                }
+                this.MoveNext();
+            }
+        }
 
-		public void ReadUntilWhiteSpace() {
-			this.wordSize = 0;
-			while (this.currentChar != char.MinValue && char.IsWhiteSpace(this.currentChar) == false) {
-				this.word[this.wordSize] = this.currentChar;
-				this.wordSize++;
-				this.MoveNext();
-			}
-		}
+        public void SkipUntilNewLine()
+        {
+            while (
+                this.currentChar != char.MinValue
+                && this.currentChar != '\n'
+                && this.currentChar != '\r'
+            )
+            {
+                this.MoveNext();
+            }
+            this.SkipNewLineSymbols();
+        }
 
-		public void ReadUntilNewLine() {
-			this.wordSize = 0;
-			while (this.currentChar != char.MinValue && this.currentChar != '\n' && this.currentChar != '\r') {
-				this.word[this.wordSize] = this.currentChar;
-				this.wordSize++;
-				this.MoveNext();
-			}
-			this.SkipNewLineSymbols();
-		}
+        public void ReadUntilWhiteSpace()
+        {
+            this.wordSize = 0;
+            while (
+                this.currentChar != char.MinValue && char.IsWhiteSpace(this.currentChar) == false
+            )
+            {
+                this.word[this.wordSize] = this.currentChar;
+                this.wordSize++;
+                this.MoveNext();
+            }
+        }
 
-		public bool Is(string other) {
-			if (other.Length != this.wordSize) {
-				return false;
-			}
+        public void ReadUntilNewLine()
+        {
+            this.wordSize = 0;
+            while (
+                this.currentChar != char.MinValue
+                && this.currentChar != '\n'
+                && this.currentChar != '\r'
+            )
+            {
+                this.word[this.wordSize] = this.currentChar;
+                this.wordSize++;
+                this.MoveNext();
+            }
+            this.SkipNewLineSymbols();
+        }
 
-			for (int i=0; i<this.wordSize; i++) {
-				if (this.word[i] != other[i]) {
-					return false;
-				}
-			}
+        public bool Is(string other)
+        {
+            if (other.Length != this.wordSize)
+            {
+                return false;
+            }
 
-			return true;
-		}
-        public string GetString(int startIndex = 0) {
-            if (startIndex >= this.wordSize - 1) {
+            for (int i = 0; i < this.wordSize; i++)
+            {
+                if (this.word[i] != other[i])
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        public string GetString(int startIndex = 0)
+        {
+            if (startIndex >= this.wordSize - 1)
+            {
                 return string.Empty;
             }
             return new string(this.word, startIndex, this.wordSize - startIndex);
         }
-		
-		public Vector3 ReadVector() {
-			this.SkipWhitespaces();
-			float x = this.ReadFloat();
-			this.SkipWhitespaces();
-			float y = this.ReadFloat();
-			this.SkipWhitespaces(out var newLinePassed);
-			float z = 0f;
-			if (newLinePassed == false) {
-				z = this.ReadFloat();
-			}
-			return new Vector3(x, y, z);
-		}
 
-		public int ReadInt() {
-			int result = 0;
-			bool isNegative = this.currentChar == '-';
-			if (isNegative == true) {
-				this.MoveNext();
-			}
-			
-			while (this.currentChar >= '0' && this.currentChar <= '9') {
-				var digit = this.currentChar - '0';
-				result = result * 10 + digit;
-				this.MoveNext();
-			}
+        // Struct to hold the Vector3 and color values
 
-			return (isNegative == true) ? -result : result;
-		}
+        [System.Serializable]
+        public struct Vector3WithColor
+        {
+            public Vector3 position;
+            public Color color;
 
-		public float ReadFloat() {
-			bool isNegative = this.currentChar == '-';
-			if (isNegative) {
-				this.MoveNext();
-			}
+            public Vector3WithColor(Vector3 position, Color color)
+            {
+                this.position = position;
+                this.color = color;
+            }
+        }
 
-			var num = (float)this.ReadInt();
-			if (this.currentChar == '.' || this.currentChar == ',') {
-				this.MoveNext();
-				num +=  this.ReadFloatEnd();
+        public Vector3 ReadVector()
+        {
+            this.SkipWhitespaces();
+            float x = this.ReadFloat();
+            this.SkipWhitespaces();
+            float y = this.ReadFloat();
+            this.SkipWhitespaces(out var newLinePassed);
+            float z = 0f;
+            if (newLinePassed == false)
+            {
+                z = this.ReadFloat();
+            }
 
-				if (this.currentChar == 'e' || this.currentChar == 'E') {
-					this.MoveNext();
-					var exp = this.ReadInt();
-					num = num * Mathf.Pow(10f, exp);
-				}
-			}
-			if (isNegative == true) {
-				num = -num;
-			}
+            return new Vector3(x, y, z);
+        }
 
-			return num;
-		}
+        public Vector3WithColor ReadVectorAndColor()
+        {
+            this.SkipWhitespaces();
+            float x = this.ReadFloat();
+            this.SkipWhitespaces();
+            float y = this.ReadFloat();
+            this.SkipWhitespaces();
+            float z = 0f;
+            z = this.ReadFloat();
 
-		private float ReadFloatEnd() {
-			float result = 0f;
+            this.SkipWhitespaces();
+            float r = this.ReadFloat();
+            this.SkipWhitespaces();
+            float g = this.ReadFloat();
+            this.SkipWhitespaces(out var newLinePassed);
+            float b = 0f;
+            if (newLinePassed == false)
+            {
+                b = this.ReadFloat();
+            }
 
-			var exp = 0.1f;
-			while (this.currentChar >= '0' && this.currentChar <= '9') {
-				var digit = this.currentChar - '0';
-				result += digit * exp;
+            return new Vector3WithColor(new Vector3(x, y, z), new Color(r, g, b));
+        }
 
-				exp *= 0.1f;
+        public int ReadInt()
+        {
+            int result = 0;
+            bool isNegative = this.currentChar == '-';
+            if (isNegative == true)
+            {
+                this.MoveNext();
+            }
 
-				this.MoveNext();
-			}
+            while (this.currentChar >= '0' && this.currentChar <= '9')
+            {
+                var digit = this.currentChar - '0';
+                result = result * 10 + digit;
+                this.MoveNext();
+            }
 
-			return result;
-		}
+            return (isNegative == true) ? -result : result;
+        }
 
-		private void SkipNewLineSymbols() {
-			while (this.currentChar == '\n' || this.currentChar == '\r') {
-				this.MoveNext();
-			}
-		}
+        public float ReadFloat()
+        {
+            bool isNegative = this.currentChar == '-';
+            if (isNegative)
+            {
+                this.MoveNext();
+            }
 
-		public void MoveNext() {
-			this.currentPosition++;
-			if (this.currentPosition >= this.maxPosition) {
-				if (this.reader.EndOfStream == true) {
-					this.currentChar = char.MinValue;
-					this.endReached = true;
-					return;
-				}
+            var num = (float)this.ReadInt();
+            if (this.currentChar == '.' || this.currentChar == ',')
+            {
+                this.MoveNext();
+                num += this.ReadFloatEnd();
 
-				this.currentPosition = 0;
-				this.maxPosition = this.reader.Read(this.buffer, 0, this.bufferSize);
-			}
-			this.currentChar = this.buffer[this.currentPosition];
-		}
-	}
+                if (this.currentChar == 'e' || this.currentChar == 'E')
+                {
+                    this.MoveNext();
+                    var exp = this.ReadInt();
+                    num = num * Mathf.Pow(10f, exp);
+                }
+            }
+            if (isNegative == true)
+            {
+                num = -num;
+            }
+
+            return num;
+        }
+
+        private float ReadFloatEnd()
+        {
+            float result = 0f;
+
+            var exp = 0.1f;
+            while (this.currentChar >= '0' && this.currentChar <= '9')
+            {
+                var digit = this.currentChar - '0';
+                result += digit * exp;
+
+                exp *= 0.1f;
+
+                this.MoveNext();
+            }
+
+            return result;
+        }
+
+        private void SkipNewLineSymbols()
+        {
+            while (this.currentChar == '\n' || this.currentChar == '\r')
+            {
+                this.MoveNext();
+            }
+        }
+
+        public void MoveNext()
+        {
+            this.currentPosition++;
+            if (this.currentPosition >= this.maxPosition)
+            {
+                if (this.reader.EndOfStream == true)
+                {
+                    this.currentChar = char.MinValue;
+                    this.endReached = true;
+                    return;
+                }
+
+                this.currentPosition = 0;
+                this.maxPosition = this.reader.Read(this.buffer, 0, this.bufferSize);
+            }
+            this.currentChar = this.buffer[this.currentPosition];
+        }
+    }
 }
