@@ -29,7 +29,7 @@ public struct ApiEndpoints
     public const string ControlFans = "controls/fans?state={0}";
     public const string ControlHeater = "controls/heater?value={0}";
     public const string PlantData = "plant_data";
-    public const string NewestPlantImage = "plant_image/newest";
+    public const string NewestPlantImage = "image/newest";
 }
 
 /// <summary>
