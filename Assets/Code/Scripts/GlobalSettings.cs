@@ -7,16 +7,41 @@ public enum OperatingMode
     Realtime,
 }
 
+public enum PlantQuality
+{
+    Low,
+    High,
+}
+
 public class GlobalSettings : MonoBehaviour
 {
     public static GlobalSettings Instance { get; private set; }
 
+    [Header("Global Settings")]
     // Global settings (vars that should be accessible from any script)
+    [SerializeField]
+    [Tooltip("The operating mode of the Digital Twin (Standalone or Descriptive)")]
     public OperatingMode OperatingMode = OperatingMode.Realtime;
+
+    [SerializeField]
+    [Tooltip("The URL of the API to be used for data retrieval")]
     public string ApiUrl = "http://10.53.8.177:8000/";
+
+    [SerializeField]
+    [Tooltip("The type of data source to be used (API or File)")]
     public DataSourceType DataSourceType = DataSourceType.Api;
+
+    [SerializeField]
+    [Tooltip("Fetch current data from the API every x seconds")]
     public int CurrentDataRefreshRate = 3; // In seconds
+
+    [SerializeField]
+    [Tooltip("Fetch plant model from the API or use a dummy model in the scene")]
     public bool ObtainPlantModelFromApi = true;
+
+    [SerializeField]
+    [Tooltip("The quality of the plant model to be retrieved from the API and used in the scene")]
+    public PlantQuality PlantModelQuality = PlantQuality.Low;
 
     // Private vals
     private bool _lightsStatus = true;

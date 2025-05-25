@@ -138,11 +138,7 @@ public class GreenhouseManager : MonoBehaviour
             (model) =>
             {
                 var textStream = new MemoryStream(Encoding.UTF8.GetBytes(model));
-                string mtlString =
-                    "newmtl avg_material\nKd 0.292937 0.266933 0.148867\nKa 0.000000 0.000000 0.000000\nKs 0.000000 0.000000 0.000000\nd 1.0\nillum 1\n";
-                var mtlStream = new MemoryStream(Encoding.UTF8.GetBytes(mtlString));
-
-                var loadedObj = new OBJLoader().Load(textStream, mtlStream);
+                var loadedObj = new OBJLoader().Load(textStream);
 
                 // Apply the material to the plant
                 foreach (var meshRenderer in loadedObj.GetComponentsInChildren<MeshRenderer>())
@@ -155,7 +151,7 @@ public class GreenhouseManager : MonoBehaviour
                 loadedObj.transform.localPosition = Vector3.zero;
                 loadedObj.transform.localScale = new Vector3(0.7f, 0.7f, 0.7f);
             },
-            false,
+            GlobalSettings.Instance.PlantModelQuality == PlantQuality.High ? true : false,
             (error) =>
             {
                 Debug.LogError($"Failed to get plant model: {error}");
