@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.IO;
 using Dummiesman;
 using UnityEngine;
+using static Dummiesman.CharWordReader;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -42,6 +43,8 @@ namespace Dummiesman
         internal List<Vector3> Vertices = new List<Vector3>();
         internal List<Vector3> Normals = new List<Vector3>();
         internal List<Vector2> UVs = new List<Vector2>();
+
+        internal List<Color> VertexColors = new List<Color>();
 
         //materials, accessed by objobjectbuilder
         internal Dictionary<string, Material> Materials;
@@ -159,7 +162,10 @@ namespace Dummiesman
 
                 if (buffer.Is("v"))
                 {
-                    Vertices.Add(buffer.ReadVector());
+                    //Vertices.Add(buffer.ReadVector());
+                    Vector3WithColor vwc = buffer.ReadVectorAndColor();
+                    Vertices.Add(vwc.position);
+                    VertexColors.Add(vwc.color);
                     continue;
                 }
 

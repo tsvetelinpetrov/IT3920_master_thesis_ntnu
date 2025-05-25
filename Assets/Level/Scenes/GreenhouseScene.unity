@@ -11127,7 +11127,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9756ebfa05ab33449467d9f1ea85579, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  plantMaterial: {fileID: 2100000, guid: d09b48786e8d1ed4d96c04e0c85c3c24, type: 2}
+  plantMaterial: {fileID: 2100000, guid: 3fe893302e7e2f64286143576f4d504d, type: 2}
   plantHolder: {fileID: 651351141}
   dummyPlant: {fileID: 2116147948}
   airflowVisualizer: {fileID: 1819917703}
@@ -20745,6 +20745,11 @@ PrefabInstance:
       propertyPath: m_TagString
       value: LightGroup
       objectReference: {fileID: 0}
+    - target: {fileID: 3452978563682960203, guid: 18be97557dc784ab5b1e839e32056bb3,
+        type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 902a5a4226b99d944afad1775f62ae11, type: 2}
     - target: {fileID: 3712713324940235762, guid: 18be97557dc784ab5b1e839e32056bb3,
         type: 3}
       propertyPath: m_IsActive
@@ -20835,6 +20840,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8567429697693022156, guid: 18be97557dc784ab5b1e839e32056bb3,
+        type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 902a5a4226b99d944afad1775f62ae11, type: 2}
     - target: {fileID: 8783524449376010476, guid: 18be97557dc784ab5b1e839e32056bb3,
         type: 3}
       propertyPath: m_StaticEditorFlags
@@ -24781,8 +24791,8 @@ Transform:
   m_GameObject: {fileID: 651351141}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.91, y: 1.01, z: -0.72}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 2.68, y: 1.81, z: -0.21}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2140061747}
@@ -89554,7 +89564,7 @@ MonoBehaviour:
   ApiUrl: http://10.53.8.177:8000/
   DataSourceType: 0
   CurrentDataRefreshRate: 10
-  ObtainPlantModelFromApi: 0
+  ObtainPlantModelFromApi: 1
 --- !u!4 &1765754973
 Transform:
   m_ObjectHideFlags: 0

@@ -138,7 +138,11 @@ public class GreenhouseManager : MonoBehaviour
             (model) =>
             {
                 var textStream = new MemoryStream(Encoding.UTF8.GetBytes(model));
-                var loadedObj = new OBJLoader().Load(textStream);
+                string mtlString =
+                    "newmtl avg_material\nKd 0.292937 0.266933 0.148867\nKa 0.000000 0.000000 0.000000\nKs 0.000000 0.000000 0.000000\nd 1.0\nillum 1\n";
+                var mtlStream = new MemoryStream(Encoding.UTF8.GetBytes(mtlString));
+
+                var loadedObj = new OBJLoader().Load(textStream, mtlStream);
 
                 // Apply the material to the plant
                 foreach (var meshRenderer in loadedObj.GetComponentsInChildren<MeshRenderer>())
