@@ -2078,7 +2078,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 40339765}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -331.79462}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -12705,7 +12705,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 293811519}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -331.79468}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -59598,7 +59598,7 @@ PrefabInstance:
     - target: {fileID: 4015128326712939851, guid: fd28f23af44f73f4a95e33435872ad15,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.008
+      value: -0.618
       objectReference: {fileID: 0}
     - target: {fileID: 4015128326712939851, guid: fd28f23af44f73f4a95e33435872ad15,
         type: 3}
@@ -59623,7 +59623,7 @@ PrefabInstance:
     - target: {fileID: 4015128326712939851, guid: fd28f23af44f73f4a95e33435872ad15,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 1.289
+      value: 0.899
       objectReference: {fileID: 0}
     - target: {fileID: 4015128326712939851, guid: fd28f23af44f73f4a95e33435872ad15,
         type: 3}
@@ -90233,6 +90233,7 @@ MonoBehaviour:
   DataSourceType: 0
   CurrentDataRefreshRate: 5
   ObtainPlantModelFromApi: 1
+  PlantModelQuality: 0
 --- !u!4 &1765754973
 Transform:
   m_ObjectHideFlags: 0
@@ -106139,10 +106140,35 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 777597436}
     m_Modifications:
+    - target: {fileID: 149117553094465830, guid: 55c2e5937e3afa848b495ccb5af81d45,
+        type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1886554468526667704, guid: 55c2e5937e3afa848b495ccb5af81d45,
         type: 3}
       propertyPath: m_Name
       value: Window
+      objectReference: {fileID: 0}
+    - target: {fileID: 2270276912281096866, guid: 55c2e5937e3afa848b495ccb5af81d45,
+        type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2635312367926916169, guid: 55c2e5937e3afa848b495ccb5af81d45,
+        type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4844965965055892674, guid: 55c2e5937e3afa848b495ccb5af81d45,
+        type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5426399466209518718, guid: 55c2e5937e3afa848b495ccb5af81d45,
+        type: 3}
+      propertyPath: m_CastShadows
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5699352445148061551, guid: 55c2e5937e3afa848b495ccb5af81d45,
         type: 3}
@@ -106192,6 +106218,11 @@ PrefabInstance:
     - target: {fileID: 5699352445148061551, guid: 55c2e5937e3afa848b495ccb5af81d45,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8723055881017920096, guid: 55c2e5937e3afa848b495ccb5af81d45,
+        type: 3}
+      propertyPath: m_CastShadows
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
