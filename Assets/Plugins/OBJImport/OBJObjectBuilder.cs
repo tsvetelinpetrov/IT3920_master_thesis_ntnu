@@ -124,9 +124,9 @@ namespace Dummiesman
             msh.SetNormals(_normals);
             msh.SetUVs(0, _uvs);
 
-            Debug.Log(
-                $"Vertices: {_vertices.Count}, Normals: {_normals.Count}, UVs: {_uvs.Count}, Colors: {_loader.VertexColors?.Count ?? 0}"
-            );
+            // Debug.Log(
+            //     $"Vertices: {_vertices.Count}, Normals: {_normals.Count}, UVs: {_uvs.Count}, Colors: {_loader.VertexColors?.Count ?? 0}"
+            // );
 
             if (_loader.VertexColors != null && _loader.VertexColors.Count == _vertices.Count)
             {
