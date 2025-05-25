@@ -128,13 +128,12 @@ namespace Dummiesman
             //     $"Vertices: {_vertices.Count}, Normals: {_normals.Count}, UVs: {_uvs.Count}, Colors: {_loader.VertexColors?.Count ?? 0}"
             // );
 
-            if (_loader.VertexColors != null && _loader.VertexColors.Count == _vertices.Count)
+            if (_colors.Count == _vertices.Count)
             {
-                msh.SetColors(_loader.VertexColors);
+                msh.SetColors(_colors);
             }
             else
             {
-                // Assign default white color if vertex colors are missing or mismatched
                 var defaultColors = new List<Color>(_vertices.Count);
                 for (int i = 0; i < _vertices.Count; i++)
                 {
@@ -175,7 +174,8 @@ namespace Dummiesman
             string material,
             List<int> vertexIndices,
             List<int> normalIndices,
-            List<int> uvIndices
+            List<int> uvIndices,
+            List<Color> colors = null
         )
         {
             //invalid face size?
@@ -228,6 +228,13 @@ namespace Dummiesman
                         (uvIndex >= 0 && uvIndex < _loader.UVs.Count)
                             ? _loader.UVs[uvIndex]
                             : Vector2.zero
+                    );
+
+                    // Add this for colors:
+                    _colors.Add(
+                        (vertexIndex >= 0 && vertexIndex < _loader.VertexColors.Count)
+                            ? _loader.VertexColors[vertexIndex]
+                            : Color.white
                     );
 
                     //mark recalc flag
