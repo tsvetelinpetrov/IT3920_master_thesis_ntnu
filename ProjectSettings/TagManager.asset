@@ -16,8 +16,8 @@ TagManager:
   - Water
   - UI
   - Particles
-  - 
-  - 
+  - Greenhouse
+  - AirflowArrows
   - 
   - 
   - 
@@ -45,8 +45,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Greenhouse
+    uniqueID: 3195927985
+    locked: 0
   m_RenderingLayers:
   - Default
+  - Greenhouse
   - Light Layer 1
   - Light Layer 2
   - Light Layer 3
