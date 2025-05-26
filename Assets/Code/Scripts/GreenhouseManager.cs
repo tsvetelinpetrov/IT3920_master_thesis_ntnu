@@ -26,12 +26,16 @@ public class GreenhouseManager : MonoBehaviour
             );
 
             // Get the plant model
-            if (GlobalSettings.Instance.ObtainPlantModelFromApi)
+            if (GlobalSettings.Instance.PlantModelObtainment == PlantModelObtainment.ObtainFromApi)
             {
+                dummyPlant.SetActive(false);
                 GetPlantModel();
             }
-            else
+            else if (
+                GlobalSettings.Instance.PlantModelObtainment == PlantModelObtainment.LoadDummyModel
+            )
             {
+                // Load the dummy plant model from the scene
                 dummyPlant.SetActive(true);
             }
 

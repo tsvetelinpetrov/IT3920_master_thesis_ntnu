@@ -13,6 +13,13 @@ public enum PlantQuality
     High,
 }
 
+public enum PlantModelObtainment
+{
+    ObtainFromApi,
+    LoadDummyModel,
+    DoNotLoadAnything,
+}
+
 public class GlobalSettings : MonoBehaviour
 {
     public static GlobalSettings Instance { get; private set; }
@@ -36,8 +43,8 @@ public class GlobalSettings : MonoBehaviour
     public int CurrentDataRefreshRate = 3; // In seconds
 
     [SerializeField]
-    [Tooltip("Fetch plant model from the API or use a dummy model in the scene")]
-    public bool ObtainPlantModelFromApi = true;
+    [Tooltip("The method to obtain the plant model in the scene")]
+    public PlantModelObtainment PlantModelObtainment = PlantModelObtainment.ObtainFromApi;
 
     [SerializeField]
     [Tooltip("The quality of the plant model to be retrieved from the API and used in the scene")]
