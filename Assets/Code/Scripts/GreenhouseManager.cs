@@ -146,9 +146,23 @@ public class GreenhouseManager : MonoBehaviour
                     meshRenderer.material = plantMaterial;
                 }
 
+                // --- Ensure the model is centered ---
+                // Calculate the combined bounds of all renderers
+                var renderers = loadedObj.GetComponentsInChildren<Renderer>();
+                if (renderers.Length > 0)
+                {
+                    Bounds bounds = renderers[0].bounds;
+                    foreach (var r in renderers)
+                        bounds.Encapsulate(r.bounds);
+
+                    // Move the model so its center is at (0,0,0)
+                    loadedObj.transform.position -= bounds.center;
+                }
+
                 // Set the plant position in plantHolder
-                loadedObj.transform.SetParent(plantHolder.transform);
+                loadedObj.transform.SetParent(plantHolder.transform, false);
                 loadedObj.transform.localPosition = Vector3.zero;
+                loadedObj.transform.localRotation = Quaternion.identity;
                 loadedObj.transform.localScale = new Vector3(0.7f, 0.7f, 0.7f);
             },
             GlobalSettings.Instance.PlantModelQuality == PlantQuality.High ? true : false,
