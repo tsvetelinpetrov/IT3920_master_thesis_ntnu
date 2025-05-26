@@ -8,6 +8,8 @@ public class FansControllerModule : MonoBehaviour
     public ParticleSystem upperFanParticles;
     public ParticleSystem lowerFanParticles;
 
+    public AudioSource fanSound;
+
     public float rotationSpeed = 200f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -52,11 +54,13 @@ public class FansControllerModule : MonoBehaviour
     void OnTurnOnUpperFan()
     {
         upperFanParticles.Play();
+        fanSound?.Play();
     }
 
     void OnTurnOffUpperFan()
     {
         upperFanParticles.Stop();
+        fanSound?.Stop();
     }
 
     void OnTurnOnLowerFan()

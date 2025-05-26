@@ -3,6 +3,7 @@ using UnityEngine;
 public class ValveStatusController : MonoBehaviour
 {
     public ParticleSystem valveParticles;
+    public AudioSource valveSound;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -28,10 +29,12 @@ public class ValveStatusController : MonoBehaviour
     void OnValveOpen()
     {
         valveParticles.Play();
+        valveSound?.Play();
     }
 
     void OnValveClose()
     {
         valveParticles.Stop();
+        valveSound?.Stop();
     }
 }
