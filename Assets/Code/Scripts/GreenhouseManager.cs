@@ -159,8 +159,15 @@ public class GreenhouseManager : MonoBehaviour
                     foreach (var r in renderers)
                         bounds.Encapsulate(r.bounds);
 
-                    // Move the model so its center is at (0,0,0)
-                    loadedObj.transform.position -= bounds.center;
+                    // Calculate offset so base is at y=0 and center is at (0,0,0) horizontally
+                    Vector3 offset = bounds.center;
+                    offset.y = bounds.min.y;
+
+                    // Move all children so the base is at y=0
+                    foreach (Transform child in loadedObj.transform)
+                    {
+                        child.localPosition -= offset;
+                    }
                 }
 
                 // Set the plant position in plantHolder
