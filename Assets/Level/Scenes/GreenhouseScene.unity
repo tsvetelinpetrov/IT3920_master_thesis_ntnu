@@ -75506,6 +75506,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1575066525}
+    - targetCorrespondingSourceObject: {fileID: 4015128326712939855, guid: fd28f23af44f73f4a95e33435872ad15,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1575066530}
   m_SourcePrefab: {fileID: 100100000, guid: fd28f23af44f73f4a95e33435872ad15, type: 3}
 --- !u!1 &1457978378
 GameObject:
@@ -81007,6 +81011,18 @@ MonoBehaviour:
   - {fileID: 1386215878}
   - {fileID: 1710694047}
   disruptiveCharts: []
+--- !u!114 &1575066530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575066517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9aece4d13ed0ef4a8f099baf794e778, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1576007483
 GameObject:
   m_ObjectHideFlags: 1
@@ -92398,11 +92414,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OperatingMode: 1
-  ApiUrl: http://127.0.0.1/greenhouse/
+  ApiUrl: http://10.53.8.177:8000/
   DataSourceType: 0
-  CurrentDataRefreshRate: 1
+  CurrentDataRefreshRate: 10
   PlantModelObtainment: 0
-  PlantModelQuality: 1
+  PlantModelQuality: 0
 --- !u!4 &1765754973
 Transform:
   m_ObjectHideFlags: 0
