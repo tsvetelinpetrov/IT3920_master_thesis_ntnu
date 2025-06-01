@@ -39,6 +39,8 @@ public class GreenhouseManager : MonoBehaviour
                 dummyPlant.SetActive(true);
             }
 
+            // InvokeRepeating("GetCurrentAirflow", 0, 5);
+
             GetCurrentAirflow();
         }
         else

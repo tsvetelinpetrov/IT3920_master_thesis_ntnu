@@ -284,6 +284,10 @@ namespace Dummiesman
                 buffer.SkipUntilNewLine();
             }
 
+            Debug.Log(
+                $"OBJLoader: Read {_objInfo?.Name ?? "unknown"} with {Vertices.Count} vertices, {Normals.Count} normals, {UVs.Count} uvs, {VertexColors.Count} vertex colors, and {builderDict.Count} objects."
+            );
+
             //finally, put it all together
             GameObject obj = new GameObject(
                 _objInfo != null

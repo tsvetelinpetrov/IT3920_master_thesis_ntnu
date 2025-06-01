@@ -15,6 +15,9 @@ public class AirflowVisualizer : MonoBehaviour
     private float minMagnitude;
     private float maxMagnitude;
 
+    private float minTemperature;
+    private float maxTemperature;
+
     void OnEnable()
     {
         EventCenter.Airflow.OnNewAirflowData += OnNewAirflowData;
@@ -35,13 +38,20 @@ public class AirflowVisualizer : MonoBehaviour
         CalculateMagnitudeLimits(airflow);
         // Debug.Log("Min magnitude: " + minMagnitude);
         // Debug.Log("Max magnitude: " + maxMagnitude);
+        ClearArrows();
         DrawArrows(airflow);
+
+        // Rotate x -90 and y 90
+        transform.rotation = Quaternion.Euler(-90f, 90f, 0f);
     }
 
     private void CalculateMagnitudeLimits(Airflow airData)
     {
         minMagnitude = float.MaxValue;
         maxMagnitude = float.MinValue;
+
+        minTemperature = float.MaxValue;
+        maxTemperature = float.MinValue;
 
         for (int x = 0; x < xArrowCount; x++)
         {
@@ -63,6 +73,12 @@ public class AirflowVisualizer : MonoBehaviour
                     {
                         maxMagnitude = magnitude;
                     }
+
+                    float temp = (float)airData.Data[x][y][z][0];
+                    if (temp < minTemperature)
+                        minTemperature = temp;
+                    if (temp > maxTemperature)
+                        maxTemperature = temp;
                 }
             }
         }
@@ -76,6 +92,12 @@ public class AirflowVisualizer : MonoBehaviour
         }
 
         windArrows.Clear();
+
+        // Log the number of all points from the airflow data
+        Debug.Log(
+            "Total points in airflow data: "
+                + airData.Data.Count * airData.Data[0].Count * airData.Data[0][0].Count
+        );
 
         float x0 = transform.position.x - transform.localScale.x / 2f;
         float y0 = transform.position.y + transform.localScale.y / 2f;
@@ -99,24 +121,29 @@ public class AirflowVisualizer : MonoBehaviour
                 {
                     float zCoord = z0 + (z * zStep);
 
-                    int sampleX = (int)(x * (airData.Data.Count) / (xArrowCount));
-                    int sampleY = (int)(y * (airData.Data[0][0].Count) / (yArrowCount));
-                    int sampleZ = (int)(z * (airData.Data[0].Count) / (zArrowCount));
+                    int xSize = airData.Data.Count;
+                    int ySize = airData.Data[0].Count;
+                    int zSize = airData.Data[0][0].Count;
+
+                    int sampleX = x * xSize / xArrowCount;
+                    int sampleY = y * ySize / yArrowCount;
+                    int sampleZ = z * zSize / zArrowCount;
 
                     Vector3 pos = new Vector3(xCoord, yCoord, zCoord);
                     Vector3 dir = -new Vector3(
-                        (float)airData.Data[sampleX][sampleZ][sampleY][1],
-                        (float)airData.Data[sampleX][sampleZ][sampleY][2],
-                        (float)airData.Data[sampleX][sampleZ][sampleY][3]
+                        (float)airData.Data[sampleX][sampleY][sampleZ][1],
+                        (float)airData.Data[sampleX][sampleY][sampleZ][2],
+                        (float)airData.Data[sampleX][sampleY][sampleZ][3]
                     );
                     float scale = dir.magnitude;
-                    DrawArrow(pos, dir, scale);
+                    float temperature = (float)airData.Data[sampleX][sampleY][sampleZ][0];
+                    DrawArrow(pos, dir, scale, temperature);
                 }
             }
         }
     }
 
-    private void DrawArrow(Vector3 pos, Vector3 dir, float magnitude)
+    private void DrawArrow(Vector3 pos, Vector3 dir, float magnitude, float temperature)
     {
         float scale = (float)
             Math.Log(1.2 * Math.Min(0.99 * maxMagnitude * 1e2, magnitude * 1e2) + 1f);
@@ -136,8 +163,10 @@ public class AirflowVisualizer : MonoBehaviour
         newArrow.transform.localScale = new Vector3(scale, scale, scale * 4f);
 
         float relativeMagnitude = (magnitude - minMagnitude) / maxMagnitude;
+        float relativeTemperature =
+            (temperature - minTemperature) / (maxTemperature - minTemperature);
         // Debug.Log("Relative magnitude: " + relativeMagnitude);
-        Color color = windColorGradient.Evaluate(relativeMagnitude);
+        Color color = windColorGradient.Evaluate(relativeTemperature);
         newArrow.GetComponent<Renderer>().material.color = color;
 
         Renderer renderer = newArrow.GetComponent<Renderer>();
@@ -147,5 +176,15 @@ public class AirflowVisualizer : MonoBehaviour
 
         newArrow.SetActive(active);
         windArrows.Add(newArrow);
+    }
+
+    public void ClearArrows()
+    {
+        foreach (GameObject arrow in windArrows)
+        {
+            if (arrow != null)
+                Destroy(arrow);
+        }
+        windArrows.Clear();
     }
 }
