@@ -2,7 +2,7 @@
 
 ## Description
 
-This project is a VR based digital twin of a greenhouse. The project is developed using Unity and C# in order to simulate the greenhouse environment. The project is developed as a part of the course "Master Preparatory project" at the Norwegian University of Science and Technology (NTNU).
+This project is a VR based digital twin of a greenhouse. The project is developed using Unity and C# in order to simulate the greenhouse environment. The project is developed as a part of the courses "Master Preparatory project" and "Master Thesis" in the Master's program in Informatics with a specialization in Software Engineering at the Norwegian University of Science and Technology (NTNU).
 
 ## Pre-requisites
 
