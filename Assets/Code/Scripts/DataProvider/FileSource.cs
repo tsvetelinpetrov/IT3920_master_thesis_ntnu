@@ -176,4 +176,13 @@ public class FileSource : IDataSource
         // TODO: Implement this method
         throw new NotImplementedException();
     }
+
+    public void ControlWaterValve(
+        bool state,
+        Action<bool> successCallback,
+        Action<string> errorCallback = null
+    )
+    {
+        throw new NotImplementedException();
+    }
 }
