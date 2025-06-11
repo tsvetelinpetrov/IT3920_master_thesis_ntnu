@@ -215,4 +215,20 @@ public interface IDataSource
         System.Action<float> successCallback,
         System.Action<string> errorCallback = null
     );
+
+    /// <summary>
+    /// Control the water valve state
+    /// </summary>
+    /// <param name="state"></param>
+    /// <param name="successCallback"></param>
+    /// <param name="errorCallback"></param>
+    /// <remarks>
+    /// The state parameter indicates whether to open (true) or close (false) the valve.
+    /// The successCallback function should take a boolean parameter indicating the new state of the valve.
+    /// </remarks>
+    void ControlWaterValve(
+        bool state,
+        System.Action<bool> successCallback,
+        System.Action<string> errorCallback = null
+    );
 }

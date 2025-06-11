@@ -28,6 +28,7 @@ public struct ApiEndpoints
     public const string ControlLight = "controls/light?state={0}";
     public const string ControlFans = "controls/fans?state={0}";
     public const string ControlHeater = "controls/heater?value={0}";
+    public const string ControlWaterValve = "controls/valve?state={0}";
     public const string PlantData = "plant_data";
     public const string NewestPlantImage = "image/newest";
 }
@@ -353,6 +354,25 @@ public class ApiSource : IDataSource
             {
                 client.EnsureSuccess(response, errorCallback);
                 successCallback(response.ReadAsJson<PlantData>());
+            }
+        );
+    }
+
+    public void ControlWaterValve(
+        bool state,
+        Action<bool> successCallback,
+        Action<string> errorCallback = null
+    )
+    {
+        string endpoint = string.Format(ApiEndpoints.ControlWaterValve, state.ToString().ToLower());
+
+        client.Post(
+            new System.Uri(_apiUrl + endpoint),
+            HttpCompletionOption.AllResponseContent,
+            (response) =>
+            {
+                client.EnsureSuccess(response, errorCallback);
+                successCallback(state);
             }
         );
     }
