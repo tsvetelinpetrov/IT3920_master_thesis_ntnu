@@ -15,7 +15,7 @@ public enum PlantQuality
 
 public enum PlantModelObtainment
 {
-    ObtainFromApi,
+    ObtainFromDataSource,
     LoadDummyModel,
     DoNotLoadAnything,
 }
@@ -26,10 +26,6 @@ public class GlobalSettings : MonoBehaviour
 
     [Header("Global Settings")]
     // Global settings (vars that should be accessible from any script)
-    [SerializeField]
-    [Tooltip("The operating mode of the Digital Twin (Standalone or Descriptive)")]
-    public OperatingMode OperatingMode = OperatingMode.Realtime;
-
     [SerializeField]
     [Tooltip("The URL of the API to be used for data retrieval")]
     public string ApiUrl = "http://10.53.8.177:8000/";
@@ -44,7 +40,7 @@ public class GlobalSettings : MonoBehaviour
 
     [SerializeField]
     [Tooltip("The method to obtain the plant model in the scene")]
-    public PlantModelObtainment PlantModelObtainment = PlantModelObtainment.ObtainFromApi;
+    public PlantModelObtainment PlantModelObtainment = PlantModelObtainment.ObtainFromDataSource;
 
     [SerializeField]
     [Tooltip("The quality of the plant model to be retrieved from the API and used in the scene")]
@@ -55,6 +51,7 @@ public class GlobalSettings : MonoBehaviour
     private bool _upperFanStatus = false;
     private bool _lowerFanStatus = false;
     private bool _valveStatus = false;
+    private float _heaterDutyCycle = 0.0f;
     private bool _blockAPICalls = false;
 
     public bool LightsStatus
@@ -75,6 +72,12 @@ public class GlobalSettings : MonoBehaviour
     public bool ValveStatus
     {
         get => _valveStatus;
+    }
+
+    public float HeaterDutyCycle
+    {
+        get => _heaterDutyCycle;
+        set => _heaterDutyCycle = value;
     }
 
     public bool BlockAPICalls

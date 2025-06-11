@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Newtonsoft.Json;
+using UnityEngine;
 
 /// <summary>
 /// Structure for storing file paths.
@@ -29,8 +31,23 @@ public class FileSource : IDataSource
         System.Action<string> errorCallback
     )
     {
-        // TODO: Implement this method
-        throw new System.NotImplementedException();
+        TextAsset objFile = Resources.Load<TextAsset>("FileSourceData/mesh_low_res");
+
+        if (objFile != null)
+        {
+            try
+            {
+                successCallback?.Invoke(objFile.text);
+            }
+            catch (Exception ex)
+            {
+                errorCallback?.Invoke($"Error reading plant model: {ex.Message}");
+            }
+        }
+        else
+        {
+            errorCallback?.Invoke("Plant model file not found.");
+        }
     }
 
     public void GetAllCurrent(
@@ -38,8 +55,39 @@ public class FileSource : IDataSource
         System.Action<string> errorCallback
     )
     {
-        // TODO: Implement this method
-        throw new System.NotImplementedException();
+        TextAsset jsonFile = Resources.Load<TextAsset>("FileSourceData/current");
+        if (jsonFile != null)
+        {
+            try
+            {
+                Current currentData = JsonConvert.DeserializeObject<Current>(jsonFile.text);
+                if (currentData != null)
+                {
+                    Controls currentControls = new Controls
+                    {
+                        MeasurementTime = new DateTime(),
+                        HeaterDutyCycle = GlobalSettings.Instance.HeaterDutyCycle,
+                        LightOn = GlobalSettings.Instance.LightsStatus,
+                        FanOn = GlobalSettings.Instance.UpperFanStatus,
+                        ValveOpen = GlobalSettings.Instance.ValveStatus,
+                    };
+                    currentData.Controls = currentControls;
+                    successCallback?.Invoke(currentData);
+                }
+                else
+                {
+                    errorCallback?.Invoke("Failed to deserialize current data.");
+                }
+            }
+            catch (Exception ex)
+            {
+                errorCallback?.Invoke($"Error parsing current data: {ex.Message}");
+            }
+        }
+        else
+        {
+            errorCallback?.Invoke("Current data file not found.");
+        }
     }
 
     public void GetControlsByDays(
@@ -137,8 +185,30 @@ public class FileSource : IDataSource
         Action<string> errorCallback = null
     )
     {
-        // TODO: Implement this method
-        throw new NotImplementedException();
+        TextAsset jsonFile = Resources.Load<TextAsset>("FileSourceData/reconstruction");
+        if (jsonFile != null)
+        {
+            try
+            {
+                Airflow airflowData = JsonConvert.DeserializeObject<Airflow>(jsonFile.text);
+                if (airflowData != null)
+                {
+                    successCallback?.Invoke(airflowData);
+                }
+                else
+                {
+                    errorCallback?.Invoke("Failed to deserialize airflow data.");
+                }
+            }
+            catch (Exception ex)
+            {
+                errorCallback?.Invoke($"Error parsing airflow data: {ex.Message}");
+            }
+        }
+        else
+        {
+            errorCallback?.Invoke("Airflow data file not found.");
+        }
     }
 
     public void ControlLight(
@@ -147,8 +217,15 @@ public class FileSource : IDataSource
         Action<string> errorCallback = null
     )
     {
-        // TODO: Implement this method
-        throw new NotImplementedException();
+        if (state)
+        {
+            EventCenter.Controls.TurnOnLights();
+        }
+        else
+        {
+            EventCenter.Controls.TurnOffLights();
+        }
+        successCallback?.Invoke(true);
     }
 
     public void ControlFans(
@@ -157,8 +234,17 @@ public class FileSource : IDataSource
         Action<string> errorCallback = null
     )
     {
-        // TODO: Implement this method
-        throw new NotImplementedException();
+        if (state)
+        {
+            EventCenter.Controls.TurnOnUpperFan();
+            EventCenter.Controls.TurnOnLowerFan();
+        }
+        else
+        {
+            EventCenter.Controls.TurnOffUpperFan();
+            EventCenter.Controls.TurnOffLowerFan();
+        }
+        successCallback?.Invoke(true);
     }
 
     public void ControlHeater(
@@ -167,14 +253,46 @@ public class FileSource : IDataSource
         Action<string> errorCallback = null
     )
     {
-        // TODO: Implement this method
-        throw new NotImplementedException();
+        if (dutyCycle < 0 || dutyCycle > 100)
+        {
+            errorCallback?.Invoke("Duty cycle must be between 0 and 100.");
+            return;
+        }
+
+        GlobalSettings.Instance.HeaterDutyCycle = dutyCycle;
+        successCallback?.Invoke(dutyCycle);
     }
 
     public void GetPlantData(Action<PlantData> successCallback, Action<string> errorCallback = null)
     {
-        // TODO: Implement this method
-        throw new NotImplementedException();
+        // Read plant data from "plant_data.json" file from the Assets/Resources folder
+        // string filePath = Path.Combine(Application.dataPath, "Resources", "plant_data.json");
+        // Debug.Log($"Reading plant data from: {filePath}");
+
+        TextAsset jsonFile = Resources.Load<TextAsset>("FileSourceData/plant_data");
+        if (jsonFile != null)
+        {
+            try
+            {
+                PlantData plantData = JsonConvert.DeserializeObject<PlantData>(jsonFile.text);
+                if (plantData != null)
+                {
+                    successCallback?.Invoke(plantData);
+                }
+                else
+                {
+                    errorCallback?.Invoke("Failed to deserialize plant data.");
+                }
+            }
+            catch (Exception ex)
+            {
+                errorCallback?.Invoke($"Error parsing plant data: {ex.Message}");
+            }
+        }
+        else
+        {
+            errorCallback?.Invoke("Plant data file not found.");
+        }
     }
 
     public void ControlWaterValve(
@@ -183,6 +301,14 @@ public class FileSource : IDataSource
         Action<string> errorCallback = null
     )
     {
-        throw new NotImplementedException();
+        if (state)
+        {
+            EventCenter.Controls.OpenValve();
+        }
+        else
+        {
+            EventCenter.Controls.CloseValve();
+        }
+        successCallback?.Invoke(true);
     }
 }

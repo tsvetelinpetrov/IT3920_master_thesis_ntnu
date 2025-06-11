@@ -52,7 +52,7 @@ public class UIManager : MonoBehaviour
 
     private void UpdateControls(Controls controls)
     {
-        heaterDutyCycleText.text = $"{controls.HeaterDutyCycle}%";
+        heaterDutyCycleText.text = $"{(int)(controls.HeaterDutyCycle * 100)}%";
         lightsStatusText.text = controls.LightOn ? "On" : "Off";
         upperFanStatusText.text = controls.FanOn ? "On" : "Off";
         lowerFanStatusText.text = controls.FanOn ? "On" : "Off";

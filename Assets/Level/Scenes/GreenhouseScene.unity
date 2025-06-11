@@ -94518,7 +94518,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42ae39cea158b2144a0f05b3776cb30b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OperatingMode: 1
   ApiUrl: http://10.53.8.177:8000/
   DataSourceType: 0
   CurrentDataRefreshRate: 10
