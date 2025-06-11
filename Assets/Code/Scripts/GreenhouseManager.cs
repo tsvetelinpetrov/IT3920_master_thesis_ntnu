@@ -10,8 +10,6 @@ public class GreenhouseManager : MonoBehaviour
     public GameObject plantHolder;
     public GameObject dummyPlant;
     public GameObject airflowVisualizer;
-    private LightToggleButton lightButton;
-    private FanToggleButton fanButton;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -177,14 +175,6 @@ public class GreenhouseManager : MonoBehaviour
                 Debug.LogError($"Failed to get plant model: {error}");
             }
         );
-
-        // TODO: Experiment and see which way is faster
-        // string url = GlobalSettings.Instance.ApiUrl + "mesh/low_res";
-        // var www = new WWW(url);
-        // while (!www.isDone)
-        //     System.Threading.Thread.Sleep(1);
-        // var textStream = new MemoryStream(Encoding.UTF8.GetBytes(www.text));
-        // var loadedObj = new OBJLoader().Load(textStream);
     }
 
     private void GetCurrentAirflow()

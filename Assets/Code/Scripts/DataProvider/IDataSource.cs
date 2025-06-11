@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 /// <summary>
 /// Interface for data sources which provide identical methods for obtaining data from the API or file.
@@ -195,6 +196,19 @@ public interface IDataSource
     /// </remarks>
     void GetPlantData(
         System.Action<PlantData> successCallback,
+        System.Action<string> errorCallback = null
+    );
+
+    /// <summary>
+    /// Get plant image from the API
+    /// </summary>
+    /// <param name="successCallback">Callback function to handle the response</param>
+    /// <param name="errorCallback">Callback function to handle the error response</param>
+    /// <remarks>
+    /// The successCallback function should take a Texture2D parameter.
+    /// </remarks>
+    System.Collections.IEnumerator GetPlantImage(
+        System.Action<Texture2D> successCallback,
         System.Action<string> errorCallback = null
     );
 

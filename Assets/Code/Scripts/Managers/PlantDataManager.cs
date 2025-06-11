@@ -1,6 +1,4 @@
-using System.Collections;
 using UnityEngine;
-using UnityEngine.Networking;
 using UnityEngine.UI;
 
 public class PlantDataManager : MonoBehaviour
@@ -22,7 +20,7 @@ public class PlantDataManager : MonoBehaviour
     void Start()
     {
         GetPlantData();
-        StartCoroutine(DownloadImage());
+        DownloadImage();
     }
 
     // Update is called once per frame
@@ -82,34 +80,29 @@ public class PlantDataManager : MonoBehaviour
         );
     }
 
-    IEnumerator DownloadImage()
+    private void DownloadImage()
     {
-        string imageUrl = GlobalSettings.Instance.ApiUrl + ApiEndpoints.NewestPlantImage;
+        IDataSource dataSource = DataSourceFactory.GetDataSource();
 
-        using (UnityWebRequest webRequest = UnityWebRequestTexture.GetTexture(imageUrl))
-        {
-            yield return webRequest.SendWebRequest();
-
-            if (
-                webRequest.result == UnityWebRequest.Result.ConnectionError
-                || webRequest.result == UnityWebRequest.Result.ProtocolError
+        StartCoroutine(
+            dataSource.GetPlantImage(
+                (texture) =>
+                {
+                    if (texture != null)
+                    {
+                        plantImage.sprite = Sprite.Create(
+                            texture,
+                            new Rect(0, 0, texture.width, texture.height),
+                            new Vector2(0.5f, 0.5f)
+                        );
+                    }
+                    else
+                    {
+                        Debug.LogError("Failed to load plant image.");
+                    }
+                },
+                (error) => Debug.LogError($"Error fetching plant image: {error}")
             )
-            {
-                Debug.LogError(
-                    $"Error downloading image from url: \"{imageUrl}\"\nDetails: {webRequest.error}"
-                );
-            }
-            else
-            {
-                Texture2D texture = DownloadHandlerTexture.GetContent(webRequest);
-                plantImage.sprite = Sprite.Create(
-                    texture,
-                    new Rect(0, 0, texture.width, texture.height),
-                    new Vector2(0.5f, 0.5f)
-                );
-            }
-        }
-
-        yield return null;
+        );
     }
 }

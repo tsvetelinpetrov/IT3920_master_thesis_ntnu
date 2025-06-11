@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using Newtonsoft.Json;
 using UnityEngine;
 
@@ -293,6 +292,24 @@ public class FileSource : IDataSource
         {
             errorCallback?.Invoke("Plant data file not found.");
         }
+    }
+
+    public System.Collections.IEnumerator GetPlantImage(
+        System.Action<Texture2D> successCallback,
+        System.Action<string> errorCallback = null
+    )
+    {
+        Texture2D imageFile = Resources.Load<Texture2D>("FileSourceData/newest");
+        if (imageFile != null)
+        {
+            successCallback?.Invoke(imageFile);
+        }
+        else
+        {
+            errorCallback?.Invoke("Plant image file not found.");
+        }
+
+        yield return null;
     }
 
     public void ControlWaterValve(
