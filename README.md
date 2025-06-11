@@ -1,4 +1,6 @@
-# VR based digital twin of a greenhouse
+# VR-Based Digital Twin of a Greenhouse
+
+![VR Greenhouse](/Docs/Img/Thesis_cover.png)
 
 ## Description
 
@@ -28,6 +30,17 @@ This project is a VR based digital twin of a greenhouse. The project is develope
 ### Coding Style
 
 - Use CSharpier vscode extension to format the code according to the C# coding standards. Configure the IDE to format the code on save.
+
+## Demo
+
+![Lights On](/Docs/Img/results_lights_on_1.png)
+![Lights Off](/Docs/Img/results_lights_off_1.png)
+![Airflow Visualization](/Docs/Img/airflow_result_2.png)
+![Plant Comparison](/Docs/Img/plant_model_quality_compare.png)
+![Water Droplets](/Docs/Img/water_droplets.png)
+![Upper Fan Particles](/Docs/Img/upper_fan_particle.png)
+![Both Fans Particles](/Docs/Img/airflow_particles.png)
+![User Interface](/Docs/Img/UI%20right%20live.png)
 
 ## Project Structure
 
