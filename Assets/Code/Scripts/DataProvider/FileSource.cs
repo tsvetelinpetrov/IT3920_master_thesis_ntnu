@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
+using Newtonsoft.Json;
+using UnityEngine;
 
 /// <summary>
 /// Structure for storing file paths.
@@ -29,8 +30,23 @@ public class FileSource : IDataSource
         System.Action<string> errorCallback
     )
     {
-        // TODO: Implement this method
-        throw new System.NotImplementedException();
+        TextAsset objFile = Resources.Load<TextAsset>("FileSourceData/mesh_low_res");
+
+        if (objFile != null)
+        {
+            try
+            {
+                successCallback?.Invoke(objFile.text);
+            }
+            catch (Exception ex)
+            {
+                errorCallback?.Invoke($"Error reading plant model: {ex.Message}");
+            }
+        }
+        else
+        {
+            errorCallback?.Invoke("Plant model file not found.");
+        }
     }
 
     public void GetAllCurrent(
@@ -38,8 +54,39 @@ public class FileSource : IDataSource
         System.Action<string> errorCallback
     )
     {
-        // TODO: Implement this method
-        throw new System.NotImplementedException();
+        TextAsset jsonFile = Resources.Load<TextAsset>("FileSourceData/current");
+        if (jsonFile != null)
+        {
+            try
+            {
+                Current currentData = JsonConvert.DeserializeObject<Current>(jsonFile.text);
+                if (currentData != null)
+                {
+                    Controls currentControls = new Controls
+                    {
+                        MeasurementTime = new DateTime(),
+                        HeaterDutyCycle = GlobalSettings.Instance.HeaterDutyCycle,
+                        LightOn = GlobalSettings.Instance.LightsStatus,
+                        FanOn = GlobalSettings.Instance.UpperFanStatus,
+                        ValveOpen = GlobalSettings.Instance.ValveStatus,
+                    };
+                    currentData.Controls = currentControls;
+                    successCallback?.Invoke(currentData);
+                }
+                else
+                {
+                    errorCallback?.Invoke("Failed to deserialize current data.");
+                }
+            }
+            catch (Exception ex)
+            {
+                errorCallback?.Invoke($"Error parsing current data: {ex.Message}");
+            }
+        }
+        else
+        {
+            errorCallback?.Invoke("Current data file not found.");
+        }
     }
 
     public void GetControlsByDays(
@@ -48,8 +95,45 @@ public class FileSource : IDataSource
         System.Action<string> errorCallback
     )
     {
-        // TODO: Implement this method
-        throw new System.NotImplementedException();
+        TextAsset jsonFile = Resources.Load<TextAsset>("FileSourceData/controls_historic");
+
+        if (jsonFile != null)
+        {
+            try
+            {
+                List<Controls> controls = JsonConvert.DeserializeObject<List<Controls>>(
+                    jsonFile.text
+                );
+                if (controls != null)
+                {
+                    // Sort controls by date and time
+                    controls.Sort((x, y) => DateTime.Compare(x.MeasurementTime, y.MeasurementTime));
+
+                    // Get last control time and filter only those within the last 'days' days
+                    DateTime lastControlTime =
+                        controls.Count > 0
+                            ? controls[controls.Count - 1].MeasurementTime
+                            : DateTime.MinValue;
+                    DateTime startTime = lastControlTime.AddDays(-days);
+                    List<Controls> filteredControls = controls.FindAll(c =>
+                        c.MeasurementTime >= startTime && c.MeasurementTime <= lastControlTime
+                    );
+                    successCallback?.Invoke(filteredControls);
+                }
+                else
+                {
+                    errorCallback?.Invoke("Failed to deserialize controls data.");
+                }
+            }
+            catch (Exception ex)
+            {
+                errorCallback?.Invoke($"Error parsing controls data: {ex.Message}");
+            }
+        }
+        else
+        {
+            errorCallback?.Invoke("Controls data file not found.");
+        }
     }
 
     public void GetControlsByInterval(
@@ -59,8 +143,36 @@ public class FileSource : IDataSource
         Action<string> errorCallback = null
     )
     {
-        // TODO: Implement this method
-        throw new NotImplementedException();
+        TextAsset jsonFile = Resources.Load<TextAsset>("FileSourceData/controls_historic");
+        if (jsonFile != null)
+        {
+            try
+            {
+                List<Controls> controls = JsonConvert.DeserializeObject<List<Controls>>(
+                    jsonFile.text
+                );
+                if (controls != null)
+                {
+                    // Filter controls by the specified interval
+                    List<Controls> filteredControls = controls.FindAll(c =>
+                        c.MeasurementTime >= startTime && c.MeasurementTime <= endTime
+                    );
+                    successCallback?.Invoke(filteredControls);
+                }
+                else
+                {
+                    errorCallback?.Invoke("Failed to deserialize controls data.");
+                }
+            }
+            catch (Exception ex)
+            {
+                errorCallback?.Invoke($"Error parsing controls data: {ex.Message}");
+            }
+        }
+        else
+        {
+            errorCallback?.Invoke("Controls data file not found.");
+        }
     }
 
     public void GetCurrentControls(
@@ -68,8 +180,15 @@ public class FileSource : IDataSource
         Action<string> errorCallback = null
     )
     {
-        // TODO: Implement this method
-        throw new NotImplementedException();
+        Controls currentControls = new Controls
+        {
+            MeasurementTime = DateTime.Now,
+            HeaterDutyCycle = GlobalSettings.Instance.HeaterDutyCycle,
+            LightOn = GlobalSettings.Instance.LightsStatus,
+            FanOn = GlobalSettings.Instance.UpperFanStatus,
+            ValveOpen = GlobalSettings.Instance.ValveStatus,
+        };
+        successCallback?.Invoke(currentControls);
     }
 
     public void GetMeasurementsByDays(
@@ -78,8 +197,47 @@ public class FileSource : IDataSource
         Action<string> errorCallback = null
     )
     {
-        // TODO: Implement this method
-        throw new NotImplementedException();
+        TextAsset jsonFile = Resources.Load<TextAsset>("FileSourceData/measurements_historic");
+
+        if (jsonFile != null)
+        {
+            try
+            {
+                List<Measurement> measurements = JsonConvert.DeserializeObject<List<Measurement>>(
+                    jsonFile.text
+                );
+                if (measurements != null)
+                {
+                    // Sort measurements by date and time
+                    measurements.Sort(
+                        (x, y) => DateTime.Compare(x.MeasurementTime, y.MeasurementTime)
+                    );
+
+                    // Get last measurement time and filter only those within the last 'days' days
+                    DateTime lastMeasurementTime =
+                        measurements.Count > 0
+                            ? measurements[measurements.Count - 1].MeasurementTime
+                            : DateTime.MinValue;
+                    DateTime startTime = lastMeasurementTime.AddDays(-days);
+                    List<Measurement> filteredMeasurements = measurements.FindAll(m =>
+                        m.MeasurementTime >= startTime && m.MeasurementTime <= lastMeasurementTime
+                    );
+                    successCallback?.Invoke(filteredMeasurements);
+                }
+                else
+                {
+                    errorCallback?.Invoke("Failed to deserialize measurements data.");
+                }
+            }
+            catch (Exception ex)
+            {
+                errorCallback?.Invoke($"Error parsing measurements data: {ex.Message}");
+            }
+        }
+        else
+        {
+            errorCallback?.Invoke("Measurements data file not found.");
+        }
     }
 
     public void GetMeasurementsByInterval(
@@ -89,8 +247,36 @@ public class FileSource : IDataSource
         Action<string> errorCallback = null
     )
     {
-        // TODO: Implement this method
-        throw new NotImplementedException();
+        TextAsset jsonFile = Resources.Load<TextAsset>("FileSourceData/measurements_historic");
+        if (jsonFile != null)
+        {
+            try
+            {
+                List<Measurement> measurements = JsonConvert.DeserializeObject<List<Measurement>>(
+                    jsonFile.text
+                );
+                if (measurements != null)
+                {
+                    // Filter measurements by the specified interval
+                    List<Measurement> filteredMeasurements = measurements.FindAll(m =>
+                        m.MeasurementTime >= startTime && m.MeasurementTime <= endTime
+                    );
+                    successCallback?.Invoke(filteredMeasurements);
+                }
+                else
+                {
+                    errorCallback?.Invoke("Failed to deserialize measurements data.");
+                }
+            }
+            catch (Exception ex)
+            {
+                errorCallback?.Invoke($"Error parsing measurements data: {ex.Message}");
+            }
+        }
+        else
+        {
+            errorCallback?.Invoke("Measurements data file not found.");
+        }
     }
 
     public void GetCurrentMeasurements(
@@ -98,8 +284,30 @@ public class FileSource : IDataSource
         Action<string> errorCallback = null
     )
     {
-        // TODO: Implement this method
-        throw new NotImplementedException();
+        TextAsset jsonFile = Resources.Load<TextAsset>("FileSourceData/current");
+        if (jsonFile != null)
+        {
+            try
+            {
+                Current currentData = JsonConvert.DeserializeObject<Current>(jsonFile.text);
+                if (currentData != null)
+                {
+                    successCallback?.Invoke(currentData.Measurements);
+                }
+                else
+                {
+                    errorCallback?.Invoke("Failed to deserialize current measurement data.");
+                }
+            }
+            catch (Exception ex)
+            {
+                errorCallback?.Invoke($"Error parsing current measurement data: {ex.Message}");
+            }
+        }
+        else
+        {
+            errorCallback?.Invoke("Current measurement data file not found.");
+        }
     }
 
     public void GetDisruptiveByDays(
@@ -137,8 +345,30 @@ public class FileSource : IDataSource
         Action<string> errorCallback = null
     )
     {
-        // TODO: Implement this method
-        throw new NotImplementedException();
+        TextAsset jsonFile = Resources.Load<TextAsset>("FileSourceData/reconstruction");
+        if (jsonFile != null)
+        {
+            try
+            {
+                Airflow airflowData = JsonConvert.DeserializeObject<Airflow>(jsonFile.text);
+                if (airflowData != null)
+                {
+                    successCallback?.Invoke(airflowData);
+                }
+                else
+                {
+                    errorCallback?.Invoke("Failed to deserialize airflow data.");
+                }
+            }
+            catch (Exception ex)
+            {
+                errorCallback?.Invoke($"Error parsing airflow data: {ex.Message}");
+            }
+        }
+        else
+        {
+            errorCallback?.Invoke("Airflow data file not found.");
+        }
     }
 
     public void ControlLight(
@@ -147,8 +377,15 @@ public class FileSource : IDataSource
         Action<string> errorCallback = null
     )
     {
-        // TODO: Implement this method
-        throw new NotImplementedException();
+        if (state)
+        {
+            EventCenter.Controls.TurnOnLights();
+        }
+        else
+        {
+            EventCenter.Controls.TurnOffLights();
+        }
+        successCallback?.Invoke(true);
     }
 
     public void ControlFans(
@@ -157,8 +394,17 @@ public class FileSource : IDataSource
         Action<string> errorCallback = null
     )
     {
-        // TODO: Implement this method
-        throw new NotImplementedException();
+        if (state)
+        {
+            EventCenter.Controls.TurnOnUpperFan();
+            EventCenter.Controls.TurnOnLowerFan();
+        }
+        else
+        {
+            EventCenter.Controls.TurnOffUpperFan();
+            EventCenter.Controls.TurnOffLowerFan();
+        }
+        successCallback?.Invoke(true);
     }
 
     public void ControlHeater(
@@ -167,14 +413,64 @@ public class FileSource : IDataSource
         Action<string> errorCallback = null
     )
     {
-        // TODO: Implement this method
-        throw new NotImplementedException();
+        if (dutyCycle < 0 || dutyCycle > 100)
+        {
+            errorCallback?.Invoke("Duty cycle must be between 0 and 100.");
+            return;
+        }
+
+        GlobalSettings.Instance.HeaterDutyCycle = dutyCycle;
+        successCallback?.Invoke(dutyCycle);
     }
 
     public void GetPlantData(Action<PlantData> successCallback, Action<string> errorCallback = null)
     {
-        // TODO: Implement this method
-        throw new NotImplementedException();
+        // Read plant data from "plant_data.json" file from the Assets/Resources folder
+        // string filePath = Path.Combine(Application.dataPath, "Resources", "plant_data.json");
+        // Debug.Log($"Reading plant data from: {filePath}");
+
+        TextAsset jsonFile = Resources.Load<TextAsset>("FileSourceData/plant_data");
+        if (jsonFile != null)
+        {
+            try
+            {
+                PlantData plantData = JsonConvert.DeserializeObject<PlantData>(jsonFile.text);
+                if (plantData != null)
+                {
+                    successCallback?.Invoke(plantData);
+                }
+                else
+                {
+                    errorCallback?.Invoke("Failed to deserialize plant data.");
+                }
+            }
+            catch (Exception ex)
+            {
+                errorCallback?.Invoke($"Error parsing plant data: {ex.Message}");
+            }
+        }
+        else
+        {
+            errorCallback?.Invoke("Plant data file not found.");
+        }
+    }
+
+    public System.Collections.IEnumerator GetPlantImage(
+        System.Action<Texture2D> successCallback,
+        System.Action<string> errorCallback = null
+    )
+    {
+        Texture2D imageFile = Resources.Load<Texture2D>("FileSourceData/newest");
+        if (imageFile != null)
+        {
+            successCallback?.Invoke(imageFile);
+        }
+        else
+        {
+            errorCallback?.Invoke("Plant image file not found.");
+        }
+
+        yield return null;
     }
 
     public void ControlWaterValve(
@@ -183,6 +479,14 @@ public class FileSource : IDataSource
         Action<string> errorCallback = null
     )
     {
-        throw new NotImplementedException();
+        if (state)
+        {
+            EventCenter.Controls.OpenValve();
+        }
+        else
+        {
+            EventCenter.Controls.CloseValve();
+        }
+        successCallback?.Invoke(true);
     }
 }

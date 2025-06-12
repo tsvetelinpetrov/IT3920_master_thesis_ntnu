@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using CI.HttpClient;
 using UnityEngine;
+using UnityEngine.Networking;
 
 /// <summary>
 /// Structure for storing API endpoints.
@@ -71,10 +72,8 @@ public class ApiSource : IDataSource
         System.Action<string> errorCallback
     )
     {
-        string endpoint = ApiEndpoints.Current;
-
         client.Get(
-            new System.Uri(_apiUrl + endpoint),
+            new System.Uri(_apiUrl + ApiEndpoints.Current),
             HttpCompletionOption.AllResponseContent,
             (response) =>
             {
@@ -356,6 +355,34 @@ public class ApiSource : IDataSource
                 successCallback(response.ReadAsJson<PlantData>());
             }
         );
+    }
+
+    public System.Collections.IEnumerator GetPlantImage(
+        System.Action<Texture2D> successCallback,
+        System.Action<string> errorCallback = null
+    )
+    {
+        string imageUrl = _apiUrl + ApiEndpoints.NewestPlantImage;
+
+        using (UnityWebRequest webRequest = UnityWebRequestTexture.GetTexture(imageUrl))
+        {
+            yield return webRequest.SendWebRequest();
+
+            if (
+                webRequest.result == UnityWebRequest.Result.ConnectionError
+                || webRequest.result == UnityWebRequest.Result.ProtocolError
+            )
+            {
+                errorCallback?.Invoke(
+                    $"Error downloading image from url: \"{imageUrl}\"\nDetails: {webRequest.error}"
+                );
+            }
+            else
+            {
+                Texture2D texture = DownloadHandlerTexture.GetContent(webRequest);
+                successCallback?.Invoke(texture);
+            }
+        }
     }
 
     public void ControlWaterValve(

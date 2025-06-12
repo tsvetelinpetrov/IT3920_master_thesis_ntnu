@@ -10,47 +10,38 @@ public class GreenhouseManager : MonoBehaviour
     public GameObject plantHolder;
     public GameObject dummyPlant;
     public GameObject airflowVisualizer;
-    private LightToggleButton lightButton;
-    private FanToggleButton fanButton;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        if (GlobalSettings.Instance.OperatingMode == OperatingMode.Realtime)
+        // Each x seconds, get the current data
+        InvokeRepeating(
+            "InitializeAllCurrentData",
+            0,
+            GlobalSettings.Instance.CurrentDataRefreshRate
+        );
+
+        // Get the plant model
+        if (
+            GlobalSettings.Instance.PlantModelObtainment
+            == PlantModelObtainment.ObtainFromDataSource
+        )
         {
-            // Each x seconds, get the current data
-            InvokeRepeating(
-                "InitializeAllCurrentData",
-                0,
-                GlobalSettings.Instance.CurrentDataRefreshRate
-            );
-
-            // Get the plant model
-            if (GlobalSettings.Instance.PlantModelObtainment == PlantModelObtainment.ObtainFromApi)
-            {
-                dummyPlant.SetActive(false);
-                GetPlantModel();
-            }
-            else if (
-                GlobalSettings.Instance.PlantModelObtainment == PlantModelObtainment.LoadDummyModel
-            )
-            {
-                // Load the dummy plant model from the scene
-                dummyPlant.SetActive(true);
-            }
-
-            // InvokeRepeating("GetCurrentAirflow", 0, 5);
-
-            GetCurrentAirflow();
+            dummyPlant.SetActive(false);
+            GetPlantModel();
         }
-        else
+        else if (
+            GlobalSettings.Instance.PlantModelObtainment == PlantModelObtainment.LoadDummyModel
+        )
         {
-            // TODO: Implement the Standalone mode logic if needed (probably we can skip it and just use the API/File mode)
+            // Load the dummy plant model from the scene
+            dummyPlant.SetActive(true);
         }
+
+        // InvokeRepeating("GetCurrentAirflow", 0, 5);
+
+        GetCurrentAirflow();
     }
-
-    // Update is called once per frame
-    void Update() { }
 
     private void InitializeAllCurrentData()
     {
@@ -184,14 +175,6 @@ public class GreenhouseManager : MonoBehaviour
                 Debug.LogError($"Failed to get plant model: {error}");
             }
         );
-
-        // TODO: Experiment and see which way is faster
-        // string url = GlobalSettings.Instance.ApiUrl + "mesh/low_res";
-        // var www = new WWW(url);
-        // while (!www.isDone)
-        //     System.Threading.Thread.Sleep(1);
-        // var textStream = new MemoryStream(Encoding.UTF8.GetBytes(www.text));
-        // var loadedObj = new OBJLoader().Load(textStream);
     }
 
     private void GetCurrentAirflow()
