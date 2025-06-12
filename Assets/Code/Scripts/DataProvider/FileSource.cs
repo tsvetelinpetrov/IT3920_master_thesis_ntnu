@@ -95,8 +95,45 @@ public class FileSource : IDataSource
         System.Action<string> errorCallback
     )
     {
-        // TODO: Implement this method
-        throw new System.NotImplementedException();
+        TextAsset jsonFile = Resources.Load<TextAsset>("FileSourceData/controls_historic");
+
+        if (jsonFile != null)
+        {
+            try
+            {
+                List<Controls> controls = JsonConvert.DeserializeObject<List<Controls>>(
+                    jsonFile.text
+                );
+                if (controls != null)
+                {
+                    // Sort controls by date and time
+                    controls.Sort((x, y) => DateTime.Compare(x.MeasurementTime, y.MeasurementTime));
+
+                    // Get last control time and filter only those within the last 'days' days
+                    DateTime lastControlTime =
+                        controls.Count > 0
+                            ? controls[controls.Count - 1].MeasurementTime
+                            : DateTime.MinValue;
+                    DateTime startTime = lastControlTime.AddDays(-days);
+                    List<Controls> filteredControls = controls.FindAll(c =>
+                        c.MeasurementTime >= startTime && c.MeasurementTime <= lastControlTime
+                    );
+                    successCallback?.Invoke(filteredControls);
+                }
+                else
+                {
+                    errorCallback?.Invoke("Failed to deserialize controls data.");
+                }
+            }
+            catch (Exception ex)
+            {
+                errorCallback?.Invoke($"Error parsing controls data: {ex.Message}");
+            }
+        }
+        else
+        {
+            errorCallback?.Invoke("Controls data file not found.");
+        }
     }
 
     public void GetControlsByInterval(
@@ -106,8 +143,36 @@ public class FileSource : IDataSource
         Action<string> errorCallback = null
     )
     {
-        // TODO: Implement this method
-        throw new NotImplementedException();
+        TextAsset jsonFile = Resources.Load<TextAsset>("FileSourceData/controls_historic");
+        if (jsonFile != null)
+        {
+            try
+            {
+                List<Controls> controls = JsonConvert.DeserializeObject<List<Controls>>(
+                    jsonFile.text
+                );
+                if (controls != null)
+                {
+                    // Filter controls by the specified interval
+                    List<Controls> filteredControls = controls.FindAll(c =>
+                        c.MeasurementTime >= startTime && c.MeasurementTime <= endTime
+                    );
+                    successCallback?.Invoke(filteredControls);
+                }
+                else
+                {
+                    errorCallback?.Invoke("Failed to deserialize controls data.");
+                }
+            }
+            catch (Exception ex)
+            {
+                errorCallback?.Invoke($"Error parsing controls data: {ex.Message}");
+            }
+        }
+        else
+        {
+            errorCallback?.Invoke("Controls data file not found.");
+        }
     }
 
     public void GetCurrentControls(
@@ -115,8 +180,15 @@ public class FileSource : IDataSource
         Action<string> errorCallback = null
     )
     {
-        // TODO: Implement this method
-        throw new NotImplementedException();
+        Controls currentControls = new Controls
+        {
+            MeasurementTime = DateTime.Now,
+            HeaterDutyCycle = GlobalSettings.Instance.HeaterDutyCycle,
+            LightOn = GlobalSettings.Instance.LightsStatus,
+            FanOn = GlobalSettings.Instance.UpperFanStatus,
+            ValveOpen = GlobalSettings.Instance.ValveStatus,
+        };
+        successCallback?.Invoke(currentControls);
     }
 
     public void GetMeasurementsByDays(
@@ -125,8 +197,47 @@ public class FileSource : IDataSource
         Action<string> errorCallback = null
     )
     {
-        // TODO: Implement this method
-        throw new NotImplementedException();
+        TextAsset jsonFile = Resources.Load<TextAsset>("FileSourceData/measurements_historic");
+
+        if (jsonFile != null)
+        {
+            try
+            {
+                List<Measurement> measurements = JsonConvert.DeserializeObject<List<Measurement>>(
+                    jsonFile.text
+                );
+                if (measurements != null)
+                {
+                    // Sort measurements by date and time
+                    measurements.Sort(
+                        (x, y) => DateTime.Compare(x.MeasurementTime, y.MeasurementTime)
+                    );
+
+                    // Get last measurement time and filter only those within the last 'days' days
+                    DateTime lastMeasurementTime =
+                        measurements.Count > 0
+                            ? measurements[measurements.Count - 1].MeasurementTime
+                            : DateTime.MinValue;
+                    DateTime startTime = lastMeasurementTime.AddDays(-days);
+                    List<Measurement> filteredMeasurements = measurements.FindAll(m =>
+                        m.MeasurementTime >= startTime && m.MeasurementTime <= lastMeasurementTime
+                    );
+                    successCallback?.Invoke(filteredMeasurements);
+                }
+                else
+                {
+                    errorCallback?.Invoke("Failed to deserialize measurements data.");
+                }
+            }
+            catch (Exception ex)
+            {
+                errorCallback?.Invoke($"Error parsing measurements data: {ex.Message}");
+            }
+        }
+        else
+        {
+            errorCallback?.Invoke("Measurements data file not found.");
+        }
     }
 
     public void GetMeasurementsByInterval(
@@ -136,8 +247,36 @@ public class FileSource : IDataSource
         Action<string> errorCallback = null
     )
     {
-        // TODO: Implement this method
-        throw new NotImplementedException();
+        TextAsset jsonFile = Resources.Load<TextAsset>("FileSourceData/measurements_historic");
+        if (jsonFile != null)
+        {
+            try
+            {
+                List<Measurement> measurements = JsonConvert.DeserializeObject<List<Measurement>>(
+                    jsonFile.text
+                );
+                if (measurements != null)
+                {
+                    // Filter measurements by the specified interval
+                    List<Measurement> filteredMeasurements = measurements.FindAll(m =>
+                        m.MeasurementTime >= startTime && m.MeasurementTime <= endTime
+                    );
+                    successCallback?.Invoke(filteredMeasurements);
+                }
+                else
+                {
+                    errorCallback?.Invoke("Failed to deserialize measurements data.");
+                }
+            }
+            catch (Exception ex)
+            {
+                errorCallback?.Invoke($"Error parsing measurements data: {ex.Message}");
+            }
+        }
+        else
+        {
+            errorCallback?.Invoke("Measurements data file not found.");
+        }
     }
 
     public void GetCurrentMeasurements(
@@ -145,8 +284,30 @@ public class FileSource : IDataSource
         Action<string> errorCallback = null
     )
     {
-        // TODO: Implement this method
-        throw new NotImplementedException();
+        TextAsset jsonFile = Resources.Load<TextAsset>("FileSourceData/current");
+        if (jsonFile != null)
+        {
+            try
+            {
+                Current currentData = JsonConvert.DeserializeObject<Current>(jsonFile.text);
+                if (currentData != null)
+                {
+                    successCallback?.Invoke(currentData.Measurements);
+                }
+                else
+                {
+                    errorCallback?.Invoke("Failed to deserialize current measurement data.");
+                }
+            }
+            catch (Exception ex)
+            {
+                errorCallback?.Invoke($"Error parsing current measurement data: {ex.Message}");
+            }
+        }
+        else
+        {
+            errorCallback?.Invoke("Current measurement data file not found.");
+        }
     }
 
     public void GetDisruptiveByDays(
