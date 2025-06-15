@@ -20,9 +20,9 @@ public enum PlantModelObtainment
     DoNotLoadAnything,
 }
 
-public class GlobalSettings : MonoBehaviour
+public class GlobalParameters : MonoBehaviour
 {
-    public static GlobalSettings Instance { get; private set; }
+    public static GlobalParameters Instance { get; private set; }
 
     [Header("Global Settings")]
     // Global settings (vars that should be accessible from any script)

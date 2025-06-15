@@ -49,7 +49,7 @@ public class FanToggleButton : MonoBehaviour
         IDataSource dataSource = DataSourceFactory.GetDataSource();
 
         // Disable API calls to prevent data mismatch
-        GlobalSettings.Instance.BlockAPICalls = true;
+        GlobalParameters.Instance.BlockAPICalls = true;
 
         // Call API to change fan state
         dataSource.ControlFans(
@@ -59,7 +59,7 @@ public class FanToggleButton : MonoBehaviour
                 lightsToggleSwitch?.Enable();
 
                 // Disable API calls to prevent data mismatch
-                GlobalSettings.Instance.BlockAPICalls = false;
+                GlobalParameters.Instance.BlockAPICalls = false;
             },
             error =>
             {
@@ -69,7 +69,7 @@ public class FanToggleButton : MonoBehaviour
                 UpdateButtonVisuals();
 
                 // Disable API calls to prevent data mismatch
-                GlobalSettings.Instance.BlockAPICalls = false;
+                GlobalParameters.Instance.BlockAPICalls = false;
 
                 Debug.LogError($"Failed to toggle fan: {error}");
             }
@@ -79,7 +79,7 @@ public class FanToggleButton : MonoBehaviour
     private void UpdateButtonVisuals()
     {
         // Update the button visuals based on the current state
-        if (GlobalSettings.Instance.UpperFanStatus || GlobalSettings.Instance.LowerFanStatus)
+        if (GlobalParameters.Instance.UpperFanStatus || GlobalParameters.Instance.LowerFanStatus)
         {
             lightsToggleSwitch?.ChangeStateWithoutEventInvoke(false);
         }

@@ -123,7 +123,7 @@ public class HeaterSliderControl : MonoBehaviour
         IDataSource dataSource = DataSourceFactory.GetDataSource();
 
         // Disable API calls to prevent data mismatch
-        GlobalSettings.Instance.BlockAPICalls = true;
+        GlobalParameters.Instance.BlockAPICalls = true;
 
         dataSource.ControlHeater(
             dutyCycle,
@@ -143,7 +143,7 @@ public class HeaterSliderControl : MonoBehaviour
                 UpdateVisuals(currentDutyCycle, false);
 
                 // Disable API calls to prevent data mismatch
-                GlobalSettings.Instance.BlockAPICalls = false;
+                GlobalParameters.Instance.BlockAPICalls = false;
 
                 Debug.Log($"Heater duty cycle set to {dutyCycle:F2} successfully");
             },
@@ -158,7 +158,7 @@ public class HeaterSliderControl : MonoBehaviour
                 UpdateButtonState();
 
                 // Disable API calls to prevent data mismatch
-                GlobalSettings.Instance.BlockAPICalls = false;
+                GlobalParameters.Instance.BlockAPICalls = false;
 
                 Debug.LogError($"Failed to set heater duty cycle: {error}");
             }
