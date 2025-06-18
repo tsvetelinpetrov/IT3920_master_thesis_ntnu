@@ -22,10 +22,16 @@ public class APIAddressSetter : MonoBehaviour
         saveButton.onClick.AddListener(OnSaveButtonClicked);
     }
 
-    private void OnSaveButtonClicked()
+    public void OnSaveButtonClicked()
     {
         // Get the new API address from the input field
-        string newApiAddress = apiAddressInputField.text;
+        string newApiAddress = apiAddressInputField?.text;
+
+        if (string.IsNullOrEmpty(newApiAddress))
+        {
+            Debug.LogError("API Address is empty.");
+            return;
+        }
 
         // Validate the URL format (basic validation)
         if (Uri.IsWellFormedUriString(newApiAddress, UriKind.Absolute))

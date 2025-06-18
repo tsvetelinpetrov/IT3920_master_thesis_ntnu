@@ -1,23 +1,9 @@
 using UnityEngine;
 
-// Struct to define the operating modes for the Digital Twin (Standalone or API)
-public enum OperatingMode
-{
-    Standalone,
-    Realtime,
-}
-
 public enum PlantQuality
 {
     Low,
     High,
-}
-
-public enum PlantModelObtainment
-{
-    ObtainFromDataSource,
-    LoadDummyModel,
-    DoNotLoadAnything,
 }
 
 public class GlobalParameters : MonoBehaviour
@@ -26,21 +12,6 @@ public class GlobalParameters : MonoBehaviour
 
     [Header("Global Settings")]
     // Global settings (vars that should be accessible from any script)
-    [SerializeField]
-    [Tooltip("The URL of the API to be used for data retrieval")]
-    public string ApiUrl = "http://10.53.8.177:8000/";
-
-    [SerializeField]
-    [Tooltip("The type of data source to be used (API or File)")]
-    public DataSourceType DataSourceType = DataSourceType.Api;
-
-    [SerializeField]
-    [Tooltip("Fetch current data from the API every x seconds")]
-    public int CurrentDataRefreshRate = 3; // In seconds
-
-    [SerializeField]
-    [Tooltip("The method to obtain the plant model in the scene")]
-    public PlantModelObtainment PlantModelObtainment = PlantModelObtainment.ObtainFromDataSource;
 
     [SerializeField]
     [Tooltip("The quality of the plant model to be retrieved from the API and used in the scene")]
