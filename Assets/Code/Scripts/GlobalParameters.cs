@@ -13,6 +13,7 @@ public class GlobalParameters : MonoBehaviour
     [Header("Global Settings")]
     // Global settings (vars that should be accessible from any script)
 
+    // TODO: Remove this setting. It should be implemented in the runtime settings panel.
     [SerializeField]
     [Tooltip("The quality of the plant model to be retrieved from the API and used in the scene")]
     public PlantQuality PlantModelQuality = PlantQuality.Low;
