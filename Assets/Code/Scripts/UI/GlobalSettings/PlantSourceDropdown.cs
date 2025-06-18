@@ -1,3 +1,5 @@
+using System.Linq;
+using System.Text.RegularExpressions;
 using UnityEngine;
 
 public class PlantSourceDropdown : MonoBehaviour
@@ -11,8 +13,16 @@ public class PlantSourceDropdown : MonoBehaviour
 
     private void InitializeUI()
     {
-        PlantModelOrigin modelOrigin = SettingsManager.PlantModelOrigin;
         modelOriginDropdown = GetComponent<TMPro.TMP_Dropdown>();
+        modelOriginDropdown.ClearOptions();
+        modelOriginDropdown.AddOptions(
+            System
+                .Enum.GetNames(typeof(PlantModelOrigin))
+                .Select(name => Regex.Replace(name, "(?<!^)([A-Z])", " $1")) // insert space before capital letters, except the first
+                .ToList()
+        );
+
+        PlantModelOrigin modelOrigin = SettingsManager.PlantModelOrigin;
         modelOriginDropdown.value = (int)modelOrigin;
         modelOriginDropdown.onValueChanged.AddListener(OnModelOriginChanged);
     }

@@ -20,6 +20,12 @@ public enum DebugMode
     On,
 }
 
+public enum PlantQuality
+{
+    Low,
+    High,
+}
+
 public static class SettingsManager
 {
     // Default values
@@ -27,6 +33,7 @@ public static class SettingsManager
     {
         { "WorkingMode", WorkingMode.Online.ToString() },
         { "PlantModelOrigin", PlantModelOrigin.DataSource.ToString() },
+        { "PlantModelQuality", PlantQuality.Low.ToString() },
         { "RefreshRate", "10" },
         { "APIAddress", "http://10.53.8.177:8000/" },
         { "DebugMode", DebugMode.Off.ToString() },
@@ -101,6 +108,12 @@ public static class SettingsManager
     {
         get => GetEnum<PlantModelOrigin>("PlantModelOrigin");
         set => SetEnum("PlantModelOrigin", value);
+    }
+
+    public static PlantQuality PlantModelQuality
+    {
+        get => GetEnum<PlantQuality>("PlantModelQuality");
+        set => SetEnum("PlantModelQuality", value);
     }
 
     public static DebugMode DebugMode
