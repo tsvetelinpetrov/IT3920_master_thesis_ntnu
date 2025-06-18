@@ -22,13 +22,13 @@ public class FansControllerModule : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (GlobalSettings.Instance.UpperFanStatus)
+        if (GlobalParameters.Instance.UpperFanStatus)
         {
             // Rotate the upper fan around its own X-axis
             upperFan.transform.Rotate(Vector3.right * rotationSpeed * Time.deltaTime, Space.World);
         }
 
-        if (GlobalSettings.Instance.LowerFanStatus)
+        if (GlobalParameters.Instance.LowerFanStatus)
         {
             // Rotate the upper fan around its own X-axis
             lowerFan.transform.Rotate(Vector3.right * rotationSpeed * Time.deltaTime, Space.World);

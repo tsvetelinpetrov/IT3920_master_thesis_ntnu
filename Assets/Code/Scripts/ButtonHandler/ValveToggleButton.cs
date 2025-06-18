@@ -46,7 +46,7 @@ public class ValveToggleButton : MonoBehaviour
         IDataSource dataSource = DataSourceFactory.GetDataSource();
 
         // Disable API calls to prevent data mismatch
-        GlobalSettings.Instance.BlockAPICalls = true;
+        GlobalParameters.Instance.BlockAPICalls = true;
 
         // Call API to change valve state
         dataSource.ControlWaterValve(
@@ -56,7 +56,7 @@ public class ValveToggleButton : MonoBehaviour
                 valveToggleSwitch?.Enable();
 
                 // Re-enable API calls
-                GlobalSettings.Instance.BlockAPICalls = false;
+                GlobalParameters.Instance.BlockAPICalls = false;
             },
             error =>
             {
@@ -65,7 +65,7 @@ public class ValveToggleButton : MonoBehaviour
                 // Keep visuals the same as before
                 UpdateButtonVisuals();
 
-                GlobalSettings.Instance.BlockAPICalls = false;
+                GlobalParameters.Instance.BlockAPICalls = false;
                 Debug.LogError($"Error toggling valve: {error}");
             }
         );
@@ -73,7 +73,7 @@ public class ValveToggleButton : MonoBehaviour
 
     private void UpdateButtonVisuals()
     {
-        if (GlobalSettings.Instance.ValveStatus)
+        if (GlobalParameters.Instance.ValveStatus)
         {
             valveToggleSwitch?.ChangeStateWithoutEventInvoke(false);
         }

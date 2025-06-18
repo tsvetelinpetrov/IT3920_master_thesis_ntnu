@@ -15,30 +15,20 @@ public class GreenhouseManager : MonoBehaviour
     void Start()
     {
         // Each x seconds, get the current data
-        InvokeRepeating(
-            "InitializeAllCurrentData",
-            0,
-            GlobalSettings.Instance.CurrentDataRefreshRate
-        );
+        InvokeRepeating("InitializeAllCurrentData", 0, SettingsManager.RefreshRate);
 
         // Get the plant model
-        if (
-            GlobalSettings.Instance.PlantModelObtainment
-            == PlantModelObtainment.ObtainFromDataSource
-        )
+        PlantModelOrigin modelOrigin = SettingsManager.PlantModelOrigin;
+        if (modelOrigin == PlantModelOrigin.DataSource)
         {
             dummyPlant.SetActive(false);
             GetPlantModel();
         }
-        else if (
-            GlobalSettings.Instance.PlantModelObtainment == PlantModelObtainment.LoadDummyModel
-        )
+        else if (modelOrigin == PlantModelOrigin.DummyPlant)
         {
             // Load the dummy plant model from the scene
             dummyPlant.SetActive(true);
         }
-
-        // InvokeRepeating("GetCurrentAirflow", 0, 5);
 
         GetCurrentAirflow();
     }
@@ -46,7 +36,7 @@ public class GreenhouseManager : MonoBehaviour
     private void InitializeAllCurrentData()
     {
         // Check if API calls are blocked to prevent data mismatch
-        if (GlobalSettings.Instance.BlockAPICalls)
+        if (GlobalParameters.Instance.BlockAPICalls)
             return;
 
         IDataSource dataSource = DataSourceFactory.GetDataSource();
@@ -59,7 +49,7 @@ public class GreenhouseManager : MonoBehaviour
             (current) =>
             {
                 // Check if API calls are blocked to prevent data mismatch
-                if (GlobalSettings.Instance.BlockAPICalls)
+                if (GlobalParameters.Instance.BlockAPICalls)
                     return;
 
                 ProcessControlsData(current.Controls);
@@ -81,19 +71,19 @@ public class GreenhouseManager : MonoBehaviour
     {
         EventCenter.Controls.ChangeControls(controls);
 
-        if (controls.LightOn && !GlobalSettings.Instance.LightsStatus)
+        if (controls.LightOn && !GlobalParameters.Instance.LightsStatus)
         {
             EventCenter.Controls.TurnOnLights();
         }
-        else if (!controls.LightOn && GlobalSettings.Instance.LightsStatus)
+        else if (!controls.LightOn && GlobalParameters.Instance.LightsStatus)
         {
             EventCenter.Controls.TurnOffLights();
         }
 
         if (
             controls.FanOn
-            && !GlobalSettings.Instance.UpperFanStatus
-            && !GlobalSettings.Instance.LowerFanStatus
+            && !GlobalParameters.Instance.UpperFanStatus
+            && !GlobalParameters.Instance.LowerFanStatus
         )
         {
             EventCenter.Controls.TurnOnUpperFan();
@@ -101,18 +91,20 @@ public class GreenhouseManager : MonoBehaviour
         }
         else if (
             !controls.FanOn
-            && (GlobalSettings.Instance.UpperFanStatus || GlobalSettings.Instance.LowerFanStatus)
+            && (
+                GlobalParameters.Instance.UpperFanStatus || GlobalParameters.Instance.LowerFanStatus
+            )
         )
         {
             EventCenter.Controls.TurnOffUpperFan();
             EventCenter.Controls.TurnOffLowerFan();
         }
 
-        if (controls.ValveOpen && !GlobalSettings.Instance.ValveStatus)
+        if (controls.ValveOpen && !GlobalParameters.Instance.ValveStatus)
         {
             EventCenter.Controls.OpenValve();
         }
-        else if (!controls.ValveOpen && GlobalSettings.Instance.ValveStatus)
+        else if (!controls.ValveOpen && GlobalParameters.Instance.ValveStatus)
         {
             EventCenter.Controls.CloseValve();
         }
@@ -169,7 +161,7 @@ public class GreenhouseManager : MonoBehaviour
                 loadedObj.transform.localRotation = Quaternion.identity;
                 loadedObj.transform.localScale = new Vector3(0.7f, 0.7f, 0.7f);
             },
-            GlobalSettings.Instance.PlantModelQuality == PlantQuality.High ? true : false,
+            GlobalParameters.Instance.PlantModelQuality == PlantQuality.High ? true : false,
             (error) =>
             {
                 Debug.LogError($"Failed to get plant model: {error}");

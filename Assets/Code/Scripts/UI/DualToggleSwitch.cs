@@ -31,7 +31,7 @@ public class DualToggleSwitch : MonoBehaviour
 
     private bool isLeftSelected = true;
 
-    void Start()
+    void Awake()
     {
         // Initialize the toggle switch to the left side
         Toggle(initialState == ToggleInitialState.Left);

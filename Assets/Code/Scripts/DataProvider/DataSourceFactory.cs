@@ -16,10 +16,10 @@ public class DataSourceFactory
     /// </remarks>
     public static IDataSource GetDataSource()
     {
-        return GlobalSettings.Instance.DataSourceType switch
+        return SettingsManager.WorkingMode switch
         {
-            DataSourceType.Api => new ApiSource(),
-            DataSourceType.File => new FileSource(),
+            WorkingMode.Offline => new FileSource(),
+            WorkingMode.Online => new ApiSource(),
             _ => throw new System.Exception("Invalid data source type"),
         };
     }

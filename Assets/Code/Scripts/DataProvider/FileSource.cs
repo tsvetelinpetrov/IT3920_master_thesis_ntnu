@@ -65,10 +65,10 @@ public class FileSource : IDataSource
                     Controls currentControls = new Controls
                     {
                         MeasurementTime = new DateTime(),
-                        HeaterDutyCycle = GlobalSettings.Instance.HeaterDutyCycle,
-                        LightOn = GlobalSettings.Instance.LightsStatus,
-                        FanOn = GlobalSettings.Instance.UpperFanStatus,
-                        ValveOpen = GlobalSettings.Instance.ValveStatus,
+                        HeaterDutyCycle = GlobalParameters.Instance.HeaterDutyCycle,
+                        LightOn = GlobalParameters.Instance.LightsStatus,
+                        FanOn = GlobalParameters.Instance.UpperFanStatus,
+                        ValveOpen = GlobalParameters.Instance.ValveStatus,
                     };
                     currentData.Controls = currentControls;
                     successCallback?.Invoke(currentData);
@@ -183,10 +183,10 @@ public class FileSource : IDataSource
         Controls currentControls = new Controls
         {
             MeasurementTime = DateTime.Now,
-            HeaterDutyCycle = GlobalSettings.Instance.HeaterDutyCycle,
-            LightOn = GlobalSettings.Instance.LightsStatus,
-            FanOn = GlobalSettings.Instance.UpperFanStatus,
-            ValveOpen = GlobalSettings.Instance.ValveStatus,
+            HeaterDutyCycle = GlobalParameters.Instance.HeaterDutyCycle,
+            LightOn = GlobalParameters.Instance.LightsStatus,
+            FanOn = GlobalParameters.Instance.UpperFanStatus,
+            ValveOpen = GlobalParameters.Instance.ValveStatus,
         };
         successCallback?.Invoke(currentControls);
     }
@@ -419,7 +419,7 @@ public class FileSource : IDataSource
             return;
         }
 
-        GlobalSettings.Instance.HeaterDutyCycle = dutyCycle;
+        GlobalParameters.Instance.HeaterDutyCycle = dutyCycle;
         successCallback?.Invoke(dutyCycle);
     }
 

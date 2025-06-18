@@ -42,7 +42,9 @@ public struct ApiEndpoints
 /// </remarks>
 public class ApiSource : IDataSource
 {
-    private readonly string _apiUrl = GlobalSettings.Instance.ApiUrl;
+    private readonly string _apiUrl = SettingsManager.APIAddress.EndsWith("/")
+        ? SettingsManager.APIAddress
+        : SettingsManager.APIAddress + "/";
     private HttpClient client = new HttpClient();
 
     public ApiSource() { }
