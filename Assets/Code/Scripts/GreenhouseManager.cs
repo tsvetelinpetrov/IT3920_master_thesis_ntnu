@@ -161,7 +161,7 @@ public class GreenhouseManager : MonoBehaviour
                 loadedObj.transform.localRotation = Quaternion.identity;
                 loadedObj.transform.localScale = new Vector3(0.7f, 0.7f, 0.7f);
             },
-            GlobalParameters.Instance.PlantModelQuality == PlantQuality.High ? true : false,
+            SettingsManager.PlantModelQuality == PlantQuality.High ? true : false,
             (error) =>
             {
                 Debug.LogError($"Failed to get plant model: {error}");

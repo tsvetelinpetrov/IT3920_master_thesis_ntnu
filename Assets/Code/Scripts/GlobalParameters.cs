@@ -1,24 +1,8 @@
 using UnityEngine;
 
-public enum PlantQuality
-{
-    Low,
-    High,
-}
-
 public class GlobalParameters : MonoBehaviour
 {
     public static GlobalParameters Instance { get; private set; }
-
-    [Header("Global Settings")]
-    // Global settings (vars that should be accessible from any script)
-
-    // TODO: Remove this setting. It should be implemented in the runtime settings panel.
-    [SerializeField]
-    [Tooltip(
-        "[To be depricated!] The quality of the plant model to be retrieved from the API and used in the scene"
-    )]
-    public PlantQuality PlantModelQuality = PlantQuality.Low;
 
     // Private vals
     private bool _lightsStatus = true;
